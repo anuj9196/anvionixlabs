@@ -8,12 +8,10 @@ import { ResumeCard } from "@/components/portfolio/resume-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { MagicCard } from "@/components/ui/magic-card";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
-import { HighlightKeywords } from "@/lib/highlight-keywords";
 import { Download, CheckCheckIcon, CodeIcon } from "lucide-react";
 import { ShineBorder } from "@/components/ui/shine-border";
 import { ExperienceCard } from "@/components/portfolio/experience-card";
@@ -162,7 +160,7 @@ export function PortfolioContent() {
               >
                 <ResumeCard
                   key={education.school}
-                  href={(education as any).website || education.href}
+                  href={education.website}
                   logoUrl={education.logoUrl}
                   altText={education.school}
                   title={education.school}
@@ -192,7 +190,7 @@ export function PortfolioContent() {
                     {category}
                   </h3>
                   <div className="flex flex-wrap gap-1.5">
-                    {skills.map((skill, skillId) => (
+                    {skills.map((skill) => (
                       <Badge key={skill} variant="secondary">
                         {skill}
                       </Badge>
@@ -272,6 +270,7 @@ export function PortfolioContent() {
                       ? [resumeProject.video]
                       : [],
                   tags: [...(resumeProject.technologies || [])],
+                  techStack: [],
                 };
 
                 return (
@@ -381,7 +380,6 @@ export function PortfolioContent() {
                     >
                       <Download className="size-4" />
                       Download Resume
-
                       <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
                     </a>
                   </Button>
