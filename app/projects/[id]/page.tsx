@@ -4,13 +4,14 @@ import { projects } from "@/data/projects";
 import { ProjectPageClient } from "./ProjectPageClient";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const project = projects.find((p) => p.id === params.id);
+  const { id } = await params;
+  const project = projects.find((p) => p.id === id);
 
   if (!project) {
     return {
@@ -48,8 +49,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default function ProjectPage({ params }: PageProps) {
-  const project = projects.find((p) => p.id === params.id);
+export default async function ProjectPage({ params }: PageProps) {
+  const { id } = await params;
+  const project = projects.find((p) => p.id === id);
 
   if (!project) {
     notFound();
