@@ -1,62 +1,49 @@
-import Link from 'next/link';
+import { Mail, MapPin, Phone } from "lucide-react";
+import { COMPANY } from "@/data/company";
 
 export function Footer() {
   return (
-    <footer>
+    <footer id="contact">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl font-bold text-foreground mb-4">Anvionix Labs</h3>
-            <p className="text-muted-foreground mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-2xl font-bold text-foreground mb-4">{COMPANY.name}</h3>
+            <p className="text-muted-foreground max-w-md">
               Building innovative digital solutions that transform the way people work and interact.
             </p>
           </div>
           <div>
-            <h4 className="text-foreground font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/" className="hover:text-primary transition-colors">
-                  Home
-                </Link>
+            <h4 className="text-foreground font-semibold mb-4">Contact</h4>
+            <ul className="space-y-3 text-muted-foreground">
+              <li className="flex gap-3">
+                <MapPin className="size-5 shrink-0 mt-0.5" aria-hidden="true" />
+                <address className="not-italic">
+                  {COMPANY.address.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </address>
               </li>
-              <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-primary transition-colors">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-foreground font-semibold mb-4">Connect</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="mailto:hello@anvionixlabs.com" className="hover:text-primary transition-colors">
-                  Email
+              <li className="flex gap-3">
+                <Phone className="size-5 shrink-0" aria-hidden="true" />
+                <a href={COMPANY.phoneHref} className="hover:text-primary transition-colors">
+                  {COMPANY.phone}
                 </a>
               </li>
-              <li>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                  LinkedIn
-                </a>
-              </li>
-              <li>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                  Twitter
+              <li className="flex gap-3">
+                <Mail className="size-5 shrink-0" aria-hidden="true" />
+                <a href={`mailto:${COMPANY.email}`} className="hover:text-primary transition-colors">
+                  {COMPANY.email}
                 </a>
               </li>
             </ul>
           </div>
-        </div> */}
+        </div>
         <div className="border-t border-border mt-8 pt-8 text-right text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Anvionix Labs. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {COMPANY.name}. All rights reserved.</p>
         </div>
       </div>
     </footer>
   );
 }
-
