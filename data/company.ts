@@ -11,4 +11,6 @@ export const COMPANY = {
     "Ghaziabad, Uttar Pradesh 201014",
     "India",
   ],
+  // Brands the company runs. Meta checks a WhatsApp display name (e.g. "Satyakod") against this site.
+  brands: [{ name: "Satyakod", url: "https://satyakod.com" }],
 };

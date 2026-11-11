@@ -23,6 +23,33 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'satyakod',
+    name: 'Satyakod',
+    description: 'Satyakod, a brand of Anvionix Labs, protects products from counterfeits: it signs a unique code onto every unit, verifies every scan and flags fakes the moment they surface.',
+    type: 'web',
+    websiteUrl: 'https://satyakod.com',
+    screenshots: ['/projects/satyakod/satyakod-banner.png'],
+    tags: ['Brand protection', 'Anti-counterfeiting', 'SaaS'],
+    featured: true,
+    techStack: [
+      {
+        id: 'nextjs',
+        label: 'Next.js',
+        icon: Icons.nextjs({ className: "size-4" }),
+      },
+      {
+        id: 'django',
+        label: 'Django',
+        icon: Icons.django({ className: "size-4" }),
+      },
+      {
+        id: 'postgresql',
+        label: 'PostgreSQL',
+        icon: Icons.postgresql({ className: "size-4" }),
+      },
+    ],
+  },
+  {
     id: 'tapbeep',
     name: 'TapBeep',
     description: 'A revolutionary platform for seamless communication and collaboration.',

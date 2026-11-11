@@ -11,6 +11,17 @@ export function Footer() {
             <p className="text-muted-foreground max-w-md">
               Building innovative digital solutions that transform the way people work and interact.
             </p>
+            <p className="text-muted-foreground max-w-md mt-4">
+              Our brands:{" "}
+              {COMPANY.brands.map((brand, i) => (
+                <span key={brand.url}>
+                  {i > 0 && ", "}
+                  <a href={brand.url} className="font-medium text-foreground hover:text-primary transition-colors">
+                    {brand.name}
+                  </a>
+                </span>
+              ))}
+            </p>
           </div>
           <div>
             <h4 className="text-foreground font-semibold mb-4">Contact</h4>
