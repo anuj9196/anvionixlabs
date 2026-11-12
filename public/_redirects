@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects for pages that moved in the redesign.
+/anuj-sharma            /about#founder        301
+/projects/satyakod      /work/satyakod        301
+/projects/tapbeep       /work/tapbeep         301
+/projects/tapxreality   /work/tapxreality     301
+/projects/*             /#work                301
