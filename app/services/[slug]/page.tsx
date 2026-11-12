@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ENGAGEMENTS, EXPERIMENTS, SERVICES, SITE, serviceBySlug } from "@/data/site";
+import { ENGAGEMENTS, EXPERIMENTS, FIGURES, SERVICES, SITE, serviceBySlug } from "@/data/site";
+import { Specimen } from "@/components/site/specimen";
 import { CallBand } from "@/components/site/footer";
 import { CallButton } from "@/components/site/header";
 import { JsonLd, breadcrumbLd, serviceLd } from "@/components/site/json-ld";
@@ -32,7 +33,7 @@ export default async function ServicePage({ params }: Props) {
 
   return (
     <>
-      <section className="wrap pt-14 md:pt-24 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-end">
+      <section className="wrap pt-14 md:pt-24 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <div>
           <nav aria-label="Breadcrumb" className="label">
             <Link href="/services" className="hover:text-ink">
@@ -46,26 +47,7 @@ export default async function ServicePage({ params }: Props) {
             <CallButton className="text-base !px-6 !py-3.5" />
           </div>
         </div>
-        <div className="reveal rounded-2xl border border-rule bg-sheet p-6">
-          <p className="label">Typical engagements</p>
-          <ul className="mt-3">
-            {engagements.map((e) => (
-              <li key={e.id} className="flex items-baseline justify-between gap-4 border-t border-rule py-3">
-                <span>
-                  <span className="font-medium">{e.name}</span>
-                  <span className="block text-sm text-ink-3">{e.timeline}</span>
-                </span>
-                <span className="font-mono text-sm text-right">
-                  from {e.inr}
-                  <span className="block text-ink-3">or {e.usd}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <Link href="/engage" className="mt-2 inline-block text-sm underline hover:text-accent">
-            All engagements and prices →
-          </Link>
-        </div>
+        <Specimen shape={FIGURES[s.slug].shape} no={s.no} name={s.name} caption={FIGURES[s.slug].caption} className="mx-auto max-w-[520px]" />
       </section>
 
       <section className="wrap py-16 md:py-24 grid gap-12 lg:grid-cols-2">
@@ -81,6 +63,26 @@ export default async function ServicePage({ params }: Props) {
           </ul>
         </div>
         <div className="reveal">
+          <div className="rounded-2xl mb-12 border border-rule bg-sheet p-6">
+            <p className="label">Typical engagements</p>
+            <ul className="mt-3">
+              {engagements.map((e) => (
+                <li key={e.id} className="flex items-baseline justify-between gap-4 border-t border-rule py-3">
+                  <span>
+                    <span className="font-medium">{e.name}</span>
+                    <span className="block text-sm text-ink-3">{e.timeline}</span>
+                  </span>
+                  <span className="font-mono text-sm text-right">
+                    from {e.inr}
+                    <span className="block text-ink-3">or {e.usd}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <Link href="/engage" className="mt-2 inline-block text-sm underline hover:text-accent">
+              All engagements and prices →
+            </Link>
+          </div>
           <p className="label">Tools we reach for</p>
           <ul className="mt-5 flex flex-wrap gap-2">
             {s.stack.map((t) => (

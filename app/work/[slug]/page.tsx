@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { EXPERIMENTS, SERVICES, SITE, experimentBySlug } from "@/data/site";
+import { EXPERIMENTS, FIGURES, SERVICES, SITE, experimentBySlug } from "@/data/site";
+import { Specimen } from "@/components/site/specimen";
 import { CallBand } from "@/components/site/footer";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 
@@ -35,24 +36,27 @@ export default async function WorkPage({ params }: Props) {
   return (
     <>
       <article>
-        <header className="wrap pt-12 md:pt-20">
-          <nav aria-label="Breadcrumb" className="label">
-            <Link href="/#work" className="hover:text-ink">
-              Experiment log
-            </Link>{" "}
-            / {e.no}
-          </nav>
-          <h1 className="serif mt-5 text-6xl md:text-8xl leading-[0.95]">{e.name}</h1>
-          <p className="mt-4 label">
-            {e.kind}
-            {e.client ? ` · built for ${e.client}` : " · our product"}
-          </p>
-          <p className="mt-6 max-w-2xl text-xl text-ink-2">{e.summary}</p>
-          {e.url && (
-            <a href={e.url} target="_blank" rel="noopener" className="mt-6 inline-block font-medium underline hover:text-accent">
-              Visit {e.urlLabel} →
-            </a>
-          )}
+        <header className="wrap pt-12 md:pt-20 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-center">
+          <div>
+            <nav aria-label="Breadcrumb" className="label">
+              <Link href="/#work" className="hover:text-ink">
+                Experiment log
+              </Link>{" "}
+              / {e.no}
+            </nav>
+            <h1 className="serif mt-5 text-6xl md:text-8xl leading-[0.95]">{e.name}</h1>
+            <p className="mt-4 label">
+              {e.kind}
+              {e.client ? ` · built for ${e.client}` : " · our product"}
+            </p>
+            <p className="mt-6 max-w-2xl text-xl text-ink-2">{e.summary}</p>
+            {e.url && (
+              <a href={e.url} target="_blank" rel="noopener" className="mt-6 inline-block font-medium underline hover:text-accent">
+                Visit {e.urlLabel} →
+              </a>
+            )}
+          </div>
+          <Specimen shape={FIGURES[e.slug].shape} no={e.no} name={e.kind} caption={FIGURES[e.slug].caption} className="mx-auto hidden max-w-[460px] sm:block" />
         </header>
 
         <div className="wrap mt-12">

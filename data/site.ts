@@ -496,7 +496,22 @@ export const PROMISES = [
   { h: "Senior hands only", p: "The person you talk to is the person who builds it." },
 ] as const;
 
-export type JourneyShape = "book" | "terminal" | "servers" | "network" | "trophy" | "notebook";
+export type JourneyShape =
+  | "book" | "terminal" | "servers" | "network" | "trophy" | "notebook"
+  | "browser" | "phone" | "lens" | "qr" | "battery" | "form" | "timer" | "cube";
+
+/** The dithered object in each service and case-study hero, with its figure caption. */
+export const FIGURES: Record<ServiceSlug | string, { shape: JourneyShape; caption: string }> = {
+  "web-apps": { shape: "browser", caption: "A product, in a browser tab" },
+  "backend-apis": { shape: "servers", caption: "The part nobody sees, running" },
+  "mobile-apps": { shape: "phone", caption: "One codebase, two stores" },
+  consulting: { shape: "lens", caption: "A closer look, in writing" },
+  satyakod: { shape: "qr", caption: "One code per product, checked in a scan" },
+  "elektron-battery-tester": { shape: "battery", caption: "Readings, straight off the device" },
+  feedal: { shape: "form", caption: "Forms that write themselves" },
+  tapbeep: { shape: "timer", caption: "Timed tests, fairly run" },
+  tapxreality: { shape: "cube", caption: "Something solid, on a flat page" },
+};
 
 export const FOUNDER = {
   name: "Anuj Sharma",
