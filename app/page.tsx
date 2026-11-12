@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { EXPERIMENTS, FACTS, PROMISES, SERVICES } from "@/data/site";
-import { FocusText } from "@/components/site/reveal";
+import { DitherObject } from "@/components/site/dither";
+import { GlyphStream, TypeText } from "@/components/site/glyphs";
 import { CallButton } from "@/components/site/header";
 import { CallBand } from "@/components/site/footer";
 import { ExperimentLog } from "@/components/site/experiments";
@@ -24,17 +25,17 @@ function SectionHead({ label, title, children }: { label: string; title: React.R
 export default function Home() {
   return (
     <>
-      {/* Hero: the notebook's title page */}
-      <section className="wrap pt-14 pb-16 md:pt-24 md:pb-24 grid gap-12 lg:grid-cols-[1.25fr_1fr] lg:items-end">
+      {/* Hero: the notebook's title page. A dithered notebook sheds code and lab words while the headline types. */}
+      <section className="wrap pt-12 pb-16 md:pt-20 md:pb-24 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:items-center">
         <div>
           <p className="label">Software studio · Delhi NCR · Working worldwide</p>
-          <h1 className="serif mt-5 text-[13vw] leading-[0.95] sm:text-6xl md:text-7xl lg:text-[5.6rem]">
-            <FocusText text="We build software like an experiment," />
+          <h1 className="serif mt-5 text-[12.5vw] leading-[0.95] sm:text-6xl md:text-7xl lg:text-[5.4rem]">
+            <TypeText text="We build software like an experiment," speed={28} />{" "}
             <em className="text-accent">
-              <FocusText text="and ship it like a product." />
+              <TypeText text="and ship it like a product." start={1100} speed={30} caret />
             </em>
           </h1>
-          <p className="mt-7 max-w-xl text-lg text-ink-2">
+          <p className="reveal mt-7 max-w-xl text-lg text-ink-2">
             Web apps, mobile apps and backends for startups and brands, plus audits and a fractional CTO for teams that need senior judgement. Every
             build starts with a hypothesis and ends with something live.
           </p>
@@ -44,29 +45,40 @@ export default function Home() {
               See the experiments
             </Link>
           </div>
+          <nav aria-label="Live products" className="mt-10">
+            <p className="label">Live now</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {EXPERIMENTS.map((e) => (
+                <li key={e.slug}>
+                  <Link
+                    href={`/work/${e.slug}`}
+                    className="flex items-center gap-2 rounded-full border border-rule bg-sheet px-3 py-1.5 text-sm hover:border-ink-3"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-ok" aria-hidden />
+                    {e.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <aside aria-label="Contents" className="reveal rounded-2xl border border-rule bg-sheet p-5 md:p-6">
-          <p className="label flex justify-between">
-            <span>Notebook · Contents</span>
-            <span>Status</span>
-          </p>
-          <ol className="mt-3">
-            {EXPERIMENTS.map((e) => (
-              <li key={e.slug}>
-                <Link href={`/work/${e.slug}`} className="group flex items-baseline gap-3 border-t border-rule py-3 text-sm">
-                  <span className="font-mono text-ink-3">{e.no}</span>
-                  <span className="font-medium group-hover:text-accent">{e.name}</span>
-                  <span className="hidden sm:inline text-ink-3 truncate">{e.kind}</span>
-                  <span className="ml-auto flex items-center gap-1.5 font-mono text-[11px] text-ok">
-                    <span className="h-1.5 w-1.5 rounded-full bg-ok animate-pulse" aria-hidden />
-                    LIVE
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </aside>
+        <figure aria-hidden className="relative mx-auto w-full max-w-[520px]">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-rule bg-sheet">
+            <div className="absolute inset-x-0 top-[22%] mx-auto w-[86%]">
+              <DitherObject shape="book" res={220} />
+            </div>
+            <GlyphStream className="absolute inset-0" />
+            <div className="absolute inset-x-5 top-4 flex justify-between label">
+              <span>Specimen · 000</span>
+              <span>Lab notebook</span>
+            </div>
+            <div className="absolute inset-x-5 bottom-4 flex justify-between label">
+              <span>Fig. 1</span>
+              <span>Ideas, lifting off the page</span>
+            </div>
+          </div>
+        </figure>
       </section>
 
       {/* Facts that need no footnote */}

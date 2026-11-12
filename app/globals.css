@@ -112,8 +112,16 @@ a { text-underline-offset: 3px; }
 .js .journey-step.seen .w { opacity: 1; filter: none; }
 .js .journey-step:not(.active) h3 { color: var(--ink-2); }
 
+/* Typed headline: each character appears on its own beat, then the caret blinks. */
+.type-ch { opacity: 0; animation: type-in 40ms linear forwards; }
+@keyframes type-in { from { opacity: 0; } to { opacity: 1; } }
+.type-caret { display: inline-block; width: .06em; height: .82em; margin-left: .04em; vertical-align: -.06em; background: var(--accent); opacity: 0; animation: caret 1.1s steps(1) infinite; }
+@keyframes caret { 0% { opacity: 1; } 50% { opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal, .uncover, .draw path, .printing { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; clip-path: none !important; stroke-dashoffset: 0 !important; }
+  .type-ch { opacity: 1 !important; animation: none !important; }
+  .type-caret { animation: none !important; opacity: 1 !important; }
   .focus-word, .journey-step .w { filter: none !important; opacity: 1 !important; transition: none !important; }
 }
