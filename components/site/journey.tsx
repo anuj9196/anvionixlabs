@@ -38,7 +38,7 @@ export function Journey({ steps }: { steps: Step[] }) {
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       <div className="sticky top-16 z-10 self-start lg:top-24">
         {/* Phones: a compact bar that stays in view. Desktop: the full specimen card. */}
-        <div className="flex items-center gap-4 rounded-2xl border border-rule bg-sheet/95 p-3 backdrop-blur lg:block lg:rounded-3xl lg:p-5">
+        <div className="flex items-center gap-4 rounded-2xl border border-rule bg-sheet p-3 lg:block lg:rounded-3xl lg:p-5">
           <div className="hidden items-center justify-between label lg:flex">
             <span>Log · {String(active + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span>
             <span className="flex items-center gap-1.5">

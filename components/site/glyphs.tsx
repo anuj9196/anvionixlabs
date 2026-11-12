@@ -20,6 +20,21 @@ export function GlyphStream({ className = "" }: { className?: string }) {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let cleanup = () => {};
+    let cancelled = false;
+    const boot = () => {
+      if (!cancelled) cleanup = setup() ?? (() => {});
+    };
+    const idle = () => ("requestIdleCallback" in window ? requestIdleCallback(boot, { timeout: 3000 }) : setTimeout(boot, 1500));
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", idle);
+      cleanup();
+    };
+
+    function setup(): (() => void) | void {
     const cv = canvas.current!;
     const ctx = cv.getContext("2d");
     if (!ctx) return;
@@ -87,6 +102,7 @@ export function GlyphStream({ className = "" }: { className?: string }) {
       io.disconnect();
       scheme.removeEventListener("change", recolor);
     };
+    }
   }, []);
 
   return <canvas ref={canvas} aria-hidden className={`pointer-events-none h-full w-full [image-rendering:pixelated] ${className}`} />;

@@ -62,6 +62,23 @@ export function DitherObject({ shape, res: RES = 168, className = "" }: { shape:
   target.current = SHAPES.indexOf(shape);
 
   useEffect(() => {
+    let cleanup = () => {};
+    let cancelled = false;
+    // Start only after the page has loaded and gone idle, so the shader never competes with first paint.
+    const boot = () => {
+      if (cancelled) return;
+      cleanup = setup() ?? (() => {});
+    };
+    const idle = () => ("requestIdleCallback" in window ? requestIdleCallback(boot, { timeout: 2500 }) : setTimeout(boot, 1200));
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", idle);
+      cleanup();
+    };
+
+    function setup(): (() => void) | void {
     const cv = canvas.current!;
     const gl = cv.getContext("webgl", { antialias: false, preserveDrawingBuffer: false });
     if (!gl) {
@@ -109,7 +126,13 @@ export function DitherObject({ shape, res: RES = 168, className = "" }: { shape:
     let visible = true;
     let raf = 0;
     const start = performance.now();
+    let last = 0;
     const frame = (now: number) => {
+      if (now - last < 32 && target.current === to) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
+      last = now;
       if (target.current !== to) {
         from = to;
         to = target.current;
@@ -141,6 +164,7 @@ export function DitherObject({ shape, res: RES = 168, className = "" }: { shape:
       scheme.removeEventListener("change", colors);
       window.removeEventListener("journey-step", wake);
     };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
