@@ -16,7 +16,7 @@ const IDEAS = [
  * ring, sending flares it out, then the intro call opens with the idea already filled in
  * (Calendly answers its first question from `a1`).
  */
-export function BuildPrompt() {
+export function BuildPrompt({ rays = false, heading = "h2" }: { rays?: boolean; heading?: "h1" | "h2" }) {
   const [text, setText] = useState("");
   const canvas = useRef<HTMLCanvasElement>(null);
   const tension = useRef(0); // 0 calm … 1 tight, eased toward the target
@@ -66,6 +66,12 @@ export function BuildPrompt() {
       ctx.textBaseline = "middle";
       const ink = color();
       const hot = accent();
+      if (rays) {
+        drawRays(t, radius, cx, cy, ink, hot);
+        ctx.globalAlpha = 1;
+        if (visible && !still) raf = requestAnimationFrame(frame);
+        return;
+      }
       for (let i = 0; i < N; i++) {
         const a = (i / N) * Math.PI * 2 + (still ? 0 : t * (0.08 + tension.current * 0.25));
         // An ellipse wider than tall, with a slow wave so the ring breathes like a school of fish.
@@ -80,6 +86,47 @@ export function BuildPrompt() {
       ctx.globalAlpha = 1;
       if (visible && !still) raf = requestAnimationFrame(frame);
     };
+    // After Mobula: a school of rays drawn in square pixels, circling the prompt like a slow carousel.
+    const RAYS = 11;
+    const cell = 5;
+    const ray = (x: number, y: number, heading: number, size: number, fill: string, alpha: number) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(heading);
+      ctx.fillStyle = fill;
+      const n = Math.round(size / cell);
+      for (let gy = -n; gy <= n; gy++) {
+        for (let gx = -n; gx <= n; gx++) {
+          // A manta: a wide diamond (wings) with a short tail behind.
+          const u = gx / n;
+          const v = gy / n;
+          const wing = Math.abs(v) * 1.35 + Math.abs(u) * 0.9 < 1;
+          const tail = u < -0.5 && Math.abs(v) < 0.1 && u > -1.3;
+          if (!wing && !tail) continue;
+          const shade = 0.35 + 0.65 * (1 - Math.abs(v)) * (0.6 + 0.4 * Math.sin(gx * 1.7 + gy));
+          ctx.globalAlpha = alpha * shade;
+          ctx.fillRect(Math.round(gx * cell), Math.round(gy * cell), cell - 1, cell - 1);
+        }
+      }
+      ctx.restore();
+    };
+    function drawRays(t: number, radius: number, x0: number, y0: number, ink: string, hot: string) {
+      const gold = "#d8b46a";
+      for (let i = 0; i < RAYS; i++) {
+        const speed = still ? 0 : 0.06 + tension.current * 0.22;
+        const a = (i / RAYS) * Math.PI * 2 + t * speed;
+        const bob = still ? 0 : Math.sin(t * 0.9 + i * 1.3) * 14;
+        const rx = radius * (1.55 + (i % 3) * 0.1) + bob;
+        const ry = radius * (1.0 + (i % 2) * 0.12) + bob * 0.5;
+        const x = x0 + Math.cos(a) * rx;
+        const y = y0 + Math.sin(a) * ry;
+        // Face along the orbit.
+        const heading = Math.atan2(Math.cos(a) * ry, -Math.sin(a) * rx);
+        const size = 24 + (i % 4) * 9;
+        const fill = i % 4 === 0 ? gold : i % 3 === 0 ? hot : ink;
+        ray(x, y, heading, size, fill, 0.55 + tension.current * 0.3 + flare.current * 0.3);
+      }
+    }
     const io = new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
       cancelAnimationFrame(raf);
@@ -91,7 +138,9 @@ export function BuildPrompt() {
       io.disconnect();
       window.removeEventListener("resize", size);
     };
-  }, []);
+  }, [rays]);
+
+  const Heading = heading;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,15 +151,15 @@ export function BuildPrompt() {
   };
 
   return (
-    <div className="relative mx-auto max-w-4xl">
+    <div className={`relative mx-auto ${rays ? "max-w-6xl" : "max-w-4xl"}`}>
       <canvas ref={canvas} aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" />
-      <form onSubmit={submit} className="relative mx-auto flex min-h-[420px] max-w-xl flex-col items-center justify-center px-2 py-16 text-center md:min-h-[480px]">
+      <form onSubmit={submit} className={`relative mx-auto flex ${rays ? "min-h-[560px] md:min-h-[640px]" : "min-h-[420px] md:min-h-[480px]"} max-w-xl flex-col items-center justify-center px-2 py-16 text-center`}>
         <label htmlFor="build-idea" className="label">
           New experiment
         </label>
-        <h2 className="serif mt-3 text-5xl md:text-6xl leading-none">
+        <Heading className="serif mt-3 text-5xl md:text-6xl leading-none">
           What are you <em>building?</em>
-        </h2>
+        </Heading>
         <div className="mt-8 w-full rounded-2xl border border-rule bg-sheet p-2 shadow-[0_20px_50px_-30px_rgba(0,0,0,.5)] focus-within:border-accent">
           <textarea
             id="build-idea"

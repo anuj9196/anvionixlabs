@@ -501,6 +501,15 @@ export type JourneyShape =
   | "browser" | "phone" | "lens" | "qr" | "battery" | "form" | "timer" | "cube";
 
 /** The dithered object in each service and case-study hero, with its figure caption. */
+/** Each case study's book cover colour (The Long Light: every project is its own volume). */
+export const BOOKS: Record<string, string> = {
+  satyakod: "#2c2f7a",
+  "elektron-battery-tester": "#7a4310",
+  feedal: "#2f5d46",
+  tapbeep: "#76232f",
+  tapxreality: "#55276f",
+};
+
 export const FIGURES: Record<ServiceSlug | string, { shape: JourneyShape; caption: string }> = {
   "web-apps": { shape: "browser", caption: "A product, in a browser tab" },
   "backend-apis": { shape: "servers", caption: "The part nobody sees, running" },

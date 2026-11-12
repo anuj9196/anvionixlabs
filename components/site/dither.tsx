@@ -14,7 +14,7 @@ const VERT = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
 
 // Ray-marched signed-distance shapes, lit, then reduced to two colours with a 4x4 Bayer matrix.
 const FRAG = `precision highp float;
-uniform vec2 res;uniform float time;uniform float t;uniform float a;uniform float b;uniform vec3 ink;uniform vec3 paper;uniform float rock;
+uniform vec2 res;uniform float time;uniform float t;uniform float a;uniform float b;uniform vec3 ink;uniform vec3 paper;uniform float rock;uniform float dissolve;uniform float clear;
 mat2 rot(float r){float c=cos(r),s=sin(r);return mat2(c,-s,s,c);}
 float box(vec3 p,vec3 s){vec3 q=abs(p)-s;return length(max(q,0.))+min(max(q.x,max(q.y,q.z)),0.);}
 float rbox(vec3 p,vec3 s,float r){return box(p,s-r)-r;}
@@ -72,6 +72,7 @@ float shape(float i,vec3 p){if(i<.5)return book(p);if(i<1.5)return terminal(p);i
   if(i<7.5)return phone(p);if(i<8.5)return lens(p);if(i<9.5)return qr(p);if(i<10.5)return battery(p);
   if(i<11.5)return form(p);if(i<12.5)return timer(p);return cube(p);}
 float map(vec3 p){p.xz*=rot(rock>.5?sin(time*.45)*.42+.12:time*.35);p.yz*=rot(-.32);if(t>.999)return shape(b,p);return mix(shape(a,p),shape(b,p),t);}
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float bayer2(vec2 v){v=floor(v);return fract(v.x/2.+v.y*v.y*.75);}
 float bayer4(vec2 v){return bayer2(.5*v)*.25+bayer2(v);}
 void main(){vec2 uv=(gl_FragCoord.xy-.5*res)/res.y;vec3 ro=vec3(0,0,3.2),rd=normalize(vec3(uv,-1.6));
@@ -79,7 +80,13 @@ void main(){vec2 uv=(gl_FragCoord.xy-.5*res)/res.y;vec3 ro=vec3(0,0,3.2),rd=norm
   float lum=0.;if(hit>.5){vec3 pos=ro+rd*d;vec2 e=vec2(.002,0);
     vec3 n=normalize(vec3(map(pos+e.xyy)-map(pos-e.xyy),map(pos+e.yxy)-map(pos-e.yxy),map(pos+e.yyx)-map(pos-e.yyx)));
     vec3 l=normalize(vec3(-.5,.8,.6));lum=.12+.78*max(dot(n,l),0.)+.25*pow(1.-max(dot(n,-rd),0.),2.);}
-  float on=step(bayer4(gl_FragCoord.xy)+.03,lum);gl_FragColor=vec4(mix(paper,ink,on),1.);}`;
+  float on=step(bayer4(gl_FragCoord.xy)+.03,lum);
+  if(dissolve>.5){vec2 c=floor(gl_FragCoord.xy/2.);float yv=gl_FragCoord.y/res.y;
+    float cut=.6+.05*sin(time*.6+c.x*.21);
+    if(hit>.5&&yv>cut&&hash(c+floor(time*2.))<(yv-cut)*3.2)on=0.;
+    float sp=.6+hash(vec2(c.x,7.));float yy=c.y-time*7.*sp;
+    if(yv>cut-.08&&abs(uv.x)<.42&&hash(vec2(c.x,floor(yy)))>.986+.01*(1.-yv))on=1.;}
+  gl_FragColor=clear>.5?vec4(ink*on,on):vec4(mix(paper,ink,on),1.);}`;
 
 function rgb(css: string): [number, number, number] {
   const el = document.createElement("span");
@@ -94,7 +101,25 @@ function rgb(css: string): [number, number, number] {
 /** Flat objects read as slivers edge-on, so they rock to and fro facing the viewer instead of turning all the way. */
 const FLAT = new Set<JourneyShape>(["browser", "phone", "lens", "qr", "form", "timer"]);
 
-export function DitherObject({ shape, res: RES = 168, className = "" }: { shape: JourneyShape; res?: number; className?: string }) {
+/**
+ * `clear` draws only the ink pixels over a transparent background, and `ink` overrides the ink colour
+ * (both for objects sitting on coloured cards).
+ */
+export function DitherObject({
+  shape,
+  res: RES = 168,
+  className = "",
+  dissolve = false,
+  clear = false,
+  ink,
+}: {
+  shape: JourneyShape;
+  res?: number;
+  className?: string;
+  dissolve?: boolean;
+  clear?: boolean;
+  ink?: string;
+}) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const target = useRef(SHAPES.indexOf(shape));
   const [ok, setOk] = useState(true);
@@ -119,7 +144,7 @@ export function DitherObject({ shape, res: RES = 168, className = "" }: { shape:
 
     function setup(): (() => void) | void {
     const cv = canvas.current!;
-    const gl = cv.getContext("webgl", { antialias: false, preserveDrawingBuffer: false });
+    const gl = cv.getContext("webgl", { antialias: false, preserveDrawingBuffer: false, premultipliedAlpha: true, alpha: true });
     if (!gl) {
       setOk(false);
       return;
@@ -149,10 +174,12 @@ export function DitherObject({ shape, res: RES = 168, className = "" }: { shape:
     gl.viewport(0, 0, RES, RES);
     const u = (n: string) => gl.getUniformLocation(prog, n);
     gl.uniform2f(u("res"), RES, RES);
+    gl.uniform1f(u("dissolve"), dissolve ? 1 : 0);
+    gl.uniform1f(u("clear"), clear ? 1 : 0);
     gl.uniform1f(u("rock"), FLAT.has(SHAPES[target.current]) ? 1 : 0);
     const colors = () => {
       const s = getComputedStyle(document.documentElement);
-      gl.uniform3fv(u("ink"), rgb(s.getPropertyValue("--ink")));
+      gl.uniform3fv(u("ink"), rgb(ink ?? s.getPropertyValue("--ink")));
       gl.uniform3fv(u("paper"), rgb(s.getPropertyValue("--sheet")));
     };
     colors();
