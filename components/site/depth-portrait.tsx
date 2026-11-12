@@ -21,7 +21,7 @@ function load(src: string) {
  * turns slightly towards the pointer, the phone's tilt and the scroll. Without one, or when
  * WebGL or motion is unavailable, it falls back to a gentle 3D tilt of the flat photo.
  */
-export function DepthPortrait({ src, depthSrc, alt, className = "" }: { src: string; depthSrc?: string; alt: string; className?: string }) {
+export function DepthPortrait({ src, depthSrc, alt, className = "", priority = false }: { src: string; depthSrc?: string; alt: string; className?: string; priority?: boolean }) {
   const box = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const [gl, setGl] = useState(false);
@@ -130,7 +130,7 @@ export function DepthPortrait({ src, depthSrc, alt, className = "" }: { src: str
     <div ref={box} className={`relative overflow-hidden will-change-transform ${className}`}>
       {/* The photo itself is always in the page, for search, sharing and no-JS visitors. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className={`h-full w-full object-cover ${gl ? "invisible" : ""}`} />
+      <img src={src} alt={alt} fetchPriority={priority ? "high" : undefined} decoding="async" className={`h-full w-full object-cover ${gl ? "invisible" : ""}`} />
       {depthSrc && <canvas ref={canvas} aria-hidden className={`pointer-events-none absolute inset-0 h-full w-full ${gl ? "opacity-100" : "opacity-0"}`} />}
     </div>
   );

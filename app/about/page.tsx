@@ -28,7 +28,7 @@ export default function AboutPage() {
 
       <section id="founder" className="wrap scroll-mt-20 py-16 md:py-24 grid gap-12 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-start">
         <div className="reveal lg:sticky lg:top-24">
-          <DepthPortrait src={FOUNDER.photo} alt={`${FOUNDER.name}, founder of ${SITE.name}`} className="aspect-square rounded-3xl border border-rule bg-sheet" />
+          <DepthPortrait priority src={FOUNDER.photo} alt={`${FOUNDER.name}, founder of ${SITE.name}`} className="aspect-square rounded-3xl border border-rule bg-sheet" />
           <p className="mt-4 font-medium">{FOUNDER.name}</p>
           <p className="text-sm text-ink-3">{FOUNDER.role}</p>
           <p className="mt-3 text-sm">
