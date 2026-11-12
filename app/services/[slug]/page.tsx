@@ -32,7 +32,7 @@ export default async function ServicePage({ params }: Props) {
   const engagements = s.slug === "consulting" ? ENGAGEMENTS.filter((e) => e.id === "audit" || e.id === "cto") : ENGAGEMENTS.filter((e) => e.id === "mvp" || e.id === "retainer");
 
   return (
-    <>
+    <div data-world="synapse">
       <section className="wrap pt-14 md:pt-24 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <div>
           <nav aria-label="Breadcrumb" className="label">
@@ -141,6 +141,6 @@ export default async function ServicePage({ params }: Props) {
           ]),
         ]}
       />
-    </>
+    </div>
   );
 }

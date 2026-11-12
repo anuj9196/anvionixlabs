@@ -38,7 +38,7 @@ function RightPage({ e }: { e: Experiment }) {
   return (
     <div className="flex h-full flex-col px-8 py-8">
       <div className="overflow-hidden rounded-xl border border-rule bg-paper">
-        <Image src={e.image} alt={e.imageAlt} width={1456} height={834} sizes="480px" className="h-auto w-full" />
+        <Image src={e.image} alt={e.imageAlt} width={e.imageSize?.[0] ?? 1456} height={e.imageSize?.[1] ?? 834} sizes="480px" className="h-auto w-full" />
       </div>
       <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-3">
         {e.results.map((r) => (

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { EXPERIMENTS, FOUNDER, SITE } from "@/data/site";
 import { DepthPortrait } from "@/components/site/depth-portrait";
 import { Journey } from "@/components/site/journey";
+import { Stream, Thinking } from "@/components/site/thinking";
 import { CallBand } from "@/components/site/footer";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 
@@ -13,23 +14,61 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
+const THINKING = [
+  { text: "Reading the CV, from the first commit in 2016", shape: "terminal" },
+  { text: "Counting the team: 15+ engineers", shape: "book" },
+  { text: "Checking what is live: five products", shape: "servers" },
+  { text: "Noting the Engineering Excellence Award", shape: "trophy" },
+] as const;
+
 export default function AboutPage() {
   return (
-    <>
-      <section className="wrap pt-14 md:pt-24">
-        <p className="label">About the lab</p>
-        <h1 className="serif mt-4 max-w-4xl text-6xl md:text-8xl leading-[0.95]">
-          A small lab <em>with real products</em> on the bench.
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg text-ink-2">
-          {SITE.name} builds software for clients the same way it builds its own products: start from a question worth testing, ship it, measure it,
-          and keep it running. {EXPERIMENTS.length} of those products are live today.
-        </p>
+    <div data-world="nightjar">
+      {/* After Nightjar: ask who runs the lab, watch it think, read the answer. */}
+      <section className="wrap pt-6 md:pt-10">
+        <Thinking question={`Who runs ${SITE.name}?`} steps={[...THINKING]} final="network">
+          <p className="text-[17px] leading-relaxed">
+            <strong className="font-semibold">
+              <Stream text={`${FOUNDER.name}, an engineering manager who leads a 15+ member engineering organisation.`} />
+            </strong>{" "}
+            <Stream text={FOUNDER.intro} from={14} />
+          </p>
+          {FOUNDER.story.map((p, i) => (
+            <p key={i} className="mt-4 leading-relaxed text-ink-2">
+              <Stream text={p} from={40 + i * 40} />
+            </p>
+          ))}
+          <p className="ablock mt-7 font-medium" style={{ ["--i" as string]: 120 }}>
+            The career, step by step:
+          </p>
+          <table className="ablock mt-3 w-full text-left text-sm" style={{ ["--i" as string]: 124 }}>
+            <thead className="text-ink-3">
+              <tr className="border-b border-rule">
+                <th className="py-2 pr-4 font-medium">When</th>
+                <th className="py-2 pr-4 font-medium">Step</th>
+              </tr>
+            </thead>
+            <tbody>
+              {FOUNDER.journey.map((j) => (
+                <tr key={j.title} className="border-b border-rule">
+                  <td className="py-2 pr-4 font-mono text-[13px] text-ink-3 whitespace-nowrap">{j.when}</td>
+                  <td className="py-2 pr-4">{j.title}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="ablock mt-5 text-sm text-ink-3" style={{ ["--i" as string]: 130 }}>
+            {EXPERIMENTS.length} products live today ·{" "}
+            <a href="#journey" className="underline hover:text-ink">
+              read the full journey
+            </a>
+          </p>
+        </Thinking>
       </section>
 
       <section id="founder" className="wrap scroll-mt-20 py-16 md:py-24 grid gap-12 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-start">
         <div className="reveal lg:sticky lg:top-24">
-          <DepthPortrait priority src={FOUNDER.photo} alt={`${FOUNDER.name}, founder of ${SITE.name}`} className="aspect-square rounded-3xl border border-rule bg-sheet" />
+          <DepthPortrait src={FOUNDER.photo} alt={`${FOUNDER.name}, founder of ${SITE.name}`} className="aspect-square rounded-3xl border border-rule bg-sheet" />
           <p className="mt-4 font-medium">{FOUNDER.name}</p>
           <p className="text-sm text-ink-3">{FOUNDER.role}</p>
           <p className="mt-3 text-sm">
@@ -43,15 +82,14 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="max-w-2xl">
-          <p className="label">Founder</p>
-          <p className="serif mt-3 text-3xl md:text-4xl leading-snug">{FOUNDER.intro}</p>
-          <div className="prose-lab mt-4">
-            {FOUNDER.story.map((p, i) => (
-              <p key={i} className="reveal">
-                {p}
-              </p>
-            ))}
-          </div>
+          <p className="label">The lab</p>
+          <h2 className="serif mt-3 text-4xl md:text-6xl leading-[1.02]">
+            A small lab <em>with real products</em> on the bench.
+          </h2>
+          <p className="mt-5 text-lg text-ink-2">
+            {SITE.name} builds software for clients the same way it builds its own products: start from a question worth testing, ship it, measure it,
+            and keep it running.
+          </p>
 
           <div className="reveal mt-12">
             <p className="label">Recognition</p>
@@ -160,6 +198,6 @@ export default function AboutPage() {
           },
         ]}
       />
-    </>
+    </div>
   );
 }

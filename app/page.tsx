@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { EXPERIMENTS, FACTS, PROMISES, SERVICES } from "@/data/site";
+import { EXPERIMENTS, FACTS, PROMISES, SERVICES, SITE } from "@/data/site";
 import { DitherObject } from "@/components/site/dither";
 import { GlyphStream, TypeText } from "@/components/site/glyphs";
-import { CallButton } from "@/components/site/header";
 import { BuildPrompt } from "@/components/site/prompt";
 import { ExperimentLog } from "@/components/site/experiments";
 import { ServiceList } from "@/components/site/services";
@@ -24,61 +23,67 @@ function SectionHead({ label, title, children }: { label: string; title: React.R
 
 export default function Home() {
   return (
-    <>
-      {/* Hero: the notebook's title page. A dithered notebook sheds code and lab words while the headline types. */}
-      <section className="wrap pt-12 pb-16 md:pt-20 md:pb-24 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-        <div>
-          <p className="label">Software studio · Delhi NCR · Working worldwide</p>
-          <h1 className="serif mt-5 text-[12.5vw] leading-[0.95] sm:text-6xl md:text-7xl lg:text-[5.4rem]">
-            <TypeText text="We build software like an experiment," speed={28} />{" "}
-            <em className="text-accent">
-              <TypeText text="and ship it like a product." start={1100} speed={30} caret />
-            </em>
-          </h1>
-          <p className="reveal mt-7 max-w-xl text-lg text-ink-2">
-            Web apps, mobile apps and backends for startups and brands, plus audits and a fractional CTO for teams that need senior judgement. Every
-            build starts with a hypothesis and ends with something live.
-          </p>
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <CallButton className="text-base !px-6 !py-3.5" />
-            <Link href="#work" className="text-sm font-medium underline hover:text-accent">
-              See the experiments
-            </Link>
+    <div data-world="lacuna">
+      {/* Hero, after Lacuna: a 1-bit world. The notebook breaks apart into pixels and letters while the headline is typed and corrected. */}
+      <section className="relative overflow-hidden border-b border-rule">
+        <div className="wrap grid gap-6 pt-10 pb-14 md:pt-16 md:pb-20 lg:grid-cols-[1.05fr_1fr] lg:items-center">
+          <div className="relative z-10">
+            <p className="font-mono text-[13px] text-ink-3">[ A software studio for founders and teams ]</p>
+            <h1 className="mt-6 font-mono text-[10.5vw] font-medium leading-[1.04] tracking-[-0.04em] sm:text-6xl lg:text-[4.6rem]">
+              <TypeText text="We build your " speed={55} />
+              <del className="strike no-underline text-ink-3" style={{ ["--strike-at" as string]: "1900ms" }}>
+                <TypeText text="prototype" start={770} speed={55} />
+              </del>
+              <br />
+              <span className="text-accent">
+                <TypeText text="product." start={2500} speed={70} caret />
+              </span>
+            </h1>
+            <p className="mt-7 max-w-xl text-lg text-ink-2">
+              Web apps, mobile apps and backends for startups and brands, plus audits and a fractional CTO for teams that need senior judgement.
+              Built like an experiment, shipped like a product, and kept running.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-5">
+              <a
+                href={SITE.calendly}
+                target="_blank"
+                rel="noopener"
+                className="border border-ink bg-ink px-5 py-3 font-mono text-[13px] uppercase tracking-[0.14em] text-paper shadow-[4px_4px_0_var(--accent)] transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--accent)]"
+              >
+                Book a call →
+              </a>
+              <Link href="#work" className="font-mono text-[13px] uppercase tracking-[0.14em] underline decoration-ink-3 underline-offset-[6px] hover:text-accent">
+                Read the log
+              </Link>
+            </div>
+            <nav aria-label="Live products" className="mt-12">
+              <p className="font-mono text-[12px] text-ink-3">[ Live now ]</p>
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[13px]">
+                {EXPERIMENTS.map((e) => (
+                  <li key={e.slug}>
+                    <Link href={`/work/${e.slug}`} className="flex items-center gap-2 text-ink-2 hover:text-ink">
+                      <span className="h-1.5 w-1.5 bg-ok" aria-hidden />
+                      {e.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
-          <nav aria-label="Live products" className="mt-10">
-            <p className="label">Live now</p>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {EXPERIMENTS.map((e) => (
-                <li key={e.slug}>
-                  <Link
-                    href={`/work/${e.slug}`}
-                    className="flex items-center gap-2 rounded-full border border-rule bg-sheet px-3 py-1.5 text-sm hover:border-ink-3"
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-ok" aria-hidden />
-                    {e.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
 
-        <figure aria-hidden className="relative mx-auto w-full max-w-[520px]">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-rule bg-sheet">
-            <div className="absolute inset-x-0 top-[22%] mx-auto w-[86%]">
-              <DitherObject shape="book" res={220} />
+          <figure aria-hidden className="relative mx-auto -mt-4 w-full max-w-[640px] lg:mt-0">
+            <div className="relative aspect-square">
+              <div className="absolute inset-x-0 top-[8%] mx-auto w-[92%]">
+                <DitherObject shape="book" res={240} dissolve clear />
+              </div>
+              <GlyphStream className="absolute inset-0" />
             </div>
-            <GlyphStream className="absolute inset-0" />
-            <div className="absolute inset-x-5 top-4 flex justify-between label">
-              <span>Specimen · 000</span>
-              <span>Lab notebook</span>
-            </div>
-            <div className="absolute inset-x-5 bottom-4 flex justify-between label">
-              <span>Fig. 1</span>
+            <figcaption className="absolute inset-x-0 bottom-2 flex justify-between font-mono text-[11px] text-ink-3">
+              <span>Fig. 000</span>
               <span>Ideas, lifting off the page</span>
-            </div>
-          </div>
-        </figure>
+            </figcaption>
+          </figure>
+        </div>
       </section>
 
       {/* Facts that need no footnote */}
@@ -144,6 +149,6 @@ export default function Home() {
           <BuildPrompt />
         </div>
       </section>
-    </>
+    </div>
   );
 }

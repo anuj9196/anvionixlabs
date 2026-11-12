@@ -46,6 +46,8 @@ export type Experiment = {
   urlLabel?: string;
   client?: string;
   image: string;
+  /** Pixel size of `image`, when it is not the usual 1456 × 834 screenshot. */
+  imageSize?: [number, number];
   imageAlt: string;
   summary: string;
   problem: string;
@@ -125,6 +127,7 @@ export const EXPERIMENTS: Experiment[] = [
     url: "https://play.google.com/store/apps/details?id=in.elektronindia.app.blt",
     urlLabel: "Google Play",
     image: "/work/elektron.jpg",
+    imageSize: [680, 290],
     imageAlt: "Elektron BLT on Google Play: battery load test app screens",
     summary:
       "A Flutter app that drives a battery load tester over Bluetooth and turns each test into a finished report on site.",
@@ -501,6 +504,15 @@ export type JourneyShape =
   | "browser" | "phone" | "lens" | "qr" | "battery" | "form" | "timer" | "cube";
 
 /** The dithered object in each service and case-study hero, with its figure caption. */
+/** Each case study's book cover colour (The Long Light: every project is its own volume). */
+export const BOOKS: Record<string, string> = {
+  satyakod: "#2c2f7a",
+  "elektron-battery-tester": "#7a4310",
+  feedal: "#2f5d46",
+  tapbeep: "#76232f",
+  tapxreality: "#55276f",
+};
+
 export const FIGURES: Record<ServiceSlug | string, { shape: JourneyShape; caption: string }> = {
   "web-apps": { shape: "browser", caption: "A product, in a browser tab" },
   "backend-apis": { shape: "servers", caption: "The part nobody sees, running" },
