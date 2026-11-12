@@ -1,88 +1,51 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import { SmoothCursor } from "@/components/ui/smooth-cursor";
-import { Meteors } from "@/components/ui/meteors";
-import { NavDock } from "@/components/nav-dock";
-import {Footer} from "@/components/footer";
-import { DATA } from "@/data/resume";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import "./globals.css";
+import { Header } from "@/components/site/header";
+import { Footer } from "@/components/site/footer";
+import { RevealObserver } from "@/components/site/reveal";
+import { JsonLd, organizationLd } from "@/components/site/json-ld";
+import { SITE } from "@/data/site";
 
-const inter = Inter({ subsets: ['latin'] })
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const sans = Geist({ variable: "--font-sans", subsets: ["latin"] });
+const mono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
+const serif = Instrument_Serif({ variable: "--font-serif", subsets: ["latin"], weight: "400", style: ["normal", "italic"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(DATA.url),
-  title: {
-    default: "Anvionix Labs",
-    template: `%s | Anvionix Labs`,
-  },
-  description: DATA.description,
-  openGraph: {
-    title: `${DATA.name}`,
-    description: DATA.description,
-    url: DATA.url,
-    siteName: `${DATA.name}`,
-    locale: "en_US",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  twitter: {
-    title: `${DATA.name}`,
-    card: "summary_large_image",
-  }
+  metadataBase: new URL(SITE.url),
+  title: { default: `${SITE.name}: web, mobile and backend development`, template: `%s · ${SITE.name}` },
+  description: SITE.description,
+  alternates: { canonical: "/" },
+  openGraph: { siteName: SITE.name, locale: "en_IN", type: "website", url: SITE.url, images: ["/work/satyakod.jpg"] },
+  twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f3ed" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f1114" },
+  ],
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} cursor-none`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable} ${serif.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Animations hide content only once we know JavaScript will reveal it again. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
+      <body className="font-sans antialiased min-h-dvh flex flex-col">
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-ink focus:text-paper focus:px-3 focus:py-2 focus:rounded">
+          Skip to content
+        </a>
+        <Header />
+        <main id="main" className="flex-1">{children}</main>
+        <Footer />
+        <RevealObserver />
+        <JsonLd data={organizationLd()} />
         <GoogleAnalytics gaId="G-NB9SK23EPY" />
-
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SmoothCursor />
-          <div className="relative h-full w-full overflow-hidden">
-            <Meteors number={30} maxDuration={20} minDuration={2} />
-            <div>
-              {/* <Navigation /> */}
-              <NavDock />
-              <main className="relative z-10 min-h-screen bg-transparent">
-                {children}
-              </main>
-              <Footer />
-            </div>
-
-          </div>
-        </ThemeProvider>
       </body>
     </html>
   );
