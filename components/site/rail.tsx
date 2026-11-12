@@ -7,7 +7,7 @@ export function StepRail({ steps }: { steps: { title: string; text: string }[] }
       </svg>
       <ol className="relative grid gap-6 md:grid-cols-4 md:gap-8">
         {steps.map((s, i) => (
-          <li key={s.title} className="reveal relative pl-12 md:pl-0">
+          <li key={s.title} className="relative pl-12 md:pl-0">
             <span className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border border-accent bg-paper font-mono text-xs text-accent md:static">
               {String(i + 1).padStart(2, "0")}
             </span>

@@ -25,7 +25,7 @@ export default function EngagePage() {
           30-minute call.
         </p>
         <div className="mt-14 border-t border-rule pt-10 md:mt-20">
-          <p className="label mb-6">How it starts</p>
+          <h2 className="label mb-6">How it starts</h2>
           <StepRail steps={START_STEPS} />
         </div>
       </section>
