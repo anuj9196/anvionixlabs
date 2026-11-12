@@ -51,9 +51,9 @@ export function Thinking({
   const shape = done ? final : phase >= 0 ? steps[phase].shape : steps[0].shape;
 
   return (
-    <div className="grid min-h-[calc(100dvh-120px)] overflow-hidden rounded-[28px] border border-rule bg-sheet shadow-[0_30px_80px_-50px_rgba(0,0,0,.35)] lg:grid-cols-[1fr_1.05fr]">
-      <div className="relative flex items-center justify-center p-8 lg:p-14">
-        <div className="w-full max-w-[460px]">
+    <div className="grid lg:min-h-[calc(100dvh-120px)] overflow-hidden rounded-[28px] border border-rule bg-sheet shadow-[0_30px_80px_-50px_rgba(0,0,0,.35)] lg:grid-cols-[1fr_1.05fr]">
+      <div className="relative flex items-center justify-center p-6 lg:p-14">
+        <div className="w-full max-w-[200px] lg:max-w-[460px]">
           <DitherObject shape={shape} res={200} shapes={[...steps.map((s) => s.shape), final]} />
         </div>
         <p aria-hidden className="absolute bottom-5 left-6 font-mono text-[11px] text-ink-3">

@@ -75,7 +75,7 @@ export function CaseBook({ e, color }: { e: Experiment; color: string }) {
                 <p className="serif mt-2 text-[26px] leading-snug md:text-3xl">
                   <em>{e.hypothesis}</em>
                 </p>
-                <p className="absolute bottom-5 left-7 font-mono text-[11px] text-[#6e6c72] md:left-10">{e.stack.join(" · ")}</p>
+                <p className="mt-6 font-mono text-[11px] text-[#6e6c72] lg:absolute lg:bottom-5 lg:left-10 lg:right-10 lg:mt-0">{e.stack.join(" · ")}</p>
               </div>
               <div className="relative overflow-hidden rounded-2xl bg-[#fbf6ea] p-7 text-[#1d2340] shadow-[0_30px_60px_-30px_rgba(60,40,10,.45)] md:p-10 lg:rounded-l-none">
                 <div className="overflow-hidden rounded-lg border border-[#1d2340]/10">
