@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ENGAGEMENTS, PROMISES } from "@/data/site";
+import { ENGAGEMENTS, PROMISES, START_STEPS } from "@/data/site";
+import { StepRail } from "@/components/site/rail";
 import { ReceiptPricing } from "@/components/site/receipt";
 import { CallBand } from "@/components/site/footer";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
@@ -23,6 +24,10 @@ export default function EngagePage() {
           Four ways to work together, each with an honest starting price. Choose one to see what it includes; the final quote comes in writing after a
           30-minute call.
         </p>
+        <div className="mt-14 border-t border-rule pt-10 md:mt-20">
+          <p className="label mb-6">How it starts</p>
+          <StepRail steps={START_STEPS} />
+        </div>
       </section>
       <section className="wrap py-14 md:py-20">
         <ReceiptPricing />

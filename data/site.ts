@@ -473,6 +473,14 @@ export const ENGAGEMENTS: Engagement[] = [
   },
 ];
 
+/** How an engagement starts, shown as a rail on the pricing page. */
+export const START_STEPS = [
+  { title: "Intro call", text: "Thirty minutes, free. What you need, what exists, what success looks like." },
+  { title: "Plan & quote", text: "A written plan with scope, timeline and a fixed price, before anything is built." },
+  { title: "Build", text: "A working demo every week, so you can steer as it grows." },
+  { title: "Launch & hand-over", text: "Live, monitored, documented, and yours. Stay on a retainer or take it in-house." },
+];
+
 export const PROCESS = [
   { no: "01", name: "Observe", text: "An intro call and a short discovery: what you need, who it is for, what already exists and what success looks like." },
   { no: "02", name: "Hypothesise", text: "A written plan with scope, approach, timeline and price, and a clickable prototype before anything is built." },

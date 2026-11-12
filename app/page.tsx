@@ -3,7 +3,7 @@ import { EXPERIMENTS, FACTS, PROMISES, SERVICES } from "@/data/site";
 import { DitherObject } from "@/components/site/dither";
 import { GlyphStream, TypeText } from "@/components/site/glyphs";
 import { CallButton } from "@/components/site/header";
-import { CallBand } from "@/components/site/footer";
+import { BuildPrompt } from "@/components/site/prompt";
 import { ExperimentLog } from "@/components/site/experiments";
 import { ServiceList } from "@/components/site/services";
 import { ProcessPath } from "@/components/site/process";
@@ -139,7 +139,11 @@ export default function Home() {
         </p>
       </section>
 
-      <CallBand />
+      <section aria-label="Start a project" className="border-t border-rule">
+        <div className="wrap py-10 md:py-16">
+          <BuildPrompt />
+        </div>
+      </section>
     </>
   );
 }
