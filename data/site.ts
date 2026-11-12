@@ -46,6 +46,8 @@ export type Experiment = {
   urlLabel?: string;
   client?: string;
   image: string;
+  /** Pixel size of `image`, when it is not the usual 1456 × 834 screenshot. */
+  imageSize?: [number, number];
   imageAlt: string;
   summary: string;
   problem: string;
@@ -125,6 +127,7 @@ export const EXPERIMENTS: Experiment[] = [
     url: "https://play.google.com/store/apps/details?id=in.elektronindia.app.blt",
     urlLabel: "Google Play",
     image: "/work/elektron.jpg",
+    imageSize: [680, 290],
     imageAlt: "Elektron BLT on Google Play: battery load test app screens",
     summary:
       "A Flutter app that drives a battery load tester over Bluetooth and turns each test into a finished report on site.",

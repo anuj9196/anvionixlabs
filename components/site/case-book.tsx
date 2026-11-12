@@ -79,7 +79,7 @@ export function CaseBook({ e, color }: { e: Experiment; color: string }) {
               </div>
               <div className="relative overflow-hidden rounded-2xl bg-[#fbf6ea] p-7 text-[#1d2340] shadow-[0_30px_60px_-30px_rgba(60,40,10,.45)] md:p-10 lg:rounded-l-none">
                 <div className="overflow-hidden rounded-lg border border-[#1d2340]/10">
-                  <Image src={e.image} alt={e.imageAlt} width={1456} height={834} priority sizes="(min-width: 1024px) 480px, 100vw" className="h-auto w-full" />
+                  <Image src={e.image} alt={e.imageAlt} width={e.imageSize?.[0] ?? 1456} height={e.imageSize?.[1] ?? 834} priority sizes="(min-width: 1024px) 480px, 100vw" className="h-auto w-full" />
                 </div>
                 <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4">
                   {e.results.map((r) => (

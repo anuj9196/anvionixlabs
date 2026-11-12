@@ -39,7 +39,7 @@ export default function Home() {
                 <TypeText text="product." start={2500} speed={70} caret />
               </span>
             </h1>
-            <p className="reveal mt-7 max-w-xl text-lg text-ink-2">
+            <p className="mt-7 max-w-xl text-lg text-ink-2">
               Web apps, mobile apps and backends for startups and brands, plus audits and a fractional CTO for teams that need senior judgement.
               Built like an experiment, shipped like a product, and kept running.
             </p>
