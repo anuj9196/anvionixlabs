@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Experiment } from "@/data/site";
+import { NotebookLog } from "./notebook";
 
 function Row({ k, children }: { k: string; children: React.ReactNode }) {
   return (
@@ -60,12 +61,20 @@ export function ExperimentCard({ e, index }: { e: Experiment; index: number }) {
   );
 }
 
+// Big, tall screens with motion get the notebook; everyone else gets the cards.
+// (Class names are written out in full so Tailwind can see them.)
+
 export function ExperimentLog({ items }: { items: Experiment[] }) {
   return (
-    <div className="flex flex-col gap-6 md:gap-10">
-      {items.map((e, i) => (
-        <ExperimentCard key={e.slug} e={e} index={i} />
-      ))}
-    </div>
+    <>
+      <div className="hidden [@media(min-width:1024px)_and_(min-height:760px)]:motion-safe:block">
+        <NotebookLog items={items} />
+      </div>
+      <div className="flex flex-col gap-6 md:gap-10 [@media(min-width:1024px)_and_(min-height:760px)]:motion-safe:hidden">
+        {items.map((e, i) => (
+          <ExperimentCard key={e.slug} e={e} index={i} />
+        ))}
+      </div>
+    </>
   );
 }
