@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { EXPERIMENTS, FOUNDER, SITE } from "@/data/site";
 import { DepthPortrait } from "@/components/site/depth-portrait";
+import { Journey } from "@/components/site/journey";
 import { CallBand } from "@/components/site/footer";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 
@@ -53,20 +54,6 @@ export default function AboutPage() {
           </div>
 
           <div className="reveal mt-12">
-            <p className="label">Previously</p>
-            <ul className="mt-3">
-              {FOUNDER.previously.map((p) => (
-                <li key={p.name} className="border-t border-rule py-4">
-                  <a href={p.url} target="_blank" rel="noopener" className="font-medium underline hover:text-accent">
-                    {p.name}
-                  </a>
-                  <span className="block text-ink-2">{p.role}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="reveal mt-10">
             <p className="label">Recognition</p>
             <ul className="mt-3">
               {FOUNDER.awards.map((a) => (
@@ -105,7 +92,19 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y border-rule bg-sheet/60">
+      <section id="journey" className="border-y border-rule bg-sheet/40 scroll-mt-20">
+        <div className="wrap py-16 md:py-24">
+          <div className="reveal mb-12 max-w-2xl">
+            <p className="label">Journey</p>
+            <h2 className="serif mt-3 text-4xl md:text-6xl leading-[1.02]">
+              From first commit <em>to leading the team.</em>
+            </h2>
+          </div>
+          <Journey steps={FOUNDER.journey} />
+        </div>
+      </section>
+
+      <section className="border-b border-rule bg-sheet/60">
         <div className="wrap py-16 md:py-20 grid gap-10 md:grid-cols-2">
           <div>
             <p className="label">Company details</p>

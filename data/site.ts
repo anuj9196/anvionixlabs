@@ -488,20 +488,60 @@ export const PROMISES = [
   { h: "Senior hands only", p: "The person you talk to is the person who builds it." },
 ] as const;
 
+export type JourneyShape = "book" | "terminal" | "servers" | "network" | "trophy" | "notebook";
+
 export const FOUNDER = {
   name: "Anuj Sharma",
   role: "Founder, Anvionix Labs",
   photo: "/logos/avatar.jpeg",
   intro:
-    "Anuj has been writing production software since 2016: backends in Django, front ends in Angular, React and Next.js, mobile apps in Flutter and React Native, and the cloud infrastructure they run on.",
+    "Ten years from first production code to engineering manager: building software, then building the teams that build it.",
   story: [
-    "For most of that time he has led engineering on a global SaaS platform, taking it from a single server to a containerised, security-first architecture on AWS, upgrading it across a decade of framework versions, and building the CI/CD behind zero-downtime deployments.",
+    "Today Anuj leads a 15+ member engineering organisation behind a global SaaS platform: hiring, mentoring, setting technical direction and owning delivery, with releases that ship without downtime and a platform that stays up.",
     "Alongside that he built and runs his own products, Satyakod, Feedal, TapBeep and TapXReality, and builds for clients, including the Elektron Battery Tester. Anvionix Labs is where all of it comes together: the same care for clients' products as for his own.",
   ],
-  previously: [{ name: "Scanova", role: "Senior Team Lead, Engineering: led engineering of the QR code platform", url: "https://scanova.io" }],
-  awards: ["Engineering Leadership Award, 2025", "Star Leader, 2021"],
+  /** Career journey, shown as a lab log where a dithered object morphs at each step. */
+  journey: [
+    {
+      when: "2013 – 2017",
+      title: "Computer engineering",
+      shape: "book",
+      text: "B.Tech in Computer Engineering. Named Student of the Year in 2017.",
+    },
+    {
+      when: "2016 – 2019",
+      title: "First production code",
+      shape: "terminal",
+      text: "From intern to senior developer, shipping web products for clients and learning what it takes to keep software running after launch.",
+    },
+    {
+      when: "2019 – 2021",
+      title: "Building at scale",
+      shape: "servers",
+      text: "Full-stack, then senior engineer on Scanova, a global QR code SaaS. Recognised as Star Leader and Best Team Player in 2021.",
+    },
+    {
+      when: "2022 – 2025",
+      title: "Leading the team",
+      shape: "network",
+      text: "Team lead, then senior team lead. Led the platform's move from a single server to a scalable, security-first cloud architecture with 99.9% uptime, and brought in the review culture and zero-downtime releases the team runs on.",
+    },
+    {
+      when: "2026",
+      title: "Engineering manager",
+      shape: "trophy",
+      text: "Leads a 15+ member engineering organisation: hiring, mentoring, technical direction and delivery. Received the Engineering Excellence Award.",
+    },
+    {
+      when: "Now",
+      title: "Anvionix Labs",
+      shape: "notebook",
+      text: "Five products live, and the same discipline offered to clients: small senior team, weekly demos, software that keeps running.",
+    },
+  ] as { when: string; title: string; shape: JourneyShape; text: string }[],
+  awards: ["Engineering Excellence Award", "Star Leader, 2021", "Best Team Player, 2021", "Student of the Year, 2017"],
   skills: [
-    "Python", "Django", "TypeScript", "Next.js", "React", "Angular", "Flutter", "React Native", "PostgreSQL", "AWS", "Docker", "CI/CD", "AI integration", "Application security",
+    "Engineering leadership", "Hiring & mentoring", "Technical direction", "Python", "Django", "TypeScript", "Next.js", "React", "Angular", "Flutter", "PostgreSQL", "AWS", "CI/CD", "Application security",
   ],
 } as const;
 

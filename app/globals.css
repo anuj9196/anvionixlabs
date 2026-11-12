@@ -107,8 +107,13 @@ a { text-underline-offset: 3px; }
 .printing { animation: feed 1s steps(16) both; }
 @keyframes feed { from { clip-path: inset(0 0 100% 0); transform: translateY(-16px); } to { clip-path: inset(0 0 0 0); transform: none; } }
 
+/* Career journey: a step's words stream in when it becomes active, and stay once seen. */
+.js .journey-step .w { opacity: .18; filter: blur(3px); transition: opacity .5s ease, filter .5s ease; transition-delay: calc(var(--i) * 28ms); }
+.js .journey-step.seen .w { opacity: 1; filter: none; }
+.js .journey-step:not(.active) h3 { color: var(--ink-2); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal, .uncover, .draw path, .printing { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; clip-path: none !important; stroke-dashoffset: 0 !important; }
-  .focus-word { filter: none !important; opacity: 1 !important; transition: none !important; }
+  .focus-word, .journey-step .w { filter: none !important; opacity: 1 !important; transition: none !important; }
 }
