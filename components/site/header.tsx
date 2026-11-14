@@ -9,16 +9,24 @@ export function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
-export function CallButton({ className = "", children = "Book a call" }: { className?: string; children?: React.ReactNode }) {
+/** The main call to action everywhere: the quote form (/start), optionally prefilled. */
+export function QuoteButton({ className = "", href = "/start", children = "Get a quote" }: { className?: string; href?: string; children?: React.ReactNode }) {
   return (
-    <a
-      href={SITE.calendly}
-      target="_blank"
-      rel="noopener"
+    <Link
+      href={href}
       className={`inline-flex items-center gap-2 rounded-full bg-ink text-paper px-5 py-2.5 text-sm font-medium hover:bg-accent hover:text-accent-ink transition-colors ${className}`}
     >
       {children}
       <span aria-hidden>→</span>
+    </Link>
+  );
+}
+
+/** The secondary way in, for people who would rather talk first. */
+export function CallLink({ className = "" }: { className?: string }) {
+  return (
+    <a href={SITE.calendly} target="_blank" rel="noopener" className={`text-sm text-ink-2 underline underline-offset-4 hover:text-ink ${className}`}>
+      Prefer a call? Book 20 minutes
     </a>
   );
 }
@@ -36,7 +44,7 @@ export function Header() {
               {n.label}
             </Link>
           ))}
-          <CallButton className="!py-2" />
+          <QuoteButton className="!py-2" />
         </nav>
         <details className="md:hidden relative">
           <summary className="list-none cursor-pointer rounded-full border border-rule px-4 py-2 text-sm [&::-webkit-details-marker]:hidden">Menu</summary>
@@ -46,8 +54,11 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
-            <a href={SITE.calendly} target="_blank" rel="noopener" className="mt-1 block rounded-lg bg-ink px-3 py-2.5 text-sm text-paper">
-              Book a call →
+            <Link href="/start" className="mt-1 block rounded-lg bg-ink px-3 py-2.5 text-sm text-paper">
+              Get a quote →
+            </Link>
+            <a href={SITE.calendly} target="_blank" rel="noopener" className="block rounded-lg px-3 py-2.5 text-sm text-ink-2 hover:bg-paper">
+              Or book a call ↗
             </a>
           </nav>
         </details>

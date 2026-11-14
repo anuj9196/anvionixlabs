@@ -1,4 +1,4 @@
-import { ENGAGEMENTS, EXPERIMENTS, FOUNDER, SERVICES, SITE } from "@/data/site";
+import { ENGAGEMENT_GROUPS, EXPERIMENTS, FOUNDER, QUOTE, SERVICES, SITE, START_PATH, engagementById } from "@/data/site";
 
 export const dynamic = "force-static";
 
@@ -9,9 +9,10 @@ export function GET() {
 
 > ${SITE.description}
 
-Founder-led software studio in ${SITE.address.locality}, Delhi NCR, India, working with clients worldwide. Founded and led by ${FOUNDER.name}, an engineering manager who leads a 15+ member engineering organisation. Every engagement starts with a 30-minute intro call; the final quote is given in writing.
+Founder-led software studio in ${SITE.address.locality}, Delhi NCR, India, working with clients worldwide. Founded and led by ${FOUNDER.name}, an engineering manager who leads a 15+ member engineering organisation. Every engagement starts with a short brief or an intro call; the final quote is given in writing.
 
-- Book an intro call: ${SITE.calendly}
+- Get a quote (send a brief; reply ${QUOTE.replyTime}): ${u("/start")}
+- Prefer a call: ${SITE.calendly}
 - Email: ${SITE.email}
 - Phone: ${SITE.phone}
 
@@ -21,9 +22,21 @@ ${SERVICES.map((s) => `- [${s.name}](${u(`/services/${s.slug}`)}): ${s.short}`).
 
 ## Engagements and starting prices
 
-${ENGAGEMENTS.map((e) => `- ${e.name}: from ${e.inr} or ${e.usd} (${e.timeline})`).join("\n")}
+${ENGAGEMENT_GROUPS.map(
+  (g) =>
+    `### ${g.name}\n\nBest for: ${g.bestFor}${"note" in g ? ` ${g.note}` : ""}\n\n${g.engagements
+      .map((id) => engagementById(id)!)
+      .map((e) => `- ${e.name}: from ${e.inr} or ${e.usd}${e.per ? ` a ${e.per}` : ""} (${e.timeline})`)
+      .join("\n")}`,
+).join("\n\n")}
+
+Most teams start here: ${START_PATH.map((id) => engagementById(id)!.name).join(" → ")}.
 
 Details: ${u("/engage")}
+
+## Our products (not part of client services)
+
+${SITE.brands.map((b) => `- [${b.name}](${b.url}): ${b.about}`).join("\n")}
 
 ## Work (live products)
 

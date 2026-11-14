@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { EXPERIMENTS, SERVICES, SITE } from "@/data/site";
-import { CallButton } from "./header";
+import { CallLink, QuoteButton } from "./header";
 import { BeaconParticles } from "./beacon";
 
 /** The closing band on every page, after Beacon: a column of blue light rising behind the call to action. */
@@ -18,20 +18,17 @@ export function CallBand() {
           Yours, <span className="serif font-normal italic">perhaps?</span>
         </h2>
         <p className="mt-5 max-w-xl text-ink-2">
-          Tell us what you want to build or fix. A 30-minute call, and you leave with an honest view of the approach, timeline and cost.
+          Tell us what you want to build or fix. We reply within one business day, and a free scoping call gives you an honest view of the approach,
+          timeline and cost.
         </p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={SITE.calendly}
-            target="_blank"
-            rel="noopener"
+          <Link
+            href="/start"
             className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper shadow-[0_0_40px_rgba(142,162,255,.45)] transition-shadow hover:shadow-[0_0_60px_rgba(142,162,255,.7)]"
           >
-            Book a call <span aria-hidden>↗</span>
-          </a>
-          <Link href="/start" className="text-sm text-ink-2 underline underline-offset-4 hover:text-ink">
-            or describe it first
+            Get a quote <span aria-hidden>→</span>
           </Link>
+          <CallLink />
         </div>
         <ul className="mt-12 flex flex-wrap justify-center gap-3 text-xs text-ink-2">
           {["Free intro call", "Written quote", "Weekly demos", "Code in your accounts"].map((c) => (
@@ -84,6 +81,11 @@ export function Footer() {
         <div>
           <p className="label mb-4">Contact</p>
           <ul className="space-y-2.5 text-ink-2">
+            <li>
+              <Link href="/start" className="hover:text-ink">
+                Get a quote
+              </Link>
+            </li>
             <li>
               <a href={SITE.calendly} target="_blank" rel="noopener" className="hover:text-ink">
                 Book an intro call
@@ -147,4 +149,4 @@ export function Footer() {
   );
 }
 
-export { CallButton };
+export { QuoteButton };

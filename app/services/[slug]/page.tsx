@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ENGAGEMENTS, EXPERIMENTS, FIGURES, SERVICES, SITE, serviceBySlug } from "@/data/site";
 import { Specimen } from "@/components/site/specimen";
 import { CallBand } from "@/components/site/footer";
-import { CallButton } from "@/components/site/header";
+import { CallLink, QuoteButton } from "@/components/site/header";
 import { JsonLd, breadcrumbLd, serviceLd } from "@/components/site/json-ld";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -43,8 +43,9 @@ export default async function ServicePage({ params }: Props) {
           </nav>
           <h1 className="serif mt-4 text-5xl md:text-7xl leading-[0.98]">{s.title}</h1>
           <p className="mt-6 max-w-2xl text-lg text-ink-2">{s.intro}</p>
-          <div className="mt-8">
-            <CallButton className="text-base !px-6 !py-3.5" />
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <QuoteButton href={`/start?type=${s.slug === "consulting" ? "audit" : "mvp"}`} className="text-base !px-6 !py-3.5" />
+            <CallLink />
           </div>
         </div>
         <Specimen shape={FIGURES[s.slug].shape} no={s.no} name={s.name} caption={FIGURES[s.slug].caption} className="mx-auto max-w-[520px]" />
