@@ -1,4 +1,5 @@
 import { QUOTE, SITE, type Budget, type ProjectType, type Stage, type Timeline } from "@/data/site";
+import type { Currency } from "@/lib/currency";
 
 /** What the visitor typed into the quote form. */
 export type QuoteAnswers = {
@@ -18,21 +19,27 @@ export type QuoteAnswers = {
 export type QuoteField = Exclude<keyof QuoteAnswers, "website">;
 
 /**
- * The one place that turns the form into the API's body. The enquiry contract is still being
- * finalised on the backend: adjust key names here and nowhere else.
- * `website` is the honeypot and `elapsed_ms` the timing trap (the API quietly drops a form
- * sent within a few seconds of the page opening, as bots do).
+ * The one place that turns the form into the API's body (contract: qidentity
+ * docs/internal/website-enquiries.md). `website` is the honeypot and `elapsed_ms` the timing
+ * trap (the API quietly drops a form sent within a few seconds of the page opening, as bots do).
  */
-export function toEnquiryPayload(a: QuoteAnswers, elapsedMs: number, page: string) {
+const PROJECT_TYPE: Record<ProjectType, string> = { mvp: "new_product", existing: "existing_product", audit: "audit", team: "team" };
+
+export function toEnquiryPayload(a: QuoteAnswers, elapsedMs: number, page: string, currency: Currency) {
+  // Bands carry their currency ("inr_under_5l"); "not sure" takes the form's currency toggle.
+  const [cur, band] = a.budget.startsWith("inr_") || a.budget.startsWith("usd_")
+    ? [a.budget.slice(0, 3), a.budget.slice(4)]
+    : [currency, a.budget];
   return {
-    kind: "anvionix_quote",
+    kind: "quote",
     name: a.name.trim(),
     email: a.email.trim(),
     company: a.company.trim(),
     message: a.message.trim(),
-    projectType: a.projectType,
+    project_type: a.projectType ? PROJECT_TYPE[a.projectType] : "",
     stage: a.stage,
-    budget: a.budget,
+    currency: cur.toUpperCase(),
+    budget: band,
     timeline: a.timeline,
     link: a.link.trim(),
     website: a.website,
@@ -50,6 +57,7 @@ const FIELD_FROM_API: Record<string, QuoteField> = {
   projectType: "projectType",
   project_type: "projectType",
   stage: "stage",
+  currency: "budget",
   budget: "budget",
   timeline: "timeline",
   link: "link",

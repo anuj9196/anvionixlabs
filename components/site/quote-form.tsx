@@ -80,7 +80,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
       return;
     }
     setStatus({ s: "sending" });
-    const result = await submitEnquiry(toEnquiryPayload(a, Math.round(performance.now() - openedAt.current), window.location.pathname));
+    const result = await submitEnquiry(toEnquiryPayload(a, Math.round(performance.now() - openedAt.current), window.location.pathname, cur));
     if (result.ok) {
       if (!tracked.current) {
         tracked.current = true;
