@@ -44,18 +44,19 @@ export default function Home() {
               Built like an experiment, shipped like a product, and kept running.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
-              <a
-                href={SITE.calendly}
-                target="_blank"
-                rel="noopener"
+              <Link
+                href="/start"
                 className="border border-ink bg-ink px-5 py-3 font-mono text-[13px] uppercase tracking-[0.14em] text-paper shadow-[4px_4px_0_var(--accent)] transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--accent)]"
               >
-                Book a call →
-              </a>
+                Start a project →
+              </Link>
               <Link href="#work" className="font-mono text-[13px] uppercase tracking-[0.14em] underline decoration-ink-3 underline-offset-[6px] hover:text-accent">
                 Read the log
               </Link>
             </div>
+            <a href={SITE.calendly} target="_blank" rel="noopener" className="mt-5 inline-block font-mono text-[12px] text-ink-3 underline underline-offset-4 hover:text-ink">
+              Prefer a call? Book {SITE.callMinutes} minutes
+            </a>
             <nav aria-label="Live products" className="mt-12">
               <p className="font-mono text-[12px] text-ink-3">[ Live now ]</p>
               <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[13px]">
@@ -139,7 +140,7 @@ export default function Home() {
         </ul>
         <p className="reveal mt-10 text-center">
           <Link href="/engage" className="font-medium underline hover:text-accent">
-            See engagements and starting prices →
+            See how we work together →
           </Link>
         </p>
       </section>

@@ -1,4 +1,5 @@
-// Everything the site says lives here: one place to update copy, prices and links.
+// Everything the site says lives here: one place to update copy and links. Work is quoted
+// to each client's requirements, so the site lists no prices.
 // Keep the company details identical to the GST registration and the Meta business
 // portfolio, which check this site against what they were given.
 
@@ -9,6 +10,10 @@ export const SITE = {
   description:
     "Anvionix Labs designs and builds web apps, mobile apps and backends for startups and brands, and helps teams fix the systems they already have. Founder-led, from Delhi NCR, working worldwide.",
   calendly: "https://calendly.com/anvionixlabs/intro",
+  /** Length of the Calendly intro call; keep in step with the event on Calendly. */
+  callMinutes: 20,
+  /** Where the "Get a quote" form posts (Satyakod's API answers CORS for this site). */
+  enquiryEndpoint: "https://api.satyakod.com/v1/public/enquiries",
   email: "hello@anvionixlabs.com",
   phone: "+91 88029 24304",
   phoneHref: "tel:+918802924304",
@@ -26,7 +31,8 @@ export const SITE = {
     linkedin: "https://www.linkedin.com/in/anuj9196/",
     github: "https://github.com/anuj9196",
   },
-  brands: [{ name: "Satyakod", url: "https://satyakod.com" }],
+  /** Our own products: shown apart from client-services pricing. */
+  brands: [{ name: "Satyakod", url: "https://satyakod.com", about: "Product authentication and anti-counterfeiting SaaS for brands." }],
 } as const;
 
 /** Facts that are true by construction: nothing here needs a source. */
@@ -385,7 +391,7 @@ export const SERVICES: Service[] = [
     faq: [
       {
         q: "React Native or Flutter?",
-        a: "Both work well. If your team or web app is in React, React Native shares the most. Flutter is a strong choice for hardware-heavy or design-heavy apps. We recommend one after the intro call.",
+        a: "Both work well. If your team or web app is in React, React Native shares the most. Flutter is a strong choice for hardware-heavy or design-heavy apps. We recommend one after the 20-minute intro call.",
       },
       {
         q: "Do you publish to the stores?",
@@ -427,65 +433,90 @@ export type Engagement = {
   id: string;
   name: string;
   line: string;
-  inr: string;
-  usd: string;
-  per?: string;
   scope: string[];
   timeline: string;
+  /** The quote form's "What are you building?" answer this engagement prefills. */
+  projectType: ProjectType;
 };
 
-/** "From" prices, set against 2025–26 market rates for senior boutique teams. */
+/** Ways to work together. None has a list price: each is quoted to the client's requirements. */
 export const ENGAGEMENTS: Engagement[] = [
   {
     id: "audit",
     name: "Audit",
     line: "Find out what you have",
-    inr: "₹1,50,000",
-    usd: "$4,000",
     scope: ["Architecture, code and security review", "Written report ranked by risk", "Walk-through call", "Fee credited to a build"],
     timeline: "1–2 weeks",
+    projectType: "audit",
   },
   {
     id: "mvp",
     name: "MVP build",
     line: "From idea to launched product",
-    inr: "₹8,00,000",
-    usd: "$18,000",
     scope: ["Discovery and prototype", "Web or mobile app with backend", "Weekly demos", "Launch and two weeks of support"],
     timeline: "6–10 weeks",
+    projectType: "mvp",
   },
   {
     id: "retainer",
     name: "Product retainer",
     line: "A team on call for your product",
-    inr: "₹2,50,000",
-    usd: "$6,000",
-    per: "month",
     scope: ["About 80 hours a month", "Features, fixes and upkeep", "Monitoring and on-call", "Monthly plan and report"],
     timeline: "Monthly, cancel any time",
+    projectType: "team",
   },
   {
     id: "cto",
     name: "Fractional CTO",
     line: "Senior judgement, part time",
-    inr: "₹1,25,000",
-    usd: "$3,500",
-    per: "month",
     scope: ["About 4 hours a week", "Roadmap and architecture", "Hiring and vendor decisions", "Reviews and on-hand advice"],
     timeline: "Monthly, cancel any time",
+    projectType: "audit",
   },
 ];
 
+export const engagementById = (id: string) => ENGAGEMENTS.find((e) => e.id === id);
+
+/** The pricing page, in three sections. Each lists engagements by id from ENGAGEMENTS. */
+export const ENGAGEMENT_GROUPS = [
+  {
+    id: "consultation",
+    no: "01",
+    name: "Consultation",
+    bestFor: "You need senior judgement, not more hands.",
+    engagements: ["audit", "cto"],
+  },
+  {
+    id: "development",
+    no: "02",
+    name: "Development",
+    bestFor: "You need a product designed, built and launched.",
+    note: "Priced after a free 20-minute scoping call: fixed scope, fixed price.",
+    engagements: ["mvp"],
+  },
+  {
+    id: "service",
+    no: "03",
+    name: "As a service",
+    bestFor: "You have a live product and need a team that keeps it moving.",
+    note: "About 80 hours a month of features, fixes and upkeep. Monthly, cancel anytime.",
+    engagements: ["retainer"],
+  },
+] as const satisfies readonly { id: string; no: string; name: string; bestFor: string; note?: string; engagements: readonly string[] }[];
+
+/** "Most teams start here": the usual path through the engagements. */
+export const START_PATH = ["audit", "mvp", "retainer"] as const;
+
 /** How an engagement starts, shown as a rail on the pricing page. */
 export const START_STEPS = [
-  { title: "Intro call", text: "Thirty minutes, free. What you need, what exists, what success looks like." },
+  { title: "Scoping call", text: "Twenty minutes, free. What you need, what exists, what success looks like." },
   { title: "Plan & quote", text: "A written plan with scope, timeline and a fixed price, before anything is built." },
   { title: "Build", text: "A working demo every week, so you can steer as it grows." },
   { title: "Launch & hand-over", text: "Live, monitored, documented, and yours. Stay on a retainer or take it in-house." },
 ];
 
 export const PROCESS = [
-  { no: "01", name: "Observe", text: "An intro call and a short discovery: what you need, who it is for, what already exists and what success looks like." },
+  { no: "01", name: "Observe", text: "A 20-minute intro call and a short discovery: what you need, who it is for, what already exists and what success looks like." },
   { no: "02", name: "Hypothesise", text: "A written plan with scope, approach, timeline and price, and a clickable prototype before anything is built." },
   { no: "03", name: "Build", text: "Short cycles with a working demo every week. You see the product grow and can steer it as it does." },
   { no: "04", name: "Measure", text: "Launch with analytics, error monitoring and alerts in place, so we know how it behaves with real users." },
@@ -498,6 +529,36 @@ export const PROMISES = [
   { h: "Fixed scope, fixed price", p: "Builds are quoted up front. Changes are agreed before they cost anything." },
   { h: "Senior hands only", p: "The person you talk to is the person who builds it." },
 ] as const;
+
+/* ---------- The "Get a quote" form (/start) ----------
+   Option values are what the enquiry API receives (see lib/enquiry.ts). */
+
+export type ProjectType = "mvp" | "existing" | "audit" | "team";
+export type Stage = "idea" | "designs" | "live" | "failing";
+export type Timeline = "asap" | "1_3_months" | "3_6_months" | "flexible";
+
+export const QUOTE = {
+  projectTypes: [
+    { value: "mvp", label: "A new product or MVP" },
+    { value: "existing", label: "An existing product: new features or a rescue" },
+    { value: "audit", label: "An audit or advice" },
+    { value: "team", label: "Ongoing team support" },
+  ] as { value: ProjectType; label: string }[],
+  stages: [
+    { value: "idea", label: "An idea" },
+    { value: "designs", label: "Designs ready" },
+    { value: "live", label: "A live product" },
+    { value: "failing", label: "A project in trouble" },
+  ] as { value: Stage; label: string }[],
+  timelines: [
+    { value: "asap", label: "As soon as possible" },
+    { value: "1_3_months", label: "In 1–3 months" },
+    { value: "3_6_months", label: "In 3–6 months" },
+    { value: "flexible", label: "Flexible" },
+  ] as { value: Timeline; label: string }[],
+  /** Promised on the confirmation; keep it true. */
+  replyTime: "within one business day",
+} as const;
 
 export type JourneyShape =
   | "book" | "terminal" | "servers" | "network" | "trophy" | "notebook"

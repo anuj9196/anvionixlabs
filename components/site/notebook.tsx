@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { SITE, type Experiment } from "@/data/site";
+import type { Experiment } from "@/data/site";
 
 /** Ruled notebook paper with a margin line, used for every page. */
 const PAPER =
@@ -72,14 +72,12 @@ function ClosingPage({ no }: { no: string }) {
       <p className="mt-5 max-w-sm text-ink-2 leading-[28px]">
         Bring the problem. We will write the hypothesis, build it, and keep it running.
       </p>
-      <a
-        href={SITE.calendly}
-        target="_blank"
-        rel="noopener"
+      <Link
+        href="/start"
         className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-ink px-6 py-3 text-paper hover:bg-accent hover:text-accent-ink transition-colors"
       >
-        Book a call <span aria-hidden>→</span>
-      </a>
+        Start a project <span aria-hidden>→</span>
+      </Link>
     </div>
   );
 }
