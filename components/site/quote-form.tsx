@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { QUOTE, SITE, engagementById, type Budget, type ProjectType } from "@/data/site";
+import { QUOTE, SITE, engagementById, type ProjectType } from "@/data/site";
 import { isCurrency, useGuessedCurrency, type Currency } from "@/lib/currency";
-import { calendlyFor, mailtoFor, submitEnquiry, toEnquiryPayload, type QuoteAnswers, type QuoteField } from "@/lib/enquiry";
+import { calendlyFor, formatAmount, mailtoFor, submitEnquiry, toEnquiryPayload, type QuoteAnswers, type QuoteField } from "@/lib/enquiry";
 
 export type QuotePrefill = { type?: string | null; from?: string | null; cur?: string | null; message?: string | null };
 
-const EMPTY: QuoteAnswers = { projectType: "", message: "", stage: "", budget: "", timeline: "", name: "", email: "", company: "", link: "", website: "" };
+const EMPTY: QuoteAnswers = { projectType: "", message: "", stage: "", budget: "", notSure: false, timeline: "", name: "", email: "", company: "", link: "", website: "" };
 const PROJECT_TYPES = QUOTE.projectTypes.map((p) => p.value);
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const ORDER: QuoteField[] = ["projectType", "message", "stage", "budget", "timeline", "name", "email", "company", "link"];
@@ -17,7 +17,7 @@ function validate(a: QuoteAnswers): Partial<Record<QuoteField, string>> {
   if (!a.projectType) e.projectType = "Choose what you are building.";
   if (a.message.trim().length < 20) e.message = a.message.trim() ? "A little more, please: who uses it and what must it do?" : "Tell us a little about it.";
   if (!a.stage) e.stage = "Choose where it is today.";
-  if (!a.budget) e.budget = "Choose a range, or “Not sure yet”.";
+  if (!a.notSure && !Number(a.budget)) e.budget = "Type a rough amount, or tick “Not sure yet”.";
   if (!a.timeline) e.timeline = "Choose when you need it.";
   if (!a.name.trim()) e.name = "Your name, please.";
   if (!EMAIL.test(a.email.trim())) e.email = a.email.trim() ? "That email address doesn't look right." : "Your email, so we can reply.";
@@ -27,9 +27,9 @@ function validate(a: QuoteAnswers): Partial<Record<QuoteField, string>> {
 }
 
 /** One analytics lead per sent form; booking a call afterwards isn't counted again. */
-function trackLead(a: QuoteAnswers) {
+function trackLead(a: QuoteAnswers, cur: Currency) {
   const w = window as unknown as { gtag?: (...args: unknown[]) => void };
-  if (typeof w.gtag === "function") w.gtag("event", "generate_lead", { form: "quote", project_type: a.projectType, budget: a.budget, timeline: a.timeline });
+  if (typeof w.gtag === "function") w.gtag("event", "generate_lead", { form: "quote", project_type: a.projectType, currency: cur.toUpperCase(), budget: a.notSure ? "not_sure" : "given", timeline: a.timeline });
 }
 
 type Status = { s: "idle" } | { s: "sending" } | { s: "sent" } | { s: "error"; message: string } | { s: "unreachable" };
@@ -57,17 +57,14 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
     if (status.s === "sent") doneHeading.current?.focus();
   }, [status.s]);
 
-  const errors = { ...validate(a), ...serverErrors };
+  const errors = { ...validate(a) };
+  for (const [k, v] of Object.entries(serverErrors)) if (v) errors[k as QuoteField] = v;
   const shown = (f: QuoteField) => (touched[f] || serverErrors[f] ? errors[f] : undefined);
   const set = <K extends keyof QuoteAnswers>(k: K, v: QuoteAnswers[K]) => {
     setA((prev) => ({ ...prev, [k]: v }));
     if (k !== "website") setServerErrors((prev) => ({ ...prev, [k]: undefined }));
   };
   const touch = (f: QuoteField) => setTouched((t) => (t[f] ? t : { ...t, [f]: true }));
-  const pickCurrency = (c: Currency) => {
-    setChosenCur(c);
-    if (a.budget && a.budget !== "not_sure") set("budget", "");
-  };
 
   const submit = async (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -84,7 +81,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
     if (result.ok) {
       if (!tracked.current) {
         tracked.current = true;
-        trackLead(a);
+        trackLead(a, cur);
       }
       setStatus({ s: "sent" });
     } else if (result.kind === "fields") {
@@ -108,7 +105,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
         </h2>
         <p className="mt-4 max-w-lg text-ink-2">Want to talk sooner? Pick a time; your answers are already filled in.</p>
         <a
-          href={calendlyFor(a)}
+          href={calendlyFor(a, cur)}
           target="_blank"
           rel="noopener"
           className="mt-7 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper transition-colors hover:bg-accent hover:text-accent-ink"
@@ -170,31 +167,65 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
 
       <Choice name="stage" legend="Stage" options={QUOTE.stages} value={a.stage} onChange={(v) => set("stage", v)} onBlur={() => touch("stage")} error={shown("stage")} errId={err("stage")} />
 
-      <Choice
-        name="budget"
-        legend="Budget range"
-        options={QUOTE.budgets[cur]}
-        value={a.budget}
-        onChange={(v) => set("budget", v as Budget)}
-        onBlur={() => touch("budget")}
-        error={shown("budget")}
-        errId={err("budget")}
-        aside={
-          <div className="inline-flex rounded-full border border-rule p-0.5" role="group" aria-label="Currency">
-            {(["inr", "usd"] as const).map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => pickCurrency(c)}
-                aria-pressed={cur === c}
-                className={`rounded-full px-2.5 py-0.5 font-mono text-[11px] ${cur === c ? "bg-ink text-paper" : "text-ink-2"}`}
-              >
-                {c === "inr" ? "₹ INR" : "$ USD"}
-              </button>
-            ))}
+      <fieldset className="mt-8" aria-describedby={`${id}-budget-hint${shown("budget") ? ` ${err("budget")}` : ""}`}>
+        <legend className="text-base font-medium">Your budget</legend>
+        <p id={`${id}-budget-hint`} className="mt-1 text-sm text-ink-3">
+          A rough figure is fine — it helps us suggest the right scope.
+        </p>
+        <div className="mt-3 flex flex-wrap items-stretch gap-3">
+          <div className={`flex min-w-0 flex-1 basis-64 overflow-hidden rounded-xl border bg-paper/60 focus-within:border-accent ${shown("budget") ? "border-[#ff8a7a]" : "border-rule"} ${a.notSure ? "opacity-50" : ""}`}>
+            <label htmlFor={`${id}-currency`} className="sr-only">
+              Currency
+            </label>
+            <select
+              id={`${id}-currency`}
+              value={cur}
+              onChange={(e) => isCurrency(e.target.value) && setChosenCur(e.target.value)}
+              disabled={a.notSure}
+              className="border-r border-rule bg-transparent pl-3 pr-2 font-mono text-sm text-ink outline-none"
+            >
+              <option value="inr">₹ INR</option>
+              <option value="usd">$ USD</option>
+            </select>
+            <label htmlFor={`${id}-budget`} className="sr-only">
+              Amount in {cur === "inr" ? "rupees" : "US dollars"}
+            </label>
+            <input
+              id={`${id}-budget`}
+              data-field="budget"
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              placeholder={cur === "inr" ? "e.g. 800000" : "e.g. 18000"}
+              value={a.budget}
+              disabled={a.notSure}
+              onChange={(e) => set("budget", e.target.value.replace(/\D/g, "").slice(0, 12))}
+              onBlur={() => touch("budget")}
+              aria-invalid={!!shown("budget")}
+              className="min-w-0 flex-1 bg-transparent px-4 py-3 text-base text-ink outline-none placeholder:text-ink-3 disabled:cursor-not-allowed"
+            />
+            {!a.notSure && a.budget && (
+              <span aria-live="polite" className="hidden shrink-0 items-center pr-4 font-mono text-sm text-ink-3 sm:flex">
+                {formatAmount(a.budget, cur)}
+              </span>
+            )}
           </div>
-        }
-      />
+          <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-rule px-4 py-3 text-sm text-ink-2 hover:border-ink-3 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent">
+            <input
+              type="checkbox"
+              checked={a.notSure}
+              onChange={(e) => {
+                setA((prev) => ({ ...prev, notSure: e.target.checked }));
+                setServerErrors((prev) => ({ ...prev, budget: undefined }));
+                touch("budget");
+              }}
+              className="h-4 w-4 accent-[var(--accent)]"
+            />
+            Not sure yet
+          </label>
+        </div>
+        <FieldError id={err("budget")} text={shown("budget")} />
+      </fieldset>
 
       <Choice
         name="timeline"
@@ -238,7 +269,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
         {status.s === "error" && (
           <p className="rounded-2xl border border-rule bg-paper/60 p-4 text-sm text-ink">
             {status.message} Try again, or email{" "}
-            <a href={mailtoFor(a)} className="underline hover:text-accent">
+            <a href={mailtoFor(a, cur)} className="underline hover:text-accent">
               {SITE.email}
             </a>{" "}
             with your answers.
@@ -248,7 +279,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
           <div className="rounded-2xl border border-rule bg-paper/60 p-4 text-sm">
             <p className="font-medium text-ink">Couldn&apos;t send — email {SITE.email}</p>
             <p className="mt-1 text-ink-2">Your answers are copied into the email; just press send.</p>
-            <a href={mailtoFor(a)} className="mt-3 inline-flex items-center gap-2 rounded-full border border-ink/40 px-4 py-2 text-ink hover:bg-ink hover:text-paper">
+            <a href={mailtoFor(a, cur)} className="mt-3 inline-flex items-center gap-2 rounded-full border border-ink/40 px-4 py-2 text-ink hover:bg-ink hover:text-paper">
               Email your answers to {SITE.email} <span aria-hidden>→</span>
             </a>
           </div>
@@ -264,7 +295,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
           {sending ? "Sending…" : "Send the brief"} <span aria-hidden>→</span>
         </button>
         <a href={SITE.calendly} target="_blank" rel="noopener" className="text-sm text-ink-2 underline underline-offset-4 hover:text-ink">
-          Prefer a call? Book 20 minutes
+          Prefer a call? Book {SITE.callMinutes} minutes
         </a>
       </div>
       <p className="mt-4 text-xs text-ink-3">We reply {QUOTE.replyTime}, from {SITE.email}. Your details are used only to answer you.</p>
@@ -293,7 +324,6 @@ function Choice<T extends string>({
   error,
   errId,
   wide = false,
-  aside,
 }: {
   name: QuoteField;
   legend: string;
@@ -304,14 +334,12 @@ function Choice<T extends string>({
   error?: string;
   errId: string;
   wide?: boolean;
-  aside?: React.ReactNode;
 }) {
   const group = useId();
   return (
     <fieldset className="mt-8" aria-describedby={error ? errId : undefined} onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && onBlur()}>
-      <legend className="float-left text-base font-medium">{legend}</legend>
-      {aside && <div className="float-right">{aside}</div>}
-      <div className={`clear-both pt-3 ${wide ? "grid gap-2 sm:grid-cols-2" : "flex flex-wrap gap-2"}`}>
+      <legend className="text-base font-medium">{legend}</legend>
+      <div className={`pt-3 ${wide ? "grid gap-2 sm:grid-cols-2" : "flex flex-wrap gap-2"}`}>
         {options.map((o, i) => {
           const checked = value === o.value;
           return (

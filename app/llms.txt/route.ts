@@ -9,10 +9,10 @@ export function GET() {
 
 > ${SITE.description}
 
-Founder-led software studio in ${SITE.address.locality}, Delhi NCR, India, working with clients worldwide. Founded and led by ${FOUNDER.name}, an engineering manager who leads a 15+ member engineering organisation. Every engagement starts with a short brief or an intro call; the final quote is given in writing.
+Founder-led software studio in ${SITE.address.locality}, Delhi NCR, India, working with clients worldwide. Founded and led by ${FOUNDER.name}, an engineering manager who leads a 15+ member engineering organisation. Every engagement starts with a short brief or a ${SITE.callMinutes}-minute intro call, and is priced to the client's requirements: there is no price list, and the quote is given in writing.
 
 - Get a quote (send a brief; reply ${QUOTE.replyTime}): ${u("/start")}
-- Prefer a call: ${SITE.calendly}
+- Prefer a call (${SITE.callMinutes} minutes, free): ${SITE.calendly}
 - Email: ${SITE.email}
 - Phone: ${SITE.phone}
 
@@ -20,13 +20,13 @@ Founder-led software studio in ${SITE.address.locality}, Delhi NCR, India, worki
 
 ${SERVICES.map((s) => `- [${s.name}](${u(`/services/${s.slug}`)}): ${s.short}`).join("\n")}
 
-## Engagements and starting prices
+## Engagements (each quoted to your requirements)
 
 ${ENGAGEMENT_GROUPS.map(
   (g) =>
     `### ${g.name}\n\nBest for: ${g.bestFor}${"note" in g ? ` ${g.note}` : ""}\n\n${g.engagements
       .map((id) => engagementById(id)!)
-      .map((e) => `- ${e.name}: from ${e.inr} or ${e.usd}${e.per ? ` a ${e.per}` : ""} (${e.timeline})`)
+      .map((e) => `- ${e.name}: ${e.line.toLowerCase()} (${e.timeline}). Scope: ${e.scope.join("; ")}.`)
       .join("\n")}`,
 ).join("\n\n")}
 

@@ -27,7 +27,6 @@ export function organizationLd() {
     description: SITE.description,
     address,
     areaServed: "Worldwide",
-    priceRange: "₹₹₹",
     founder: { "@type": "Person", name: FOUNDER.name, url: `${SITE.url}/about#founder` },
     sameAs: [SITE.social.linkedin, SITE.social.github, ...SITE.brands.map((b) => b.url)],
     knowsAbout: ["Web application development", "Django", "Next.js", "React Native", "Flutter", "API development", "Cloud architecture", "Software audits"],

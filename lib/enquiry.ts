@@ -1,4 +1,4 @@
-import { QUOTE, SITE, type Budget, type ProjectType, type Stage, type Timeline } from "@/data/site";
+import { QUOTE, SITE, type ProjectType, type Stage, type Timeline } from "@/data/site";
 import type { Currency } from "@/lib/currency";
 
 /** What the visitor typed into the quote form. */
@@ -6,7 +6,10 @@ export type QuoteAnswers = {
   projectType: ProjectType | "";
   message: string;
   stage: Stage | "";
-  budget: Budget | "";
+  /** The amount the visitor typed, digits only (at most 12); ignored when `notSure`. */
+  budget: string;
+  /** "Not sure yet" instead of an amount. */
+  notSure: boolean;
   timeline: Timeline | "";
   name: string;
   email: string;
@@ -16,7 +19,7 @@ export type QuoteAnswers = {
   website: string;
 };
 
-export type QuoteField = Exclude<keyof QuoteAnswers, "website">;
+export type QuoteField = Exclude<keyof QuoteAnswers, "website" | "notSure">;
 
 /**
  * The one place that turns the form into the API's body (contract: qidentity
@@ -26,10 +29,6 @@ export type QuoteField = Exclude<keyof QuoteAnswers, "website">;
 const PROJECT_TYPE: Record<ProjectType, string> = { mvp: "new_product", existing: "existing_product", audit: "audit", team: "team" };
 
 export function toEnquiryPayload(a: QuoteAnswers, elapsedMs: number, page: string, currency: Currency) {
-  // Bands carry their currency ("inr_under_5l"); "not sure" takes the form's currency toggle.
-  const [cur, band] = a.budget.startsWith("inr_") || a.budget.startsWith("usd_")
-    ? [a.budget.slice(0, 3), a.budget.slice(4)]
-    : [currency, a.budget];
   return {
     kind: "quote",
     name: a.name.trim(),
@@ -38,8 +37,9 @@ export function toEnquiryPayload(a: QuoteAnswers, elapsedMs: number, page: strin
     message: a.message.trim(),
     project_type: a.projectType ? PROJECT_TYPE[a.projectType] : "",
     stage: a.stage,
-    currency: cur.toUpperCase(),
-    budget: band,
+    currency: currency.toUpperCase(),
+    // A positive whole number as digits ("800000"), or "not_sure".
+    budget: a.notSure ? "not_sure" : a.budget.replace(/\D/g, "").replace(/^0+/, ""),
     timeline: a.timeline,
     link: a.link.trim(),
     website: a.website,
@@ -110,13 +110,23 @@ export async function submitEnquiry(body: ReturnType<typeof toEnquiryPayload>): 
 
 const labelOf = <T extends string>(list: { value: T; label: string }[], v: T | "") => list.find((x) => x.value === v)?.label ?? "";
 
+/** An amount in the visitor's currency: ₹8,00,000 (Indian grouping) or $18,000. */
+export function formatAmount(digits: string, currency: Currency): string {
+  const n = Number(digits.replace(/\D/g, ""));
+  if (!n) return "";
+  return new Intl.NumberFormat(currency === "inr" ? "en-IN" : "en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+    maximumFractionDigits: 0,
+  }).format(n);
+}
+
 /** The answers as plain lines, for the email fallback and Calendly's first question. */
-export function summarise(a: QuoteAnswers): string[] {
-  const budgets = [...QUOTE.budgets.inr, ...QUOTE.budgets.usd];
+export function summarise(a: QuoteAnswers, currency: Currency): string[] {
   return [
     `What: ${labelOf(QUOTE.projectTypes, a.projectType)}`,
     `Stage: ${labelOf(QUOTE.stages, a.stage)}`,
-    `Budget: ${labelOf(budgets, a.budget)}`,
+    `Budget: ${a.notSure ? "Not sure yet" : formatAmount(a.budget, currency)}`,
     `When: ${labelOf(QUOTE.timelines, a.timeline)}`,
     ...(a.link.trim() ? [`Link: ${a.link.trim()}`] : []),
     "",
@@ -124,14 +134,14 @@ export function summarise(a: QuoteAnswers): string[] {
   ];
 }
 
-export function mailtoFor(a: QuoteAnswers): string {
+export function mailtoFor(a: QuoteAnswers, currency: Currency): string {
   const subject = `Project enquiry${a.company.trim() ? `: ${a.company.trim()}` : ""}`;
-  const body = [...summarise(a), "", `${a.name.trim()}${a.company.trim() ? `, ${a.company.trim()}` : ""}`, a.email.trim()].join("\n");
+  const body = [...summarise(a, currency), "", `${a.name.trim()}${a.company.trim() ? `, ${a.company.trim()}` : ""}`, a.email.trim()].join("\n");
   return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 /** Calendly with name, email and the answers (its first question, `a1`) already filled in. */
-export function calendlyFor(a: QuoteAnswers): string {
-  const q = new URLSearchParams({ name: a.name.trim(), email: a.email.trim(), a1: summarise(a).join("\n").slice(0, 1800) });
+export function calendlyFor(a: QuoteAnswers, currency: Currency): string {
+  const q = new URLSearchParams({ name: a.name.trim(), email: a.email.trim(), a1: summarise(a, currency).join("\n").slice(0, 1800) });
   return `${SITE.calendly}?${q.toString()}`;
 }

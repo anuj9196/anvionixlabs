@@ -18,7 +18,7 @@ export function CallBand() {
           Yours, <span className="serif font-normal italic">perhaps?</span>
         </h2>
         <p className="mt-5 max-w-xl text-ink-2">
-          Tell us what you want to build or fix. We reply within one business day, and a free scoping call gives you an honest view of the approach,
+          Tell us what you want to build or fix. We reply within one business day, and a free {SITE.callMinutes}-minute call gives you an honest view of the approach,
           timeline and cost.
         </p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
@@ -31,7 +31,7 @@ export function CallBand() {
           <CallLink />
         </div>
         <ul className="mt-12 flex flex-wrap justify-center gap-3 text-xs text-ink-2">
-          {["Free intro call", "Written quote", "Weekly demos", "Code in your accounts"].map((c) => (
+          {[`Free ${SITE.callMinutes}-minute call`, "Written quote", "Weekly demos", "Code in your accounts"].map((c) => (
             <li key={c} className="rounded-full border border-rule bg-sheet/50 px-3 py-1.5 backdrop-blur">
               {c}
             </li>
@@ -88,7 +88,7 @@ export function Footer() {
             </li>
             <li>
               <a href={SITE.calendly} target="_blank" rel="noopener" className="hover:text-ink">
-                Book an intro call
+                Book a {SITE.callMinutes}-minute intro call
               </a>
             </li>
             <li>

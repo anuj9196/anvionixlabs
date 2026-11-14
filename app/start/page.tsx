@@ -6,13 +6,13 @@ import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 export const metadata: Metadata = {
   title: "Get a quote: tell us what you are building",
   description:
-    "Send Anvionix Labs a short brief: what you are building, where it is today, budget and timing. We reply within one business day with next steps and a scoping call.",
+    "Send Anvionix Labs a short brief: what you are building, where it is today, budget and timing. We reply within one business day with next steps and a free 20-minute scoping call.",
   alternates: { canonical: "/start" },
 };
 
 const NEXT = [
   { h: "We read it", p: `A reply ${QUOTE.replyTime}, from ${SITE.email}, with any questions we have.` },
-  { h: "A free scoping call", p: "We agree what is in and out, and what success looks like." },
+  { h: `A free ${SITE.callMinutes}-minute scoping call`, p: "We agree what is in and out, and what success looks like." },
   { h: "A written quote", p: "Scope, timeline and a fixed price, before anything is built." },
 ];
 

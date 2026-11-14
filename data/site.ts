@@ -1,4 +1,5 @@
-// Everything the site says lives here: one place to update copy, prices and links.
+// Everything the site says lives here: one place to update copy and links. Work is quoted
+// to each client's requirements, so the site lists no prices.
 // Keep the company details identical to the GST registration and the Meta business
 // portfolio, which check this site against what they were given.
 
@@ -9,6 +10,8 @@ export const SITE = {
   description:
     "Anvionix Labs designs and builds web apps, mobile apps and backends for startups and brands, and helps teams fix the systems they already have. Founder-led, from Delhi NCR, working worldwide.",
   calendly: "https://calendly.com/anvionixlabs/intro",
+  /** Length of the Calendly intro call; keep in step with the event on Calendly. */
+  callMinutes: 20,
   /** Where the "Get a quote" form posts (Satyakod's API answers CORS for this site). */
   enquiryEndpoint: "https://api.satyakod.com/v1/public/enquiries",
   email: "hello@anvionixlabs.com",
@@ -388,7 +391,7 @@ export const SERVICES: Service[] = [
     faq: [
       {
         q: "React Native or Flutter?",
-        a: "Both work well. If your team or web app is in React, React Native shares the most. Flutter is a strong choice for hardware-heavy or design-heavy apps. We recommend one after the intro call.",
+        a: "Both work well. If your team or web app is in React, React Native shares the most. Flutter is a strong choice for hardware-heavy or design-heavy apps. We recommend one after the 20-minute intro call.",
       },
       {
         q: "Do you publish to the stores?",
@@ -430,23 +433,18 @@ export type Engagement = {
   id: string;
   name: string;
   line: string;
-  inr: string;
-  usd: string;
-  per?: string;
   scope: string[];
   timeline: string;
   /** The quote form's "What are you building?" answer this engagement prefills. */
   projectType: ProjectType;
 };
 
-/** "From" prices, set against 2025–26 market rates for senior boutique teams. */
+/** Ways to work together. None has a list price: each is quoted to the client's requirements. */
 export const ENGAGEMENTS: Engagement[] = [
   {
     id: "audit",
     name: "Audit",
     line: "Find out what you have",
-    inr: "₹1,50,000",
-    usd: "$4,000",
     scope: ["Architecture, code and security review", "Written report ranked by risk", "Walk-through call", "Fee credited to a build"],
     timeline: "1–2 weeks",
     projectType: "audit",
@@ -455,8 +453,6 @@ export const ENGAGEMENTS: Engagement[] = [
     id: "mvp",
     name: "MVP build",
     line: "From idea to launched product",
-    inr: "₹8,00,000",
-    usd: "$18,000",
     scope: ["Discovery and prototype", "Web or mobile app with backend", "Weekly demos", "Launch and two weeks of support"],
     timeline: "6–10 weeks",
     projectType: "mvp",
@@ -465,9 +461,6 @@ export const ENGAGEMENTS: Engagement[] = [
     id: "retainer",
     name: "Product retainer",
     line: "A team on call for your product",
-    inr: "₹2,50,000",
-    usd: "$6,000",
-    per: "month",
     scope: ["About 80 hours a month", "Features, fixes and upkeep", "Monitoring and on-call", "Monthly plan and report"],
     timeline: "Monthly, cancel any time",
     projectType: "team",
@@ -476,9 +469,6 @@ export const ENGAGEMENTS: Engagement[] = [
     id: "cto",
     name: "Fractional CTO",
     line: "Senior judgement, part time",
-    inr: "₹1,25,000",
-    usd: "$3,500",
-    per: "month",
     scope: ["About 4 hours a week", "Roadmap and architecture", "Hiring and vendor decisions", "Reviews and on-hand advice"],
     timeline: "Monthly, cancel any time",
     projectType: "audit",
@@ -501,7 +491,7 @@ export const ENGAGEMENT_GROUPS = [
     no: "02",
     name: "Development",
     bestFor: "You need a product designed, built and launched.",
-    note: "Final price after a free scoping call: fixed scope, fixed price.",
+    note: "Priced after a free 20-minute scoping call: fixed scope, fixed price.",
     engagements: ["mvp"],
   },
   {
@@ -519,14 +509,14 @@ export const START_PATH = ["audit", "mvp", "retainer"] as const;
 
 /** How an engagement starts, shown as a rail on the pricing page. */
 export const START_STEPS = [
-  { title: "Scoping call", text: "Free. What you need, what exists, what success looks like." },
+  { title: "Scoping call", text: "Twenty minutes, free. What you need, what exists, what success looks like." },
   { title: "Plan & quote", text: "A written plan with scope, timeline and a fixed price, before anything is built." },
   { title: "Build", text: "A working demo every week, so you can steer as it grows." },
   { title: "Launch & hand-over", text: "Live, monitored, documented, and yours. Stay on a retainer or take it in-house." },
 ];
 
 export const PROCESS = [
-  { no: "01", name: "Observe", text: "An intro call and a short discovery: what you need, who it is for, what already exists and what success looks like." },
+  { no: "01", name: "Observe", text: "A 20-minute intro call and a short discovery: what you need, who it is for, what already exists and what success looks like." },
   { no: "02", name: "Hypothesise", text: "A written plan with scope, approach, timeline and price, and a clickable prototype before anything is built." },
   { no: "03", name: "Build", text: "Short cycles with a working demo every week. You see the product grow and can steer it as it does." },
   { no: "04", name: "Measure", text: "Launch with analytics, error monitoring and alerts in place, so we know how it behaves with real users." },
@@ -546,10 +536,6 @@ export const PROMISES = [
 export type ProjectType = "mvp" | "existing" | "audit" | "team";
 export type Stage = "idea" | "designs" | "live" | "failing";
 export type Timeline = "asap" | "1_3_months" | "3_6_months" | "flexible";
-export type Budget =
-  | "inr_under_5l" | "inr_5_10l" | "inr_10_25l" | "inr_25l_plus"
-  | "usd_under_6k" | "usd_6_12k" | "usd_12_30k" | "usd_30k_plus"
-  | "not_sure";
 
 export const QUOTE = {
   projectTypes: [
@@ -564,22 +550,6 @@ export const QUOTE = {
     { value: "live", label: "A live product" },
     { value: "failing", label: "A project in trouble" },
   ] as { value: Stage; label: string }[],
-  budgets: {
-    inr: [
-      { value: "inr_under_5l", label: "Under ₹5L" },
-      { value: "inr_5_10l", label: "₹5–10L" },
-      { value: "inr_10_25l", label: "₹10–25L" },
-      { value: "inr_25l_plus", label: "₹25L+" },
-      { value: "not_sure", label: "Not sure yet" },
-    ],
-    usd: [
-      { value: "usd_under_6k", label: "Under $6k" },
-      { value: "usd_6_12k", label: "$6–12k" },
-      { value: "usd_12_30k", label: "$12–30k" },
-      { value: "usd_30k_plus", label: "$30k+" },
-      { value: "not_sure", label: "Not sure yet" },
-    ],
-  } as Record<"inr" | "usd", { value: Budget; label: string }[]>,
   timelines: [
     { value: "asap", label: "As soon as possible" },
     { value: "1_3_months", label: "In 1–3 months" },

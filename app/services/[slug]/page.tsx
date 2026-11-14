@@ -73,15 +73,14 @@ export default async function ServicePage({ params }: Props) {
                     <span className="font-medium">{e.name}</span>
                     <span className="block text-sm text-ink-3">{e.timeline}</span>
                   </span>
-                  <span className="font-mono text-sm text-right">
-                    from {e.inr}
-                    <span className="block text-ink-3">or {e.usd}</span>
-                  </span>
+                  <Link href={`/start?from=${e.id}`} className="shrink-0 text-sm underline underline-offset-4 hover:text-accent">
+                    Get a quote →
+                  </Link>
                 </li>
               ))}
             </ul>
             <Link href="/engage" className="mt-2 inline-block text-sm underline hover:text-accent">
-              All engagements and prices →
+              All engagements →
             </Link>
           </div>
           <p className="label">Tools we reach for</p>

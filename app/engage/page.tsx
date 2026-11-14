@@ -10,7 +10,7 @@ import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 export const metadata: Metadata = {
   title: "Pricing: consultation, development and product teams as a service",
   description:
-    "Starting prices for working with Anvionix Labs: technical audits and fractional CTO, fixed-scope MVP builds, and monthly product retainers, in INR and USD.",
+    "How to work with Anvionix Labs: technical audits and fractional CTO, fixed-scope MVP builds, and monthly product retainers, each quoted to your requirements.",
   alternates: { canonical: "/engage" },
 };
 
@@ -28,14 +28,14 @@ export default function EngagePage() {
               Pick a starting point. <em>We&apos;ll print the slip.</em>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-ink-2">
-              Senior advice, a product built to a fixed price, or a team that keeps it running: each with an honest starting price. Choose one to see what
-              it includes; the final quote comes in writing after a free scoping call.
+              Senior advice, a product built to a fixed price, or a team that keeps it running: each priced to your requirements. Choose one to see what
+              it includes; the quote comes in writing after a free {SITE.callMinutes}-minute scoping call.
             </p>
             <a href="#slip" className="mt-8 inline-flex items-center gap-3 rounded-full border border-ink/30 py-2 pl-2 pr-5 text-xs font-medium uppercase tracking-[0.14em] hover:bg-ink hover:text-paper">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-paper" aria-hidden>
                 ↓
               </span>
-              See the prices
+              See the options
             </a>
           </div>
           <figure aria-hidden className="relative mx-auto w-full max-w-[460px]">
@@ -137,10 +137,6 @@ export default function EngagePage() {
                   name: e.name,
                   description: e.scope.join("; "),
                   url: `${SITE.url}/engage#${g.id}`,
-                  priceSpecification: [
-                    { "@type": "PriceSpecification", minPrice: Number(e.inr.replace(/[^\d]/g, "")), priceCurrency: "INR" },
-                    { "@type": "PriceSpecification", minPrice: Number(e.usd.replace(/[^\d]/g, "")), priceCurrency: "USD" },
-                  ].map((p) => (e.per ? { ...p, "@type": "UnitPriceSpecification", unitText: e.per.toUpperCase() } : p)),
                 };
               }),
             })),

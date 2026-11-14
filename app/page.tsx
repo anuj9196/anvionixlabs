@@ -55,7 +55,7 @@ export default function Home() {
               </Link>
             </div>
             <a href={SITE.calendly} target="_blank" rel="noopener" className="mt-5 inline-block font-mono text-[12px] text-ink-3 underline underline-offset-4 hover:text-ink">
-              Prefer a call? Book 20 minutes
+              Prefer a call? Book {SITE.callMinutes} minutes
             </a>
             <nav aria-label="Live products" className="mt-12">
               <p className="font-mono text-[12px] text-ink-3">[ Live now ]</p>
@@ -140,7 +140,7 @@ export default function Home() {
         </ul>
         <p className="reveal mt-10 text-center">
           <Link href="/engage" className="font-medium underline hover:text-accent">
-            See engagements and starting prices →
+            See how we work together →
           </Link>
         </p>
       </section>

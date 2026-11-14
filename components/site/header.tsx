@@ -26,7 +26,7 @@ export function QuoteButton({ className = "", href = "/start", children = "Get a
 export function CallLink({ className = "" }: { className?: string }) {
   return (
     <a href={SITE.calendly} target="_blank" rel="noopener" className={`text-sm text-ink-2 underline underline-offset-4 hover:text-ink ${className}`}>
-      Prefer a call? Book 20 minutes
+      Prefer a call? Book {SITE.callMinutes} minutes
     </a>
   );
 }
@@ -58,7 +58,7 @@ export function Header() {
               Get a quote →
             </Link>
             <a href={SITE.calendly} target="_blank" rel="noopener" className="block rounded-lg px-3 py-2.5 text-sm text-ink-2 hover:bg-paper">
-              Or book a call ↗
+              Or book a {SITE.callMinutes}-minute call ↗
             </a>
           </nav>
         </details>
