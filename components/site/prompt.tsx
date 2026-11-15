@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SITE } from "@/data/site";
+import { useRouter } from "next/navigation";
 
 const RING = "{ } < /> ; = => 0 1 # * // λ ∆ fn api db ui ok".split(" ");
 const IDEAS = [
@@ -13,8 +13,8 @@ const IDEAS = [
 
 /**
  * "What are you building?": a prompt circled by a slow ring of glyphs. Typing tightens the
- * ring, sending flares it out, then the intro call opens with the idea already filled in
- * (Calendly answers its first question from `a1`).
+ * ring, sending flares it out, then the quote form (/start) opens with the idea already in
+ * its description.
  */
 export function BuildPrompt({ rays = false, heading = "h2" }: { rays?: boolean; heading?: "h1" | "h2" }) {
   const [text, setText] = useState("");
@@ -141,13 +141,14 @@ export function BuildPrompt({ rays = false, heading = "h2" }: { rays?: boolean; 
   }, [rays]);
 
   const Heading = heading;
+  const router = useRouter();
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     flare.current = 1;
     const idea = text.trim();
-    const url = idea ? `${SITE.calendly}?a1=${encodeURIComponent(idea)}` : SITE.calendly;
-    window.setTimeout(() => window.open(url, "_blank", "noopener"), 380);
+    const url = idea ? `/start?message=${encodeURIComponent(idea)}` : "/start";
+    window.setTimeout(() => router.push(url), 380);
   };
 
   return (
@@ -176,9 +177,9 @@ export function BuildPrompt({ rays = false, heading = "h2" }: { rays?: boolean; 
             className="w-full resize-none bg-transparent px-3 py-2 text-lg outline-none placeholder:text-ink-3"
           />
           <div className="flex items-center justify-between gap-3 px-2 pb-1">
-            <span className="font-mono text-[11px] text-ink-3">↵ to send · opens a 30-min intro call</span>
+            <span className="font-mono text-[11px] text-ink-3">↵ to continue · a short brief, then a reply within one business day</span>
             <button type="submit" className="rounded-full bg-ink px-5 py-2 text-sm text-paper hover:bg-accent hover:text-accent-ink transition-colors">
-              Send <span aria-hidden>→</span>
+              Continue <span aria-hidden>→</span>
             </button>
           </div>
         </div>
