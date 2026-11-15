@@ -46,7 +46,7 @@ export function Journey({ steps }: { steps: Step[] }) {
             </span>
           </div>
           <div className="w-20 shrink-0 lg:mx-auto lg:mt-4 lg:w-auto lg:max-w-[360px]">
-            <DitherObject shape={steps[active].shape} />
+            <DitherObject shape={steps[active].shape} shapes={steps.map((s) => s.shape)} />
           </div>
           <div className="min-w-0 lg:mt-4 lg:text-center">
             <p className="label lg:hidden">

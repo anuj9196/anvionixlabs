@@ -1,26 +1,45 @@
 import Link from "next/link";
 import { EXPERIMENTS, SERVICES, SITE } from "@/data/site";
-import { CallButton } from "./header";
+import { CallLink, QuoteButton } from "./header";
+import { BeaconParticles } from "./beacon";
 
+/** The closing band on every page, after Beacon: a column of blue light rising behind the call to action. */
 export function CallBand() {
   return (
-    <section className="wrap py-20 md:py-28">
-      <div className="reveal rounded-3xl border border-rule bg-sheet p-8 md:p-14 flex flex-col md:flex-row md:items-end justify-between gap-8">
-        <div>
-          <p className="label">Next experiment</p>
-          <h2 className="serif text-4xl md:text-6xl mt-3 leading-[1.05]">
-            Yours, <em>perhaps?</em>
-          </h2>
-          <p className="mt-4 max-w-xl text-ink-2">
-            Tell us what you want to build or fix. A 30-minute call, and you leave with an honest view of the approach, timeline and cost.
-          </p>
+    <section data-world="beacon" className="relative isolate overflow-hidden bg-paper">
+      <div aria-hidden className="beacon-column pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-[min(520px,90vw)] -translate-x-1/2" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(84,110,255,.35),transparent_70%)]" />
+      <BeaconParticles />
+      <div className="wrap relative flex flex-col items-center py-24 text-center md:py-36">
+        <p className="inline-flex items-center gap-2 rounded-full border border-rule bg-sheet/60 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-2 backdrop-blur">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden /> Next experiment
+        </p>
+        <h2 className="mt-6 text-5xl font-semibold leading-[1.02] tracking-[-0.04em] md:text-7xl">
+          Yours, <span className="serif font-normal italic">perhaps?</span>
+        </h2>
+        <p className="mt-5 max-w-xl text-ink-2">
+          Tell us what you want to build or fix. We reply within one business day, and a free {SITE.callMinutes}-minute call gives you an honest view of the approach,
+          timeline and cost.
+        </p>
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/start"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper shadow-[0_0_40px_rgba(142,162,255,.45)] transition-shadow hover:shadow-[0_0_60px_rgba(142,162,255,.7)]"
+          >
+            Get a quote <span aria-hidden>→</span>
+          </Link>
+          <CallLink />
         </div>
-        <div className="flex flex-col gap-3 shrink-0">
-          <CallButton className="justify-center text-base !px-6 !py-3.5" />
-          <a href={`mailto:${SITE.email}`} className="text-center text-sm text-ink-2 hover:text-ink">
-            or write to {SITE.email}
-          </a>
-        </div>
+        <ul className="mt-12 flex flex-wrap justify-center gap-3 text-xs text-ink-2">
+          {[`Free ${SITE.callMinutes}-minute call`, "Written quote", "Weekly demos", "Code in your accounts"].map((c) => (
+            <li key={c} className="rounded-full border border-rule bg-sheet/50 px-3 py-1.5 backdrop-blur">
+              {c}
+            </li>
+          ))}
+        </ul>
+        <a href={`mailto:${SITE.email}`} className="mt-8 font-mono text-[12px] text-ink-3 hover:text-ink">
+          {SITE.email}
+        </a>
       </div>
     </section>
   );
@@ -63,8 +82,13 @@ export function Footer() {
           <p className="label mb-4">Contact</p>
           <ul className="space-y-2.5 text-ink-2">
             <li>
+              <Link href="/start" className="hover:text-ink">
+                Get a quote
+              </Link>
+            </li>
+            <li>
               <a href={SITE.calendly} target="_blank" rel="noopener" className="hover:text-ink">
-                Book an intro call
+                Book a {SITE.callMinutes}-minute intro call
               </a>
             </li>
             <li>
@@ -125,4 +149,4 @@ export function Footer() {
   );
 }
 
-export { CallButton };
+export { QuoteButton };

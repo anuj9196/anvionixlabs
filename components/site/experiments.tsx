@@ -46,7 +46,7 @@ export function ExperimentCard({ e, index }: { e: Experiment; index: number }) {
       </div>
       <div>
         <div className="overflow-hidden rounded-2xl border border-rule bg-paper">
-          <Image src={e.image} alt={e.imageAlt} width={1456} height={834} sizes="(min-width: 1024px) 520px, 100vw" className="h-auto w-full" />
+          <Image src={e.image} alt={e.imageAlt} width={e.imageSize?.[0] ?? 1456} height={e.imageSize?.[1] ?? 834} sizes="(min-width: 1024px) 520px, 100vw" className="h-auto w-full" />
         </div>
         <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-rule bg-rule">
           {e.results.map((r) => (
