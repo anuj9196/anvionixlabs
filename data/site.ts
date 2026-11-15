@@ -528,7 +528,7 @@ export const FIGURES: Record<ServiceSlug | string, { shape: JourneyShape; captio
 export const FOUNDER = {
   name: "Anuj Sharma",
   role: "Founder, Anvionix Labs",
-  photo: "/logos/avatar.jpeg",
+  photo: "/founder.jpg",
   intro:
     "Ten years from first production code to engineering manager: building software, then building the teams that build it.",
   story: [
