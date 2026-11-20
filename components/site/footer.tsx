@@ -2,6 +2,7 @@ import Link from "next/link";
 import { EXPERIMENTS, SERVICES, SITE } from "@/data/site";
 import { CallLink, QuoteButton } from "./header";
 import { BeaconParticles } from "./beacon";
+import { Lockup } from "./logo";
 
 /** The closing band on every page: a charcoal band with a column of warm light rising behind the call to action. */
 export function CallBand() {
@@ -48,7 +49,12 @@ export function CallBand() {
 export function Footer() {
   return (
     <footer className="border-t border-rule mt-auto overflow-hidden">
-      <div className="wrap grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+      <div className="wrap pt-14">
+        <Link href="/" aria-label={`${SITE.name} home`} className="inline-flex">
+          <Lockup height={36} />
+        </Link>
+      </div>
+      <div className="wrap grid gap-10 pt-10 pb-14 sm:grid-cols-2 lg:grid-cols-4 text-sm">
         <div>
           <p className="label mb-4">Services</p>
           <ul className="space-y-2.5">
@@ -142,9 +148,6 @@ export function Footer() {
           About the lab
         </Link>
       </div>
-      <p aria-hidden className="select-none whitespace-nowrap font-mono font-semibold uppercase leading-[0.78] tracking-[-0.04em] text-ink/[0.06] text-[17vw] -mb-[3vw] text-center">
-        Anvionix/Labs
-      </p>
     </footer>
   );
 }

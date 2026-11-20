@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ENGAGEMENTS, EXPERIMENTS, FIGURES, SERVICES, SITE, serviceBySlug } from "@/data/site";
+import { ENGAGEMENTS, EXPERIMENTS, FIGURES, OG_IMAGE, SERVICES, SITE, serviceBySlug } from "@/data/site";
 import { Specimen } from "@/components/site/specimen";
 import { CallBand } from "@/components/site/footer";
 import { CallLink, QuoteButton } from "@/components/site/header";
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: s.title,
     description: s.short,
     alternates: { canonical: `/services/${s.slug}` },
-    openGraph: { title: s.title, description: s.short, url: `${SITE.url}/services/${s.slug}` },
+    openGraph: { title: s.title, description: s.short, url: `${SITE.url}/services/${s.slug}`, images: [OG_IMAGE] },
   };
 }
 

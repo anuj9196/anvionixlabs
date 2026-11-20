@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Lockup } from "./logo";
 import { ENGAGEMENTS, ENGAGEMENT_GROUPS, SITE, engagementById, type Engagement } from "@/data/site";
 
 /** The quote form, prefilled from an engagement. */
@@ -96,7 +97,7 @@ export function ReceiptPricing({ extras = {} }: { extras?: Partial<Record<string
       <div className="lg:sticky lg:top-24">
         <div className="mx-auto h-3 w-[92%] rounded-full bg-ink/80" aria-hidden />
         <div id="engagement-slip" key={printed} className="receipt printing -mt-1.5 mx-auto w-[86%] px-6 pb-10 pt-7 font-mono text-[13px] text-ink" aria-live="polite">
-          <p className="text-center tracking-[0.25em]">ANVIONIX/LABS</p>
+          <p className="flex justify-center"><Lockup height={24} /></p>
           <p className="mt-1 text-center text-[11px] text-ink-3">ENGAGEMENT SLIP</p>
           <div className="my-4 border-t border-dashed border-ink/40" />
           <p className="flex justify-between">

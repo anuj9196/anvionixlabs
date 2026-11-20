@@ -3,6 +3,17 @@
 // Keep the company details identical to the GST registration and the Meta business
 // portfolio, which check this site against what they were given.
 
+/** The brand logo files (BRAND.md) and the default share image. */
+export const LOGO = {
+  lockupLight: "/brand/logo/anvionix-ax-lockup-light.svg",
+  lockupDark: "/brand/logo/anvionix-ax-lockup-dark.svg",
+  markLight: "/brand/logo/anvionix-ax-mark-light.svg",
+  markDark: "/brand/logo/anvionix-ax-mark-dark.svg",
+  icon: "/brand/logo/anvionix-ax-icon.svg",
+  iconPng: "/icons/icon-512.png",
+} as const;
+export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630, alt: "Anvionix Labs" };
+
 export const SITE = {
   name: "Anvionix Labs",
   url: "https://anvionixlabs.com",

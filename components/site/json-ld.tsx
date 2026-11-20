@@ -1,4 +1,4 @@
-import { EXPERIMENTS, FOUNDER, SERVICES, SITE, type Service } from "@/data/site";
+import { EXPERIMENTS, FOUNDER, LOGO, SERVICES, SITE, type Service } from "@/data/site";
 
 export function JsonLd({ data }: { data: object }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />;
@@ -21,6 +21,8 @@ export function organizationLd() {
     name: SITE.name,
     legalName: SITE.legalName,
     url: SITE.url,
+    logo: { "@type": "ImageObject", url: `${SITE.url}${LOGO.iconPng}`, width: 512, height: 512 },
+    image: `${SITE.url}${LOGO.icon}`,
     email: SITE.email,
     telephone: SITE.phone.replace(/\s/g, ""),
     taxID: SITE.gstin,
