@@ -37,7 +37,7 @@ export default async function WorkPage({ params }: Props) {
   const gauge = rating ? { value: parseFloat(rating.value) } : null;
 
   return (
-    <div data-world="linen" style={{ ["--book" as string]: BOOKS[e.slug] }}>
+    <div>
       <article>
         <header className="wrap pt-10 text-center md:pt-14">
           <nav aria-label="Breadcrumb" className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-3">
@@ -62,7 +62,7 @@ export default async function WorkPage({ params }: Props) {
         <div className="wrap mt-8 text-center lg:-mt-10">
           <p className="mx-auto max-w-2xl serif text-2xl md:text-3xl leading-snug">{e.summary}</p>
           {e.url && (
-            <a href={e.url} target="_blank" rel="noopener" className="mt-5 inline-block font-mono text-[12px] uppercase tracking-[0.16em] underline underline-offset-[6px] hover:text-accent">
+            <a href={e.url} target="_blank" rel="noopener" className="mt-5 inline-block font-mono text-[12px] uppercase tracking-[0.16em] underline underline-offset-[6px] hover:text-accent-strong">
               Visit {e.urlLabel} →
             </a>
           )}
@@ -81,7 +81,7 @@ export default async function WorkPage({ params }: Props) {
               <ul className="mt-4 space-y-3">
                 {e.build.map((b) => (
                   <li key={b} className="flex gap-3 border-t border-rule pt-3 text-ink-2">
-                    <span className="text-accent" aria-hidden>
+                    <span className="text-accent-strong" aria-hidden>
                       +
                     </span>
                     {b}
@@ -115,7 +115,7 @@ export default async function WorkPage({ params }: Props) {
               <ul className="mt-3 space-y-2">
                 {services.map((s) => (
                   <li key={s.slug}>
-                    <Link href={`/services/${s.slug}`} className="underline hover:text-accent">
+                    <Link href={`/services/${s.slug}`} className="underline hover:text-accent-strong">
                       {s.name}
                     </Link>
                   </li>
@@ -129,7 +129,7 @@ export default async function WorkPage({ params }: Props) {
       <nav aria-label="Next experiment" className="wrap mt-20">
         <Link href={`/work/${next.slug}`} className="group flex items-baseline justify-between gap-6 border-y border-rule py-8">
           <span className="label">Next · {next.no}</span>
-          <span className="serif text-4xl md:text-6xl group-hover:text-accent">{next.name} →</span>
+          <span className="serif text-4xl md:text-6xl group-hover:text-accent-strong">{next.name} →</span>
         </Link>
       </nav>
       <CallBand />

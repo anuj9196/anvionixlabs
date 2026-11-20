@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import type { Experiment } from "@/data/site";
 
 /**
- * After The Long Light: the case study is a book lying on a linen table. Scrolling lifts the cover
+ * After The Long Light: the case study is a book lying on a table. Scrolling lifts the cover
  * open onto the first spread: the problem and hypothesis on the left, the screenshot and results on
  * the right. On phones and with reduced motion the spread is simply shown open.
  */
@@ -56,7 +56,7 @@ export function CaseBook({ e, color }: { e: Experiment; color: string }) {
     };
   }, []);
 
-  const page = "absolute inset-0 overflow-hidden bg-[#fbf6ea] text-[#1d2340] [backface-visibility:hidden]";
+  const page = "absolute inset-0 overflow-hidden bg-[#ffffff] text-[#202124] [backface-visibility:hidden]";
 
   return (
     <div ref={stage} className="relative lg:h-[190vh]">
@@ -65,26 +65,26 @@ export function CaseBook({ e, color }: { e: Experiment; color: string }) {
           <div ref={book} className="relative h-full w-full [transform-style:preserve-3d] lg:transition-none">
             {/* The spread underneath: real content, in the page for everyone. */}
             <div className="grid gap-4 lg:absolute lg:inset-0 lg:grid-cols-2 lg:gap-0">
-              <div ref={left} className="relative overflow-hidden rounded-2xl bg-[#fbf6ea] p-7 text-[#1d2340] shadow-[0_30px_60px_-30px_rgba(60,40,10,.45)] md:p-10 lg:rounded-r-none">
+              <div ref={left} className="relative overflow-hidden rounded-2xl bg-[#ffffff] p-7 text-[#202124] shadow-[0_30px_60px_-30px_rgba(60,40,10,.45)] md:p-10 lg:rounded-r-none">
                 <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color }}>
                   Experiment {e.no} · {e.kind}
                 </p>
-                <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-[#6e6c72]">Problem</p>
+                <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b6c70]">Problem</p>
                 <p className="mt-2 text-[17px] leading-relaxed">{e.problem}</p>
-                <p className="mt-7 font-mono text-[11px] uppercase tracking-[0.14em] text-[#6e6c72]">Hypothesis</p>
+                <p className="mt-7 font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b6c70]">Hypothesis</p>
                 <p className="serif mt-2 text-[26px] leading-snug md:text-3xl">
                   <em>{e.hypothesis}</em>
                 </p>
-                <p className="mt-6 font-mono text-[11px] text-[#6e6c72] lg:absolute lg:bottom-5 lg:left-10 lg:right-10 lg:mt-0">{e.stack.join(" · ")}</p>
+                <p className="mt-6 font-mono text-[11px] text-[#6b6c70] lg:absolute lg:bottom-5 lg:left-10 lg:right-10 lg:mt-0">{e.stack.join(" · ")}</p>
               </div>
-              <div className="relative overflow-hidden rounded-2xl bg-[#fbf6ea] p-7 text-[#1d2340] shadow-[0_30px_60px_-30px_rgba(60,40,10,.45)] md:p-10 lg:rounded-l-none">
-                <div className="overflow-hidden rounded-lg border border-[#1d2340]/10">
+              <div className="relative overflow-hidden rounded-2xl bg-[#ffffff] p-7 text-[#202124] shadow-[0_30px_60px_-30px_rgba(60,40,10,.45)] md:p-10 lg:rounded-l-none">
+                <div className="overflow-hidden rounded-lg border border-[#202124]/10">
                   <Image src={e.image} alt={e.imageAlt} width={e.imageSize?.[0] ?? 1456} height={e.imageSize?.[1] ?? 834} priority sizes="(min-width: 1024px) 480px, 100vw" className="h-auto w-full" />
                 </div>
                 <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4">
                   {e.results.map((r) => (
-                    <div key={r.label} className="border-t border-[#1d2340]/15 pt-2">
-                      <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6e6c72]">{r.label}</dt>
+                    <div key={r.label} className="border-t border-[#202124]/15 pt-2">
+                      <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b6c70]">{r.label}</dt>
                       <dd className="mt-0.5 font-mono text-lg">{r.value}</dd>
                     </div>
                   ))}
@@ -101,9 +101,9 @@ export function CaseBook({ e, color }: { e: Experiment; color: string }) {
               style={{ transform: "rotateY(0deg)" }}
             >
               <div className={`${page} rounded-r-2xl`} style={{ background: color, boxShadow: "0 40px 70px -30px rgba(40,25,5,.6)" }}>
-                <div className="absolute inset-5 rounded-lg border border-[#e9d6a6]/50" />
-                <div className="absolute inset-7 rounded-md border border-[#e9d6a6]/25" />
-                <div className="flex h-full flex-col items-center justify-center px-12 text-center text-[#f1e3bd]">
+                <div className="absolute inset-5 rounded-lg border border-[#e4a47e]/50" />
+                <div className="absolute inset-7 rounded-md border border-[#e4a47e]/25" />
+                <div className="flex h-full flex-col items-center justify-center px-12 text-center text-[#f7f5f2]">
                   <svg viewBox="0 0 120 60" className="w-28 opacity-90" aria-hidden>
                     <path d="M10 50 H110" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M30 50 A30 30 0 0 1 90 50" fill="none" stroke="currentColor" strokeWidth="1.5" />

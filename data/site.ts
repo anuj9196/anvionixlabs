@@ -565,13 +565,13 @@ export type JourneyShape =
   | "browser" | "phone" | "lens" | "qr" | "battery" | "form" | "timer" | "cube";
 
 /** The dithered object in each service and case-study hero, with its figure caption. */
-/** Each case study's book cover colour (The Long Light: every project is its own volume). */
+/** Each case study's book cover colour, from the brand palette (BRAND.md); the cover text is Warm White. */
 export const BOOKS: Record<string, string> = {
-  satyakod: "#2c2f7a",
-  "elektron-battery-tester": "#7a4310",
-  feedal: "#2f5d46",
-  tapbeep: "#76232f",
-  tapxreality: "#55276f",
+  satyakod: "#202124",
+  "elektron-battery-tester": "#a9532a",
+  feedal: "#45464a",
+  tapbeep: "#202124",
+  tapxreality: "#45464a",
 };
 
 export const FIGURES: Record<ServiceSlug | string, { shape: JourneyShape; caption: string }> = {

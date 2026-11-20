@@ -32,7 +32,7 @@ export default async function ServicePage({ params }: Props) {
   const engagements = s.slug === "consulting" ? ENGAGEMENTS.filter((e) => e.id === "audit" || e.id === "cto") : ENGAGEMENTS.filter((e) => e.id === "mvp" || e.id === "retainer");
 
   return (
-    <div data-world="synapse">
+    <div>
       <section className="wrap pt-14 md:pt-24 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <div>
           <nav aria-label="Breadcrumb" className="label">
@@ -73,13 +73,13 @@ export default async function ServicePage({ params }: Props) {
                     <span className="font-medium">{e.name}</span>
                     <span className="block text-sm text-ink-3">{e.timeline}</span>
                   </span>
-                  <Link href={`/start?from=${e.id}`} className="shrink-0 text-sm underline underline-offset-4 hover:text-accent">
+                  <Link href={`/start?from=${e.id}`} className="shrink-0 text-sm underline underline-offset-4 hover:text-accent-strong">
                     Get a quote →
                   </Link>
                 </li>
               ))}
             </ul>
-            <Link href="/engage" className="mt-2 inline-block text-sm underline hover:text-accent">
+            <Link href="/engage" className="mt-2 inline-block text-sm underline hover:text-accent-strong">
               All engagements →
             </Link>
           </div>
@@ -99,7 +99,7 @@ export default async function ServicePage({ params }: Props) {
                   <li key={e.slug}>
                     <Link href={`/work/${e.slug}`} className="group flex items-baseline gap-4 border-t border-rule py-4">
                       <span className="font-mono text-xs text-ink-3">{e.no}</span>
-                      <span className="serif text-3xl group-hover:text-accent">{e.name}</span>
+                      <span className="serif text-3xl group-hover:text-accent-strong">{e.name}</span>
                       <span className="ml-auto text-sm text-ink-3 hidden sm:inline">{e.kind}</span>
                     </Link>
                   </li>

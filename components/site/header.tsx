@@ -4,7 +4,7 @@ import { NAV, SITE } from "@/data/site";
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={`font-mono text-[13px] tracking-[0.22em] uppercase ${className}`}>
-      Anvionix<span className="text-accent">/</span>Labs
+      Anvionix<span className="text-accent-strong">/</span>Labs
     </span>
   );
 }
@@ -14,7 +14,7 @@ export function QuoteButton({ className = "", href = "/start", children = "Get a
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 rounded-full bg-ink text-paper px-5 py-2.5 text-sm font-medium hover:bg-accent hover:text-accent-ink transition-colors ${className}`}
+      className={`inline-flex items-center gap-2 rounded-full bg-ink text-paper px-5 py-2.5 text-sm font-medium hover:bg-accent-strong hover:text-accent-ink transition-colors ${className}`}
     >
       {children}
       <span aria-hidden>→</span>

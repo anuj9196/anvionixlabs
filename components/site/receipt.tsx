@@ -127,7 +127,7 @@ export function ReceiptPricing({ extras = {} }: { extras?: Partial<Record<string
         </div>
         <Link
           href={quoteHref(e)}
-          className="mx-auto mt-6 flex w-[86%] items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-paper hover:bg-accent hover:text-accent-ink transition-colors"
+          className="mx-auto mt-6 flex w-[86%] items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-paper hover:bg-accent-strong hover:text-accent-ink transition-colors"
         >
           Get a quote for this <span aria-hidden>→</span>
         </Link>

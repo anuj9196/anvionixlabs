@@ -108,7 +108,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
           href={calendlyFor(a, cur)}
           target="_blank"
           rel="noopener"
-          className="mt-7 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper transition-colors hover:bg-accent hover:text-accent-ink"
+          className="mt-7 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper transition-colors hover:bg-accent-strong hover:text-accent-ink"
         >
           Book a call now <span aria-hidden>↗</span>
         </a>
@@ -173,7 +173,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
           A rough figure is fine — it helps us suggest the right scope.
         </p>
         <div className="mt-3 flex flex-wrap items-stretch gap-3">
-          <div className={`flex min-w-0 flex-1 basis-64 overflow-hidden rounded-xl border bg-paper/60 focus-within:border-accent ${shown("budget") ? "border-[#ff8a7a]" : "border-rule"} ${a.notSure ? "opacity-50" : ""}`}>
+          <div className={`flex min-w-0 flex-1 basis-64 overflow-hidden rounded-xl border bg-paper/60 focus-within:border-accent ${shown("budget") ? "border-danger" : "border-rule"} ${a.notSure ? "opacity-50" : ""}`}>
             <label htmlFor={`${id}-currency`} className="sr-only">
               Currency
             </label>
@@ -269,7 +269,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
         {status.s === "error" && (
           <p className="rounded-2xl border border-rule bg-paper/60 p-4 text-sm text-ink">
             {status.message} Try again, or email{" "}
-            <a href={mailtoFor(a, cur)} className="underline hover:text-accent">
+            <a href={mailtoFor(a, cur)} className="underline hover:text-accent-strong">
               {SITE.email}
             </a>{" "}
             with your answers.
@@ -290,7 +290,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
         <button
           type="submit"
           disabled={sending}
-          className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper transition-colors hover:bg-accent hover:text-accent-ink disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper transition-colors hover:bg-accent-strong hover:text-accent-ink disabled:opacity-60"
         >
           {sending ? "Sending…" : "Send the brief"} <span aria-hidden>→</span>
         </button>
@@ -304,11 +304,11 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
 }
 
 const inputCls = (bad: boolean) =>
-  `block w-full rounded-xl border bg-paper/60 px-4 py-3 text-base text-ink outline-none placeholder:text-ink-3 focus:border-accent ${bad ? "border-[#ff8a7a]" : "border-rule"}`;
+  `block w-full rounded-xl border bg-paper/60 px-4 py-3 text-base text-ink outline-none placeholder:text-ink-3 focus:border-accent ${bad ? "border-danger" : "border-rule"}`;
 
 function FieldError({ id, text }: { id: string; text?: string }) {
   return text ? (
-    <p id={id} className="mt-2 text-sm text-[#ffb3a7]">
+    <p id={id} className="mt-2 text-sm text-danger">
       {text}
     </p>
   ) : null;
@@ -346,7 +346,7 @@ function Choice<T extends string>({
             <label
               key={o.value}
               className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-sm ${wide ? "" : "whitespace-nowrap"} transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
-                checked ? "border-accent bg-accent/15 text-ink" : error ? "border-[#ff8a7a]/70 text-ink-2 hover:border-ink-3" : "border-rule text-ink-2 hover:border-ink-3"
+                checked ? "border-accent bg-accent/15 text-ink" : error ? "border-danger/70 text-ink-2 hover:border-ink-3" : "border-rule text-ink-2 hover:border-ink-3"
               }`}
             >
               <input

@@ -1,0 +1,18 @@
+/* Anvionix Labs brand tokens, Palette C: Charcoal + Burnt Orange.
+   Source of truth for the palette; app/globals.css maps these onto the site's semantic tokens.
+   Usage and contrast rules: BRAND.md. */
+:root {
+  /* Palette */
+  --ax-charcoal: #202124; /* primary */
+  --ax-graphite: #45464a; /* secondary */
+  --ax-burnt-orange: #c56a3a; /* accent */
+  --ax-sand: #e4a47e; /* highlight */
+  --ax-warm-white: #f7f5f2; /* background */
+
+  /* Derived, for accessible text */
+  --ax-burnt-orange-deep: #a9532a; /* accent text and text-bearing fills on light */
+  --ax-muted: #6b6c70; /* tertiary text on light */
+  --ax-sheet-dark: #2a2b2f; /* raised surface on charcoal */
+  --ax-ink-2-dark: #cfcdc8; /* secondary text on charcoal */
+  --ax-muted-dark: #a3a4a8; /* tertiary text on charcoal */
+}

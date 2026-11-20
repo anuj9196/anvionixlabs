@@ -3,12 +3,12 @@ import { EXPERIMENTS, SERVICES, SITE } from "@/data/site";
 import { CallLink, QuoteButton } from "./header";
 import { BeaconParticles } from "./beacon";
 
-/** The closing band on every page, after Beacon: a column of blue light rising behind the call to action. */
+/** The closing band on every page: a charcoal band with a column of warm light rising behind the call to action. */
 export function CallBand() {
   return (
-    <section data-world="beacon" className="relative isolate overflow-hidden bg-paper">
+    <section className="inverse relative isolate overflow-hidden bg-paper">
       <div aria-hidden className="beacon-column pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-[min(520px,90vw)] -translate-x-1/2" />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(84,110,255,.35),transparent_70%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(197,106,58,.32),transparent_70%)]" />
       <BeaconParticles />
       <div className="wrap relative flex flex-col items-center py-24 text-center md:py-36">
         <p className="inline-flex items-center gap-2 rounded-full border border-rule bg-sheet/60 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-2 backdrop-blur">
@@ -24,7 +24,7 @@ export function CallBand() {
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/start"
-            className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper shadow-[0_0_40px_rgba(142,162,255,.45)] transition-shadow hover:shadow-[0_0_60px_rgba(142,162,255,.7)]"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper shadow-[0_0_40px_rgba(197,106,58,.4)] transition-shadow hover:shadow-[0_0_60px_rgba(228,164,126,.6)]"
           >
             Get a quote <span aria-hidden>→</span>
           </Link>
@@ -127,7 +127,7 @@ export function Footer() {
           <p className="mt-3 text-ink-2">
             Our brands:{" "}
             {SITE.brands.map((b) => (
-              <a key={b.url} href={b.url} className="font-medium text-ink hover:text-accent">
+              <a key={b.url} href={b.url} className="font-medium text-ink hover:text-accent-strong">
                 {b.name}
               </a>
             ))}

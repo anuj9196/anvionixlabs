@@ -74,7 +74,7 @@ function ClosingPage({ no }: { no: string }) {
       </p>
       <Link
         href="/start"
-        className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-ink px-6 py-3 text-paper hover:bg-accent hover:text-accent-ink transition-colors"
+        className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-ink px-6 py-3 text-paper hover:bg-accent-strong hover:text-accent-ink transition-colors"
       >
         Start a project <span aria-hidden>→</span>
       </Link>
