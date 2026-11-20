@@ -23,7 +23,7 @@ const THINKING = [
 
 export default function AboutPage() {
   return (
-    <div data-world="nightjar">
+    <div>
       {/* After Nightjar: ask who runs the lab, watch it think, read the answer. */}
       <section className="wrap pt-6 md:pt-10">
         <Thinking question={`Who runs ${SITE.name}?`} steps={[...THINKING]} final="network">
@@ -72,11 +72,11 @@ export default function AboutPage() {
           <p className="mt-4 font-medium">{FOUNDER.name}</p>
           <p className="text-sm text-ink-3">{FOUNDER.role}</p>
           <p className="mt-3 text-sm">
-            <a href={SITE.social.linkedin} target="_blank" rel="noopener me" className="underline hover:text-accent">
+            <a href={SITE.social.linkedin} target="_blank" rel="noopener me" className="underline hover:text-accent-strong">
               LinkedIn
             </a>
             {" · "}
-            <a href={SITE.social.github} target="_blank" rel="noopener me" className="underline hover:text-accent">
+            <a href={SITE.social.github} target="_blank" rel="noopener me" className="underline hover:text-accent-strong">
               GitHub
             </a>
           </p>
@@ -120,7 +120,7 @@ export default function AboutPage() {
                 <li key={e.slug}>
                   <Link href={`/work/${e.slug}`} className="group flex items-baseline gap-4 border-t border-rule py-3">
                     <span className="font-mono text-xs text-ink-3">{e.no}</span>
-                    <span className="font-medium group-hover:text-accent">{e.name}</span>
+                    <span className="font-medium group-hover:text-accent-strong">{e.name}</span>
                     <span className="ml-auto text-sm text-ink-3">{e.client ? `for ${e.client}` : "own product"}</span>
                   </Link>
                 </li>

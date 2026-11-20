@@ -17,7 +17,7 @@ export function ProcessPath() {
       <ol className="relative grid gap-8 md:grid-cols-5 md:gap-6 md:pt-28">
         {PROCESS.map((p) => (
           <li key={p.no} className="reveal relative pl-10 md:pl-0">
-            <span className="absolute left-0 top-1 flex h-7 w-7 items-center justify-center rounded-full border border-accent bg-paper font-mono text-[11px] text-accent md:static md:mb-4">
+            <span className="absolute left-0 top-1 flex h-7 w-7 items-center justify-center rounded-full border border-accent bg-paper font-mono text-[11px] text-accent-strong md:static md:mb-4">
               {p.no}
             </span>
             <h3 className="serif text-3xl">{p.name}</h3>

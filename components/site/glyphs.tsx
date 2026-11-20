@@ -44,7 +44,7 @@ export function GlyphStream({ className = "" }: { className?: string }) {
     cv.height = H;
     const css = getComputedStyle(document.documentElement);
     const font = css.getPropertyValue("--font-mono") || "monospace";
-    let ink = css.getPropertyValue("--ink").trim() || "#16181b";
+    let ink = css.getPropertyValue("--ink").trim() || "#202124";
     const scheme = window.matchMedia("(prefers-color-scheme: dark)");
     const recolor = () => (ink = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim());
     scheme.addEventListener("change", recolor);

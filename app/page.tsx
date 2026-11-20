@@ -23,8 +23,8 @@ function SectionHead({ label, title, children }: { label: string; title: React.R
 
 export default function Home() {
   return (
-    <div data-world="lacuna">
-      {/* Hero, after Lacuna: a 1-bit world. The notebook breaks apart into pixels and letters while the headline is typed and corrected. */}
+    <div>
+      {/* Hero: a 1-bit figure. The notebook breaks apart into pixels and letters while the headline is typed and corrected. */}
       <section className="relative overflow-hidden border-b border-rule">
         <div className="wrap grid gap-6 pt-10 pb-14 md:pt-16 md:pb-20 lg:grid-cols-[1.05fr_1fr] lg:items-center">
           <div className="relative z-10">
@@ -35,7 +35,7 @@ export default function Home() {
                 <TypeText text="prototype" start={770} speed={55} />
               </del>
               <br />
-              <span className="text-accent">
+              <span className="text-accent-strong">
                 <TypeText text="product." start={2500} speed={70} caret />
               </span>
             </h1>
@@ -50,7 +50,7 @@ export default function Home() {
               >
                 Start a project →
               </Link>
-              <Link href="#work" className="font-mono text-[13px] uppercase tracking-[0.14em] underline decoration-ink-3 underline-offset-[6px] hover:text-accent">
+              <Link href="#work" className="font-mono text-[13px] uppercase tracking-[0.14em] underline decoration-ink-3 underline-offset-[6px] hover:text-accent-strong">
                 Read the log
               </Link>
             </div>
@@ -139,7 +139,7 @@ export default function Home() {
           ))}
         </ul>
         <p className="reveal mt-10 text-center">
-          <Link href="/engage" className="font-medium underline hover:text-accent">
+          <Link href="/engage" className="font-medium underline hover:text-accent-strong">
             See how we work together →
           </Link>
         </p>

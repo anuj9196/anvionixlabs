@@ -15,12 +15,12 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div data-world="synapse">
+    <div>
       <section className="overflow-hidden pt-14 pb-20 md:pt-20 md:pb-28">
         <div className="wrap text-center">
           <p className="label">Services</p>
           <h1 className="mt-4 text-5xl font-semibold tracking-[-0.04em] md:text-7xl">
-            Build beyond <span className="text-accent">the prototype.</span>
+            Build beyond <span className="text-accent-strong">the prototype.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-ink-2">
             We design, build and run software end to end, or step in where you need us: a backend for your app, a mobile client for your platform, or an

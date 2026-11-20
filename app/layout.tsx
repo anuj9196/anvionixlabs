@@ -6,7 +6,7 @@ import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { RevealObserver } from "@/components/site/reveal";
 import { JsonLd, organizationLd } from "@/components/site/json-ld";
-import { SITE } from "@/data/site";
+import { OG_IMAGE, SITE } from "@/data/site";
 
 const sans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const mono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
@@ -17,15 +17,16 @@ export const metadata: Metadata = {
   title: { default: `${SITE.name}: web, mobile and backend development`, template: `%s · ${SITE.name}` },
   description: SITE.description,
   alternates: { canonical: "/" },
-  openGraph: { siteName: SITE.name, locale: "en_IN", type: "website", url: SITE.url, images: ["/work/satyakod.jpg"] },
-  twitter: { card: "summary_large_image" },
+  manifest: "/site.webmanifest",
+  openGraph: { siteName: SITE.name, locale: "en_IN", type: "website", url: SITE.url, images: [OG_IMAGE] },
+  twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f3ed" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f1114" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f5f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#202124" },
   ],
 };
 

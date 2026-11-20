@@ -2,13 +2,14 @@ import Link from "next/link";
 import { EXPERIMENTS, SERVICES, SITE } from "@/data/site";
 import { CallLink, QuoteButton } from "./header";
 import { BeaconParticles } from "./beacon";
+import { Lockup } from "./logo";
 
-/** The closing band on every page, after Beacon: a column of blue light rising behind the call to action. */
+/** The closing band on every page: a charcoal band with a column of warm light rising behind the call to action. */
 export function CallBand() {
   return (
-    <section data-world="beacon" className="relative isolate overflow-hidden bg-paper">
+    <section className="inverse relative isolate overflow-hidden bg-paper">
       <div aria-hidden className="beacon-column pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-[min(520px,90vw)] -translate-x-1/2" />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(84,110,255,.35),transparent_70%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(197,106,58,.32),transparent_70%)]" />
       <BeaconParticles />
       <div className="wrap relative flex flex-col items-center py-24 text-center md:py-36">
         <p className="inline-flex items-center gap-2 rounded-full border border-rule bg-sheet/60 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-2 backdrop-blur">
@@ -24,7 +25,7 @@ export function CallBand() {
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/start"
-            className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper shadow-[0_0_40px_rgba(142,162,255,.45)] transition-shadow hover:shadow-[0_0_60px_rgba(142,162,255,.7)]"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper shadow-[0_0_40px_rgba(197,106,58,.4)] transition-shadow hover:shadow-[0_0_60px_rgba(228,164,126,.6)]"
           >
             Get a quote <span aria-hidden>→</span>
           </Link>
@@ -48,7 +49,12 @@ export function CallBand() {
 export function Footer() {
   return (
     <footer className="border-t border-rule mt-auto overflow-hidden">
-      <div className="wrap grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+      <div className="wrap pt-14">
+        <Link href="/" aria-label={`${SITE.name} home`} className="inline-flex">
+          <Lockup height={36} />
+        </Link>
+      </div>
+      <div className="wrap grid gap-10 pt-10 pb-14 sm:grid-cols-2 lg:grid-cols-4 text-sm">
         <div>
           <p className="label mb-4">Services</p>
           <ul className="space-y-2.5">
@@ -127,7 +133,7 @@ export function Footer() {
           <p className="mt-3 text-ink-2">
             Our brands:{" "}
             {SITE.brands.map((b) => (
-              <a key={b.url} href={b.url} className="font-medium text-ink hover:text-accent">
+              <a key={b.url} href={b.url} className="font-medium text-ink hover:text-accent-strong">
                 {b.name}
               </a>
             ))}
@@ -142,9 +148,6 @@ export function Footer() {
           About the lab
         </Link>
       </div>
-      <p aria-hidden className="select-none whitespace-nowrap font-mono font-semibold uppercase leading-[0.78] tracking-[-0.04em] text-ink/[0.06] text-[17vw] -mb-[3vw] text-center">
-        Anvionix/Labs
-      </p>
     </footer>
   );
 }

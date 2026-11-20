@@ -16,10 +16,10 @@ const NEXT = [
   { h: "A written quote", p: "Scope, timeline and a fixed price, before anything is built." },
 ];
 
-/** After Mobula: deep night-blue, the brief on one sheet, what happens next beside it. */
+/** The brief on one sheet, what happens next beside it. */
 export default function StartPage() {
   return (
-    <div data-world="mobula">
+    <div>
       <section className="wrap grid gap-10 py-12 md:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div className="lg:sticky lg:top-24">
           <p className="label">New experiment · Get a quote</p>

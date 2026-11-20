@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 
 export default function EngagePage() {
   return (
-    <div data-world="zephyr">
-      {/* After Zephyr: sage haze, a serif headline with an italic turn, an object floating, and the steps along the floor. */}
+    <div>
+      {/* A serif headline with an italic turn, an object floating, and the steps along the floor. */}
       <section className="wrap pt-10 pb-12 md:pt-16">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div>

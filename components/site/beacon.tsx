@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-/** After Beacon: specks of light drifting up through a column of blue light. */
+/** After Beacon: specks of warm light drifting up through the closing band. */
 export function BeaconParticles() {
   const canvas = useRef<HTMLCanvasElement>(null);
 
@@ -40,7 +40,7 @@ export function BeaconParticles() {
         if (p.y < -0.05) seed(p);
         const fade = Math.min(1, p.y * 3) * Math.min(1, (1 - p.y) * 4);
         ctx.globalAlpha = p.a * Math.max(0, fade);
-        ctx.fillStyle = "#c9d3ff";
+        ctx.fillStyle = "#e4a47e";
         ctx.fillRect(p.x * w, p.y * h, p.r, p.r);
       }
       if (visible) raf = requestAnimationFrame(frame);

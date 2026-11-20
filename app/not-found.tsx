@@ -8,7 +8,7 @@ export default function NotFound() {
         No such page <em>in this notebook.</em>
       </h1>
       <p className="mt-6">
-        <Link href="/" className="underline hover:text-accent">
+        <Link href="/" className="underline hover:text-accent-strong">
           Back to the contents →
         </Link>
       </p>

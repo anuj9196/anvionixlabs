@@ -44,10 +44,10 @@ export function Gauge({ value, max, unit, label, rows }: { value: number; max: n
   const ticks = Array.from({ length: max * 4 + 1 }, (_, i) => i / 4);
 
   return (
-    <div ref={ref} className="grid items-center gap-10 rounded-[28px] border border-[#e9d6a6]/20 bg-[#141210] p-6 text-[#efe6d4] md:p-10 lg:grid-cols-[1fr_1.1fr]">
+    <div ref={ref} className="grid items-center gap-10 rounded-[28px] border border-[#e4a47e]/20 bg-[#202124] p-6 text-[#f7f5f2] md:p-10 lg:grid-cols-[1fr_1.1fr]">
       <svg viewBox="-110 -110 220 220" className="mx-auto w-full max-w-[420px]" role="img" aria-label={`${label}: ${value} ${unit}`}>
-        <circle r="104" fill="none" stroke="#e9d6a6" strokeOpacity=".25" strokeWidth="1.5" />
-        <circle r="96" fill="#0d0c0a" />
+        <circle r="104" fill="none" stroke="#e4a47e" strokeOpacity=".25" strokeWidth="1.5" />
+        <circle r="96" fill="#18191b" />
         {ticks.map((t) => {
           const a = at(t);
           const major = Number.isInteger(t);
@@ -58,36 +58,36 @@ export function Gauge({ value, max, unit, label, rows }: { value: number; max: n
               y1={Math.sin(a) * (major ? 74 : 80)}
               x2={Math.cos(a) * 88}
               y2={Math.sin(a) * 88}
-              stroke={t >= max - 0.5 ? "#d9583b" : "#efe6d4"}
+              stroke={t >= max - 0.5 ? "#c56a3a" : "#f7f5f2"}
               strokeWidth={major ? 2 : 1}
             />
           );
         })}
         {ticks.filter(Number.isInteger).map((t) => (
-          <text key={t} x={Math.cos(at(t)) * 62} y={Math.sin(at(t)) * 62 + 4} textAnchor="middle" fontSize="11" fill="#efe6d4" fontFamily="var(--font-mono)">
+          <text key={t} x={Math.cos(at(t)) * 62} y={Math.sin(at(t)) * 62 + 4} textAnchor="middle" fontSize="11" fill="#f7f5f2" fontFamily="var(--font-mono)">
             {t}
           </text>
         ))}
-        <line x1={-Math.cos(needle) * 14} y1={-Math.sin(needle) * 14} x2={Math.cos(needle) * 86} y2={Math.sin(needle) * 86} stroke="#efe6d4" strokeWidth="2.5" strokeLinecap="round" />
-        <circle r="7" fill="#141210" stroke="#efe6d4" strokeWidth="2" />
-        <text y="44" textAnchor="middle" fontSize="30" fill="#efe6d4" fontFamily="var(--font-mono)">
+        <line x1={-Math.cos(needle) * 14} y1={-Math.sin(needle) * 14} x2={Math.cos(needle) * 86} y2={Math.sin(needle) * 86} stroke="#f7f5f2" strokeWidth="2.5" strokeLinecap="round" />
+        <circle r="7" fill="#202124" stroke="#f7f5f2" strokeWidth="2" />
+        <text y="44" textAnchor="middle" fontSize="30" fill="#f7f5f2" fontFamily="var(--font-mono)">
           {(value * k).toFixed(1)}
           <tspan fontSize="14" dx="3">{unit}</tspan>
         </text>
-        <text y="62" textAnchor="middle" fontSize="8" letterSpacing="1.6" fill="#b9ad92" fontFamily="var(--font-mono)">
+        <text y="62" textAnchor="middle" fontSize="8" letterSpacing="1.6" fill="#a3a4a8" fontFamily="var(--font-mono)">
           {label.toUpperCase()}
         </text>
       </svg>
       <div>
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#b9ad92]">Specification</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#a3a4a8]">Specification</p>
         <h2 className="mt-3 font-mono text-3xl uppercase leading-tight tracking-[0.04em] md:text-4xl">
           Readings from <br />
           the field.
         </h2>
         <dl className="mt-8">
           {rows.map((r, i) => (
-            <div key={r.label} className="flex items-baseline justify-between gap-6 border-t border-[#efe6d4]/15 py-3">
-              <dt className="font-mono text-[12px] uppercase tracking-[0.12em] text-[#b9ad92]">
+            <div key={r.label} className="flex items-baseline justify-between gap-6 border-t border-[#f7f5f2]/15 py-3">
+              <dt className="font-mono text-[12px] uppercase tracking-[0.12em] text-[#a3a4a8]">
                 {String(i + 1).padStart(2, "0")} · {r.label}
               </dt>
               <dd className="font-mono text-lg">{r.value}</dd>

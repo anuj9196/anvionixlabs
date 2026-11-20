@@ -1,20 +1,13 @@
 import Link from "next/link";
 import { NAV, SITE } from "@/data/site";
-
-export function Wordmark({ className = "" }: { className?: string }) {
-  return (
-    <span className={`font-mono text-[13px] tracking-[0.22em] uppercase ${className}`}>
-      Anvionix<span className="text-accent">/</span>Labs
-    </span>
-  );
-}
+import { Lockup, Mark } from "./logo";
 
 /** The main call to action everywhere: the quote form (/start), optionally prefilled. */
 export function QuoteButton({ className = "", href = "/start", children = "Get a quote" }: { className?: string; href?: string; children?: React.ReactNode }) {
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 rounded-full bg-ink text-paper px-5 py-2.5 text-sm font-medium hover:bg-accent hover:text-accent-ink transition-colors ${className}`}
+      className={`inline-flex items-center gap-2 rounded-full bg-ink text-paper px-5 py-2.5 text-sm font-medium hover:bg-accent-strong hover:text-accent-ink transition-colors ${className}`}
     >
       {children}
       <span aria-hidden>→</span>
@@ -35,8 +28,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper/85 backdrop-blur supports-[backdrop-filter]:bg-paper/70">
       <div className="wrap flex h-16 items-center justify-between gap-4">
-        <Link href="/" aria-label={`${SITE.name} home`}>
-          <Wordmark />
+        <Link href="/" aria-label={`${SITE.name} home`} className="shrink-0">
+          <Lockup height={28} className="max-[359px]:hidden" />
+          <Mark height={24} className="min-[360px]:hidden" />
         </Link>
         <nav aria-label="Main" className="hidden md:flex items-center gap-7 text-sm text-ink-2">
           {NAV.map((n) => (

@@ -111,7 +111,7 @@ export function BuildPrompt({ rays = false, heading = "h2" }: { rays?: boolean; 
       ctx.restore();
     };
     function drawRays(t: number, radius: number, x0: number, y0: number, ink: string, hot: string) {
-      const gold = "#d8b46a";
+      const gold = "#e4a47e";
       for (let i = 0; i < RAYS; i++) {
         const speed = still ? 0 : 0.06 + tension.current * 0.22;
         const a = (i / RAYS) * Math.PI * 2 + t * speed;
@@ -178,7 +178,7 @@ export function BuildPrompt({ rays = false, heading = "h2" }: { rays?: boolean; 
           />
           <div className="flex items-center justify-between gap-3 px-2 pb-1">
             <span className="font-mono text-[11px] text-ink-3">↵ to continue · a short brief, then a reply within one business day</span>
-            <button type="submit" className="rounded-full bg-ink px-5 py-2 text-sm text-paper hover:bg-accent hover:text-accent-ink transition-colors">
+            <button type="submit" className="rounded-full bg-ink px-5 py-2 text-sm text-paper hover:bg-accent-strong hover:text-accent-ink transition-colors">
               Continue <span aria-hidden>→</span>
             </button>
           </div>
