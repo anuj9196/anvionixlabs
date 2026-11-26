@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { EXPERIMENTS, FACTS, PROMISES, SERVICES, SITE } from "@/data/site";
-import { DitherObject } from "@/components/site/dither";
-import { GlyphStream, TypeText } from "@/components/site/glyphs";
+import { HeroSheet } from "@/components/site/hero-sheet";
+import { TypeText } from "@/components/site/glyphs";
 import { BuildPrompt } from "@/components/site/prompt";
 import { ExperimentLog } from "@/components/site/experiments";
 import { ServiceList } from "@/components/site/services";
@@ -72,14 +72,9 @@ export default function Home() {
             </nav>
           </div>
 
-          <figure aria-hidden className="relative mx-auto -mt-4 w-full max-w-[640px] lg:mt-0">
-            <div className="relative aspect-square">
-              <div className="absolute inset-x-0 top-[8%] mx-auto w-[92%]">
-                <DitherObject shape="book" res={240} dissolve clear />
-              </div>
-              <GlyphStream className="absolute inset-0" />
-            </div>
-            <figcaption className="absolute inset-x-0 bottom-2 flex justify-between font-mono text-[11px] text-ink-3">
+          <figure aria-hidden className="relative mx-auto -mt-2 w-full max-w-[640px] lg:mt-0">
+            <HeroSheet />
+            <figcaption className="mt-1 flex justify-between font-mono text-[11px] text-ink-3">
               <span>Fig. 000</span>
               <span>Ideas, lifting off the page</span>
             </figcaption>
