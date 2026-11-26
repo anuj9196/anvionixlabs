@@ -62,6 +62,8 @@ export type Experiment = {
   url?: string;
   urlLabel?: string;
   client?: string;
+  /** How we were involved, when it was not our own product or a client build. */
+  engagement?: "consultancy";
   image: string;
   /** Pixel size of `image`, when it is not the usual 1456 × 834 screenshot. */
   imageSize?: [number, number];
@@ -76,6 +78,9 @@ export type Experiment = {
   report: { h: string; p: string[] }[];
   services: ServiceSlug[];
 };
+
+/** Consultancy engagements without a case study: listed on /about only. */
+export const CONSULTANCY = [{ name: "The SEO Brain", url: "https://theseobrain.com/" }] as const;
 
 export const EXPERIMENTS: Experiment[] = [
   {
@@ -193,6 +198,7 @@ export const EXPERIMENTS: Experiment[] = [
     no: "003",
     name: "Feedal",
     kind: "AI form builder",
+    engagement: "consultancy",
     url: "https://feedal.io",
     urlLabel: "feedal.io",
     image: "/work/feedal.jpg",
@@ -613,7 +619,7 @@ export const FOUNDER = {
     "Ten years from first production code to engineering manager: building software, then building the teams that build it.",
   story: [
     "Today Anuj leads a 15+ member engineering organisation behind a global SaaS platform: hiring, mentoring, setting technical direction and owning delivery, with releases that ship without downtime and a platform that stays up.",
-    "Alongside that he built and runs his own products, Satyakod, Feedal, TapBeep and TapXReality, and builds for clients, including the Elektron Battery Tester. Anvionix Labs is where all of it comes together: the same care for clients' products as for his own.",
+    "Alongside that he built and runs his own products, Satyakod, TapBeep and TapXReality, builds for clients, including the Elektron Battery Tester, and consults for teams such as Feedal and The SEO Brain. Anvionix Labs is where all of it comes together: the same care for clients' products as for his own.",
   ],
   /** Career journey, shown as a lab log where a dithered object morphs at each step. */
   journey: [
