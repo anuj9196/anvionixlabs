@@ -10,14 +10,24 @@ import { type Kit, clamp, smooth } from "./scenes/kit";
 // requestAnimationFrame loop (~30fps) that only runs while some canvas is on screen; each starts after
 // the page has loaded, and is a still, finished frame on small screens and with reduced motion.
 
-const HOLD = 4600; // ms from one scene's start to the next
+// Timing. A scene draws itself over `build` ms (its progress t runs 0..1), then holds the finished frame
+// (with only idle motion) until `hold`, when the next scene crossfades in. Three paces:
+//  - "home":   the hero's original rhythm, 4.6s per scene, progress stretched over the whole slot;
+//  - "steady": every other cycling or looping canvas: 4.2s to draw, finished frame held until 7.5s;
+//  - controlled (`active`): 2s to draw, then held for as long as the step stays active, 400ms crossfade.
+// A scene can override its own `build` / `hold` (scenes/kit.ts).
+const HOLD = 4600; // home: ms from one scene's start to the next
 const FADE = 800; // ms crossfade
+const STEADY_BUILD = 4200;
+const STEADY_HOLD = 7500;
+const LIVE_BUILD = 2000;
+const LIVE_FADE = 400;
 
-/** A scene's visibility at local time u: fades in over the first FADE, out over the last FADE. */
-function visibility(u: number, hold: number) {
-  if (u < 0 || u >= hold + FADE) return 0;
-  const k_in = clamp(u / FADE);
-  const k_out = clamp((u - hold) / FADE);
+/** A scene's visibility at local time u: fades in over the first `fade`, out over the last `fade`. */
+function visibility(u: number, hold: number, fade = FADE) {
+  if (u < 0 || u >= hold + fade) return 0;
+  const k_in = clamp(u / fade);
+  const k_out = clamp((u - hold) / fade);
   // The incoming scene waits a beat so the two never sit at half strength on top of each other.
   return smooth((k_in - 0.3) / 0.7) * (1 - smooth(k_out / 0.7));
 }
@@ -49,6 +59,7 @@ type Layer = { i: number; start: number; out: number | null };
 export function SceneCanvas({
   scenes,
   active,
+  pace = "steady",
   minText = 0,
   tone = "page",
   captions = false,
@@ -58,6 +69,8 @@ export function SceneCanvas({
   scenes: readonly SceneId[];
   /** Controlled: show scenes[active], crossfading when it changes. Without it the scenes play on their own. */
   active?: number;
+  /** "home" keeps the hero's original timing; the default gives every scene time to finish drawing and hold. */
+  pace?: "home" | "steady";
   /** Smallest text in CSS pixels; small canvases lift tiny labels to this. */
   minText?: number;
   /** "page" draws in the page ink; "self" in the element's own text colour (for coloured cards). */
@@ -102,7 +115,11 @@ export function SceneCanvas({
       const g = cv.getContext("2d");
       if (!g) return;
       const controlled = want.current !== undefined;
-      const holds = list.map((s) => s.hold ?? HOLD);
+      const home = pace === "home";
+      const builds = list.map((s) => s.build ?? (controlled ? LIVE_BUILD : STEADY_BUILD));
+      const holds = list.map((s, i) => s.hold ?? (home ? HOLD : Math.max(STEADY_HOLD, builds[i] + 3000)));
+      // Progress t of a scene u ms after it started.
+      const progress = (i: number, u: number) => clamp(u / (home && !controlled ? holds[i] + FADE : builds[i]));
       const starts = holds.map((_, i) => holds.slice(0, i).reduce((a, b) => a + b, 0));
       // A lone scene loops: it fades out at its end and straight back in.
       const cycle = list.length === 1 ? holds[0] + FADE : holds.reduce((a, b) => a + b, 0);
@@ -152,14 +169,14 @@ export function SceneCanvas({
           for (let n = layers.length - 1; n >= 0; n--) {
             const l = layers[n];
             const u = clock - l.start;
-            const a = smooth((clamp(u / FADE) - 0.3) / 0.7) * (l.out === null ? 1 : 1 - smooth((clock - l.out) / FADE / 0.7));
+            const a = smooth((clamp(u / LIVE_FADE) - 0.3) / 0.7) * (l.out === null ? 1 : 1 - smooth((clock - l.out) / LIVE_FADE / 0.7));
             if (l.out !== null && a <= 0.003) {
               layers.splice(n, 1);
               continue;
             }
             if (a > 0.003) {
               kit.alpha = a;
-              list[l.i].draw(kit, clamp(u / (holds[l.i] + FADE)), u);
+              list[l.i].draw(kit, progress(l.i, u), u);
             }
             alphas[l.i] = Math.max(alphas[l.i], a);
           }
@@ -170,7 +187,7 @@ export function SceneCanvas({
             const a = visibility(u, holds[i]);
             if (a > 0.003) {
               kit.alpha = a;
-              scene.draw(kit, clamp(u / (holds[i] + FADE)), u);
+              scene.draw(kit, progress(i, u), u);
             }
             return a;
           });
