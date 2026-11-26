@@ -3,17 +3,19 @@ import { type Scene, clamp, lerp, smooth, line, fill, text, fs, px } from "./kit
 // A receipt slip prints out of a slot at the top: dotted paper with a zigzag tear, lines typed in mono,
 // then an orange stamp. Wording is only what the pricing page already says: a free scoping call, quoted in writing.
 
-const L = 80;
-const R = 280;
-const TOP = 24;
-const END = 212;
+const L = 36;
+const R = 324;
+const TOP = 28;
+const END = 312;
+/** The slip is drawn for a taller design space than the other scenes. */
+export const SLIP_DESIGN = [360, 340] as const;
 const ROWS: { name: string; result: string; free?: boolean }[] = [
   { name: "audit", result: "✓" },
   { name: "mvp", result: "✓" },
   { name: "retainer", result: "✓" },
   { name: "scoping call", result: "free", free: true },
 ];
-const ROW_Y = (i: number) => 78 + i * 20;
+const ROW_Y = (i: number) => 118 + i * 32;
 
 function zigzag(k: Parameters<typeof line>[0], y: number, a: number) {
   const n = (R - L) / 8;
@@ -29,10 +31,10 @@ export const slip: Scene = {
   caption: "Quoted in writing",
   draw(k, t) {
     // The slot, with a light that blinks while printing.
-    fill(k, L - 14, 12, R - L + 28, 6, k.ink, 0.85);
-    line(k, L - 14, 22, R + 14, 22, { gap: 3, size: 0.8, a: 0.4 });
+    fill(k, L - 16, 12, R - L + 32, 9, k.ink, 0.85);
+    line(k, L - 16, 25, R + 16, 25, { gap: 3, size: 0.8, a: 0.4 });
     const printing = t > 0.04 && t < 0.58;
-    px(k, R + 26, 15, 4, printing && Math.floor(t * 40) % 2 === 0 ? k.accent : k.ink, printing ? 1 : 0.4);
+    px(k, R + 28, 16, 5, printing && Math.floor(t * 40) % 2 === 0 ? k.accent : k.ink, printing ? 1 : 0.4);
 
     // The paper grows down out of the slot.
     const edge = TOP + (END - TOP) * smooth((t - 0.04) / 0.5);
@@ -47,22 +49,22 @@ export const slip: Scene = {
     // Title, typed.
     const title = "ANVIONIX LABS";
     const tn = Math.floor(clamp((t - 0.1) / 0.08) * title.length);
-    if (shown(44) && tn > 0) text(k, title.slice(0, tn), (L + R) / 2, 44, { size: 12, bold: true, align: "center" });
-    if (shown(58)) line(k, L + 14, 58, R - 14, 58, { gap: 3, size: 0.9, a: 0.6, q: clamp((t - 0.18) / 0.05) });
+    if (shown(60) && tn > 0) text(k, title.slice(0, tn), (L + R) / 2, 60, { size: 15, bold: true, align: "center" });
+    if (shown(82)) line(k, L + 16, 82, R - 16, 82, { gap: 3, size: 0.9, a: 0.6, q: clamp((t - 0.18) / 0.05) });
 
     ROWS.forEach((r, i) => {
       const y = ROW_Y(i);
       const p = clamp((t - 0.22 - i * 0.07) / 0.07);
       if (!shown(y) || p <= 0) return;
       const nn = Math.ceil(clamp(p / 0.5) * r.name.length);
-      text(k, r.name.slice(0, nn), L + 14, y, { size: 10.5 });
+      text(k, r.name.slice(0, nn), L + 16, y, { size: 12.5 });
       if (p > 0.5) {
-        const w = fs(k, 10.5) * 0.6;
-        const x0 = L + 14 + r.name.length * w + 5;
+        const w = fs(k, 12.5) * 0.6;
+        const x0 = L + 16 + r.name.length * w + 5;
         const rw = r.result.length * w;
-        const x1 = R - 14 - rw - 5;
+        const x1 = R - 16 - rw - 5;
         line(k, x0, y + 3, x1, y + 3, { gap: 3, size: 0.9, a: 0.6, q: clamp((p - 0.5) / 0.3) });
-        if (p > 0.85) text(k, r.result, R - 14, y, { size: 10.5, bold: true, align: "right", color: r.free ? k.accent : k.ink });
+        if (p > 0.85) text(k, r.result, R - 16, y, { size: 12.5, bold: true, align: "right", color: r.free ? k.accent : k.ink });
       }
     });
 
@@ -73,8 +75,8 @@ export const slip: Scene = {
       const sc = lerp(1.7, 1, smooth(sp));
       const ang = (-6 * Math.PI) / 180;
       const cx = (L + R) / 2;
-      const cy = 186;
-      const size = fs(k, 10.5);
+      const cy = 270;
+      const size = fs(k, 12.5);
       const w = 17 * size * 0.62 + 14;
       const h = size + 12;
       g.save();

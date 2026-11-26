@@ -52,6 +52,7 @@ export function SceneCanvas({
   minText = 0,
   tone = "page",
   captions = false,
+  design = [W, H],
   className = "",
 }: {
   scenes: readonly SceneId[];
@@ -63,6 +64,8 @@ export function SceneCanvas({
   tone?: "page" | "self";
   /** Show each scene's figure number and caption under the canvas. */
   captions?: boolean;
+  /** The design space the scenes are drawn for; taller than the default for a scene that wants more height. */
+  design?: readonly [number, number];
   /** "fill" fills the parent and letterboxes; the default keeps the design aspect ratio at full width. */
   className?: string;
 }) {
@@ -72,6 +75,7 @@ export function SceneCanvas({
   const poke = useRef<() => void>(() => {});
   const list = scenes.map((id) => SCENE_BY_ID[id]);
   const key = scenes.join();
+  const [DW, DH] = design;
 
   useEffect(() => {
     want.current = active;
@@ -105,11 +109,11 @@ export function SceneCanvas({
       const kit: Kit = { g, s: 1, ink: "#202124", accent: "#c56a3a", accentInk: "#ffffff", font: "monospace", alpha: 1, tmin: 0 };
       const fit = () => {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const css = Math.min(cv.clientWidth / W, cv.clientHeight / H) || 1;
+        const css = Math.min(cv.clientWidth / DW, cv.clientHeight / DH) || 1;
         kit.s = css * dpr;
         kit.tmin = minText / css;
-        cv.width = Math.max(1, Math.round(W * kit.s));
-        cv.height = Math.max(1, Math.round(H * kit.s));
+        cv.width = Math.max(1, Math.round(DW * kit.s));
+        cv.height = Math.max(1, Math.round(DH * kit.s));
       };
       fit();
       const colors = () => {
@@ -223,7 +227,7 @@ export function SceneCanvas({
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, minText, tone]);
+  }, [key, minText, tone, DW, DH]);
 
   const fill = className.includes("h-full");
   return (
@@ -232,7 +236,7 @@ export function SceneCanvas({
         ref={canvas}
         aria-hidden
         className={`block w-full ${fill ? "object-contain" : ""} ${className}`}
-        style={fill ? undefined : { aspectRatio: `${W} / ${H}` }}
+        style={fill ? undefined : { aspectRatio: `${DW} / ${DH}` }}
       />
       {captions && (
         <figcaption className="mt-1 grid font-mono text-[11px] text-ink-3">

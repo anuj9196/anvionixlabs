@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ENGAGEMENT_GROUPS, PROMISES, SITE, START_PATH, START_STEPS, engagementById } from "@/data/site";
 import { StepRail } from "@/components/site/rail";
 import { SceneCanvas } from "@/components/site/scene-canvas";
+import { SLIP_DESIGN } from "@/components/site/scenes";
 import { ReceiptPricing } from "@/components/site/receipt";
 import { CallBand } from "@/components/site/footer";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
@@ -38,8 +39,8 @@ export default function EngagePage() {
               See the options
             </a>
           </div>
-          <figure aria-hidden className="relative mx-auto w-full max-w-[460px]">
-            <SceneCanvas scenes={["slip"]} />
+          <figure aria-hidden className="relative mx-auto w-full max-w-[620px]">
+            <SceneCanvas scenes={["slip"]} design={SLIP_DESIGN} minText={11} />
           </figure>
         </div>
         <nav aria-labelledby="start-path" className="mt-12 md:mt-16">

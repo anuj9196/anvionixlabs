@@ -16,6 +16,7 @@ import { trophy } from "./trophy";
 import { notebook } from "./notebook";
 
 export { W, H } from "./kit";
+export { SLIP_DESIGN } from "./slip";
 
 /** Every scene by id, so server components can name one without passing functions to the client. */
 export const SCENE_BY_ID = { sketch, mobile, commits, blocks, deploy, devices, consult, sheet, slip, book, terminal, servers, network, trophy, notebook };
