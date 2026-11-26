@@ -12,6 +12,7 @@ export type Kit = {
   accentInk: string; // text on an accent fill
   font: string;
   alpha: number; // the scene's crossfade, multiplied into every draw
+  tmin: number; // smallest text size in logical units, so small canvases keep readable labels
 };
 
 /** A scene draws itself at progress t (0..1 over its length); ms is the scene's own elapsed time. */
@@ -22,6 +23,8 @@ export type Scene = {
   draw: (k: Kit, t: number, ms: number) => void;
 };
 
+/** The text size actually drawn for a wanted size. */
+export const fs = (k: Kit, size: number) => Math.max(size, k.tmin);
 export const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 export const smooth = (v: number) => {
@@ -81,7 +84,8 @@ type TextOpts = { size?: number; color?: string; a?: number; align?: CanvasTextA
 
 /** Mono text at (x, y), middle baseline. skew = [sx, sy] draws it along a slanted face. */
 export function text(k: Kit, str: string, x: number, y: number, o: TextOpts = {}) {
-  const { size = 10, color = k.ink, a = 1, align = "left", bold = false, skew = [1, 0] } = o;
+  const { size: want = 10, color = k.ink, a = 1, align = "left", bold = false, skew = [1, 0] } = o;
+  const size = fs(k, want);
   const g = k.g;
   g.setTransform(k.s * skew[0], k.s * skew[1], 0, k.s, k.s * x, k.s * y);
   g.globalAlpha = a * k.alpha;
