@@ -1,6 +1,6 @@
 import { type Scene, clamp, smooth, line, text, px } from "./kit";
 
-// Scene 4: a short terminal types build, tests and deploy checks, then a pulsing orange "live".
+// Scene 5: a short terminal types build, tests and deploy checks, then a pulsing orange "live".
 
 const X = 40;
 const Y = 46;
@@ -19,7 +19,7 @@ const LINES: [string, number][] = [
 const LIVE_AT = 3.4;
 
 export const deploy: Scene = {
-  fig: "Fig. 004",
+  fig: "Fig. 005",
   caption: "Shipped and running",
   draw(k, _t, ms) {
     const sec = ms / 1000;
