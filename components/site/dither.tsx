@@ -18,7 +18,7 @@ float tor(vec3 p,vec2 t){vec2 q=vec2(length(p.xz)-t.x,p.y);return length(q)-t.y;
 float cap(vec3 p,vec3 a,vec3 b,float r){vec3 pa=p-a,ba=b-a;float h=clamp(dot(pa,ba)/dot(ba,ba),0.,1.);return length(pa-ba*h)-r;}`;
 
 const SDF: Record<JourneyShape, string> = {
-  book: `float book(vec3 p){vec3 l=p-vec3(-.42,0,0);l.xy*=rot(-.28);vec3 r=p-vec3(.42,0,0);r.xy*=rot(.28);
+  book: `float book(vec3 p){vec3 l=p-vec3(-.42,0,0);l.xy*=rot(.28);vec3 r=p-vec3(.42,0,0);r.xy*=rot(-.28);
   float pages=min(rbox(l,vec3(.44,.05,.62),.02),rbox(r,vec3(.44,.05,.62),.02));return min(pages,cyl(vec3(p.x,p.z,p.y+.1),.62,.05));}`,
   terminal: `float terminal(vec3 p){float m=rbox(p-vec3(0,.18,0),vec3(.8,.52,.08),.04);float scr=box(p-vec3(0,.2,.09),vec3(.68,.4,.04));
   m=max(m,-scr);float st=cyl(p-vec3(0,-.5,0),.18,.07);float base=rbox(p-vec3(0,-.7,0),vec3(.38,.03,.22),.02);return min(m,min(st,base));}`,
