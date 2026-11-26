@@ -571,6 +571,14 @@ export const QUOTE = {
   replyTime: "within one business day",
 } as const;
 
+/** The blank last page of the home notebook: what happens after a brief. Same promises as /start. */
+export const NEXT_STEPS = [
+  "You send a short brief",
+  `A reply ${QUOTE.replyTime}`,
+  `A free ${SITE.callMinutes}-minute scoping call`,
+  "A written plan, a fixed price, a timeline",
+] as const;
+
 export type JourneyShape =
   | "book" | "terminal" | "servers" | "network" | "trophy" | "notebook"
   | "browser" | "phone" | "lens" | "qr" | "battery" | "form" | "timer" | "cube";

@@ -176,9 +176,12 @@ export function BuildPrompt({ rays = false, heading = "h2" }: { rays?: boolean; 
             placeholder="A line or two is enough…"
             className="w-full resize-none bg-transparent px-3 py-2 text-lg outline-none placeholder:text-ink-3"
           />
-          <div className="flex items-center justify-between gap-3 px-2 pb-1">
-            <span className="font-mono text-[11px] text-ink-3">↵ to continue · a short brief, then a reply within one business day</span>
-            <button type="submit" className="rounded-full bg-ink px-5 py-2 text-sm text-paper hover:bg-accent-strong hover:text-accent-ink transition-colors">
+          <div className="flex flex-col gap-3 px-2 pb-1 text-left sm:flex-row sm:items-center sm:justify-between">
+            <span className="font-mono text-[11px] leading-snug text-ink-3 sm:whitespace-nowrap">↵ to continue · reply within one business day</span>
+            <button
+              type="submit"
+              className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-ink px-5 py-2 text-sm text-paper transition-colors hover:bg-accent-strong hover:text-accent-ink max-sm:w-full"
+            >
               Continue <span aria-hidden>→</span>
             </button>
           </div>
