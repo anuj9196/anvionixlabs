@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { EXPERIMENTS, FACTS, PROMISES, SERVICES, SITE } from "@/data/site";
-import { HeroSheet } from "@/components/site/hero-sheet";
+import { HeroScenes } from "@/components/site/hero-scenes";
 import { TypeText } from "@/components/site/glyphs";
 import { BuildPrompt } from "@/components/site/prompt";
 import { ExperimentLog } from "@/components/site/experiments";
@@ -73,11 +73,7 @@ export default function Home() {
           </div>
 
           <figure aria-hidden className="relative mx-auto -mt-2 w-full max-w-[640px] lg:mt-0">
-            <HeroSheet />
-            <figcaption className="mt-1 flex justify-between font-mono text-[11px] text-ink-3">
-              <span>Fig. 000</span>
-              <span>Ideas, lifting off the page</span>
-            </figcaption>
+            <HeroScenes />
           </figure>
         </div>
       </section>
