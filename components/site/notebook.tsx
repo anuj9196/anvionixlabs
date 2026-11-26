@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import type { Experiment } from "@/data/site";
+import { NEXT_STEPS, type Experiment } from "@/data/site";
 
 /** Ruled notebook paper with a margin line, used for every page. */
 const PAPER =
@@ -63,21 +63,68 @@ function RightPage({ e }: { e: Experiment }) {
 }
 
 function ClosingPage({ no }: { no: string }) {
+  // Every block is a whole number of 28px ruled lines, so the text sits on the paper's rules.
   return (
-    <div className="flex h-full flex-col justify-center pl-[64px] pr-10 py-8">
-      <p className="label">Experiment {no}</p>
-      <h3 className="serif mt-3 text-6xl leading-none">
+    <div className="flex h-full flex-col pl-[64px] pr-10 pt-[196px]">
+      <p className="label leading-[28px]">Experiment {no}</p>
+      <h3 className="serif mt-[4px] text-6xl leading-[56px]">
         Yours, <em>perhaps?</em>
       </h3>
-      <p className="mt-5 max-w-sm text-ink-2 leading-[28px]">
+      <p className="mt-[28px] max-w-sm text-ink-2 leading-[28px]">
         Bring the problem. We will write the hypothesis, build it, and keep it running.
       </p>
-      <Link
-        href="/start"
-        className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-ink px-6 py-3 text-paper hover:bg-accent-strong hover:text-accent-ink transition-colors"
+      <div className="mt-[28px] flex h-[56px] items-center">
+        <Link
+          href="/start"
+          className="inline-flex w-fit items-center gap-2 rounded-full bg-ink px-6 py-3 text-paper hover:bg-accent-strong hover:text-accent-ink transition-colors"
+        >
+          Start a project <span aria-hidden>→</span>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/** A fill-in line: a label, then a dotted rule sitting on the paper's own ruled line. */
+function Blank({ label }: { label: string }) {
+  return (
+    <p className="flex h-[28px] items-end gap-3 font-mono text-[12px] leading-[28px] text-ink-3">
+      <span className="shrink-0 leading-[27px]">{label}</span>
+      <span aria-hidden className="h-full flex-1 border-b border-dotted border-ink-3/50" />
+    </p>
+  );
+}
+
+/** The right-hand page after the last experiment: a blank entry for the visitor to start. */
+function DraftPage({ n }: { n: number }) {
+  return (
+    <div className="relative flex h-full flex-col pl-[64px] pr-8 pt-[28px]">
+      <p className="label leading-[28px]">Experiment {String(n + 1).padStart(3, "0")} · Draft</p>
+      <p className="serif mt-[28px] text-[22px] leading-[28px]">What happens next</p>
+      <ol className="text-[14px] leading-[28px] text-ink-2">
+        {NEXT_STEPS.map((step, i) => (
+          <li key={step} className="flex gap-3">
+            <span className="w-6 font-mono text-[12px] text-accent">{String(i + 1).padStart(2, "0")}</span>
+            <span>{step}</span>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-[28px]">
+        <Blank label="Hypothesis" />
+        <Blank label="Ship by" />
+      </div>
+      <div
+        aria-hidden
+        className="absolute right-8 top-[56px] flex h-[76px] w-[76px] rotate-[-12deg] items-center justify-center rounded-full border-2 border-accent text-center font-mono text-[10px] uppercase leading-[13px] tracking-[0.14em] text-accent opacity-80"
       >
-        Start a project <span aria-hidden>→</span>
-      </Link>
+        Your
+        <br />
+        turn
+      </div>
+      <div className="mt-auto">
+        <p className="label leading-[28px]">End of log</p>
+        <p className="font-mono text-sm leading-[28px] text-ink-2">{n} experiments · all live</p>
+      </div>
     </div>
   );
 }
@@ -136,10 +183,7 @@ export function NotebookLog({ items }: { items: Experiment[] }) {
             <LeftPage e={items[0]} />
           </div>
           <div className={`absolute inset-y-0 right-0 w-1/2 rounded-r-2xl border border-rule shadow-[0_30px_60px_-30px_rgba(0,0,0,.45)] ${PAPER}`}>
-            <div className="flex h-full flex-col justify-end px-8 py-8">
-              <p className="label">End of log</p>
-              <p className="mt-2 font-mono text-sm text-ink-2">{n} experiments · all live</p>
-            </div>
+            <DraftPage n={n} />
           </div>
           {/* The leaves that turn. */}
           {items.map((e, k) => (
