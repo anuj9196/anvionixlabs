@@ -1,3 +1,5 @@
+import type { SceneId } from "@/components/site/scenes";
+
 // Everything the site says lives here: one place to update copy and links. Work is quoted
 // to each client's requirements, so the site lists no prices.
 // Keep the company details identical to the GST registration and the Meta business
@@ -571,11 +573,6 @@ export const QUOTE = {
   replyTime: "within one business day",
 } as const;
 
-export type JourneyShape =
-  | "book" | "terminal" | "servers" | "network" | "trophy" | "notebook"
-  | "browser" | "phone" | "lens" | "qr" | "battery" | "form" | "timer" | "cube";
-
-/** The dithered object in each service and case-study hero, with its figure caption. */
 /** Each case study's book cover colour, from the brand palette (BRAND.md); the cover text is Warm White. */
 export const BOOKS: Record<string, string> = {
   satyakod: "#202124",
@@ -585,16 +582,12 @@ export const BOOKS: Record<string, string> = {
   tapxreality: "#45464a",
 };
 
-export const FIGURES: Record<ServiceSlug | string, { shape: JourneyShape; caption: string }> = {
-  "web-apps": { shape: "browser", caption: "A product, in a browser tab" },
-  "backend-apis": { shape: "servers", caption: "The part nobody sees, running" },
-  "mobile-apps": { shape: "phone", caption: "One codebase, two stores" },
-  consulting: { shape: "lens", caption: "A closer look, in writing" },
-  satyakod: { shape: "qr", caption: "One code per product, checked in a scan" },
-  "elektron-battery-tester": { shape: "battery", caption: "Readings, straight off the device" },
-  feedal: { shape: "form", caption: "Forms that write themselves" },
-  tapbeep: { shape: "timer", caption: "Timed tests, fairly run" },
-  tapxreality: { shape: "cube", caption: "Something solid, on a flat page" },
+/** The scenes each service page plays in its specimen panel (see components/site/scenes), with the figure caption. */
+export const FIGURES: Record<ServiceSlug, { scenes: SceneId[]; caption: string }> = {
+  "web-apps": { scenes: ["sketch", "devices"], caption: "A product, in a browser tab" },
+  "backend-apis": { scenes: ["blocks", "commits", "deploy"], caption: "The part nobody sees, running" },
+  "mobile-apps": { scenes: ["mobile", "devices"], caption: "One codebase, two stores" },
+  consulting: { scenes: ["consult", "commits"], caption: "A closer look, in writing" },
 };
 
 export const FOUNDER = {
@@ -607,45 +600,45 @@ export const FOUNDER = {
     "Today Anuj leads a 15+ member engineering organisation behind a global SaaS platform: hiring, mentoring, setting technical direction and owning delivery, with releases that ship without downtime and a platform that stays up.",
     "Alongside that he built and runs his own products, Satyakod, Feedal, TapBeep and TapXReality, and builds for clients, including the Elektron Battery Tester. Anvionix Labs is where all of it comes together: the same care for clients' products as for his own.",
   ],
-  /** Career journey, shown as a lab log where a dithered object morphs at each step. */
+  /** Career journey, shown as a lab log where a dotted scene changes at each step. */
   journey: [
     {
       when: "2013 – 2017",
       title: "Computer engineering",
-      shape: "book",
+      scene: "book",
       text: "B.Tech in Computer Engineering. Named Student of the Year in 2017.",
     },
     {
       when: "2016 – 2019",
       title: "First production code",
-      shape: "terminal",
+      scene: "terminal",
       text: "From intern to senior developer, shipping web products for clients and learning what it takes to keep software running after launch.",
     },
     {
       when: "2019 – 2021",
       title: "Building at scale",
-      shape: "servers",
+      scene: "servers",
       text: "Full-stack, then senior engineer on Scanova, a global QR code SaaS. Recognised as Star Leader and Best Team Player in 2021.",
     },
     {
       when: "2022 – 2025",
       title: "Leading the team",
-      shape: "network",
+      scene: "network",
       text: "Team lead, then senior team lead. Led the platform's move from a single server to a scalable, security-first cloud architecture with 99.9% uptime, and brought in the review culture and zero-downtime releases the team runs on.",
     },
     {
       when: "2026",
       title: "Engineering manager",
-      shape: "trophy",
+      scene: "trophy",
       text: "Leads a 15+ member engineering organisation: hiring, mentoring, technical direction and delivery. Received the Engineering Excellence Award.",
     },
     {
       when: "Now",
       title: "Anvionix Labs",
-      shape: "notebook",
+      scene: "notebook",
       text: "Five products live, and the same discipline offered to clients: small senior team, weekly demos, software that keeps running.",
     },
-  ] as { when: string; title: string; shape: JourneyShape; text: string }[],
+  ] as { when: string; title: string; scene: SceneId; text: string }[],
   awards: ["Engineering Excellence Award", "Star Leader, 2021", "Best Team Player, 2021", "Student of the Year, 2017"],
   skills: [
     "Engineering leadership", "Hiring & mentoring", "Technical direction", "Python", "Django", "TypeScript", "Next.js", "React", "Angular", "Flutter", "PostgreSQL", "AWS", "CI/CD", "Application security",

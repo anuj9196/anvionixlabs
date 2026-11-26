@@ -48,7 +48,7 @@ export default async function ServicePage({ params }: Props) {
             <CallLink />
           </div>
         </div>
-        <Specimen shape={FIGURES[s.slug].shape} no={s.no} name={s.name} caption={FIGURES[s.slug].caption} className="mx-auto max-w-[520px]" />
+        <Specimen scenes={FIGURES[s.slug].scenes} no={s.no} name={s.name} caption={FIGURES[s.slug].caption} className="mx-auto max-w-[520px]" />
       </section>
 
       <section className="wrap py-16 md:py-24 grid gap-12 lg:grid-cols-2">

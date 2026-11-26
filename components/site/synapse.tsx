@@ -1,6 +1,15 @@
 import Link from "next/link";
-import { FIGURES, type Service } from "@/data/site";
-import { DitherObject } from "./dither";
+import type { Service, ServiceSlug } from "@/data/site";
+import { SceneCanvas } from "./scene-canvas";
+import type { SceneId } from "./scenes";
+
+/** The scene looping in each card: it takes the card's text colour, so it reads on the light and dark faces. */
+const CARD_SCENES: Record<ServiceSlug, SceneId[]> = {
+  "web-apps": ["sketch"],
+  "backend-apis": ["blocks", "deploy"],
+  "mobile-apps": ["mobile"],
+  consulting: ["consult"],
+};
 
 const WORDS = "Design · Build · Ship · Run · ";
 
@@ -29,8 +38,8 @@ export function ServiceDeck({ items }: { items: Service[] }) {
                 <span className={`rounded-full px-3 py-1 text-xs ${i === 0 ? "bg-black/10" : "bg-white/15"}`}>{s.name}</span>
                 <span className="font-mono text-xs opacity-60">{s.no}</span>
               </span>
-              <span className="mx-auto mt-4 block w-[62%]" aria-hidden>
-                <DitherObject shape={FIGURES[s.slug].shape} res={120} clear ink={i === 0 ? "#202124" : "#f7f5f2"} />
+              <span className="mt-4 block" aria-hidden>
+                <SceneCanvas scenes={CARD_SCENES[s.slug as ServiceSlug]} tone="self" minText={8.5} />
               </span>
               <span className="mt-auto block text-2xl font-semibold leading-tight tracking-tight">{s.title.split(":")[0]}</span>
               <span className="mt-2 block text-sm opacity-75">{s.short}</span>
