@@ -14,7 +14,7 @@ function LeftPage({ e }: { e: Experiment }) {
     <div className="flex h-full flex-col pl-[64px] pr-8 py-8">
       <p className="label">
         Experiment {e.no} · {e.kind}
-        {e.client ? ` · for ${e.client}` : ""}
+        {e.engagement ? ` · ${e.engagement}` : e.client ? ` · for ${e.client}` : ""}
       </p>
       <h3 className="serif mt-3 text-5xl leading-none">{e.name}</h3>
       <dl className="mt-5 space-y-4 text-[14px] leading-[28px] text-ink-2">

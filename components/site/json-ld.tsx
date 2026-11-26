@@ -37,7 +37,7 @@ export function organizationLd() {
       name: "Services",
       itemListElement: SERVICES.map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s.name, url: `${SITE.url}/services/${s.slug}` } })),
     },
-    owns: EXPERIMENTS.filter((e) => !e.client).map((e) => ({ "@type": "SoftwareApplication", name: e.name, url: e.url, applicationCategory: e.kind })),
+    owns: EXPERIMENTS.filter((e) => !e.client && !e.engagement).map((e) => ({ "@type": "SoftwareApplication", name: e.name, url: e.url, applicationCategory: e.kind })),
   };
 }
 

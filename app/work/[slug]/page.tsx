@@ -51,7 +51,7 @@ export default async function WorkPage({ params }: Props) {
           </h1>
           <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-3">
             {e.kind}
-            {e.client ? ` · built for ${e.client}` : " · our product"}
+            {e.engagement ? ` · ${e.engagement}` : e.client ? ` · built for ${e.client}` : " · our product"}
           </p>
         </header>
 

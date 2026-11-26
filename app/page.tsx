@@ -94,7 +94,7 @@ export default function Home() {
       {/* The experiment log */}
       <section id="work" className="wrap scroll-mt-20 py-20 md:py-28">
         <SectionHead label="Experiment log" title={<>Five products, <em>all still running.</em></>}>
-          Each one began as a question we could test. Four are our own products; one we built for a client. All of them are live.
+          Each one began as a question we could test. Three are our own products, one we built for a client and one we advised on. All of them are live.
         </SectionHead>
         <ExperimentLog items={EXPERIMENTS} />
       </section>

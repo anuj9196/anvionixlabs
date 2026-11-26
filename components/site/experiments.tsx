@@ -22,7 +22,7 @@ export function ExperimentCard({ e, index }: { e: Experiment; index: number }) {
       <div>
         <p className="label">
           Experiment {e.no} · {e.kind}
-          {e.client ? ` · for ${e.client}` : ""}
+          {e.engagement ? ` · ${e.engagement}` : e.client ? ` · for ${e.client}` : ""}
         </p>
         <h3 className="serif mt-3 text-5xl md:text-6xl leading-none">{e.name}</h3>
         <p className="mt-4 text-ink-2 max-w-lg">{e.summary}</p>
