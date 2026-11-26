@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { QUOTE, SITE, engagementById, type ProjectType } from "@/data/site";
 import { isCurrency, useGuessedCurrency, type Currency } from "@/lib/currency";
+import { TurnstileWidget, type TurnstileHandle } from "./turnstile-widget";
 import { calendlyFor, formatAmount, mailtoFor, submitEnquiry, toEnquiryPayload, type QuoteAnswers, type QuoteField } from "@/lib/enquiry";
 
 export type QuotePrefill = { type?: string | null; from?: string | null; cur?: string | null; message?: string | null };
@@ -32,7 +33,10 @@ function trackLead(a: QuoteAnswers, cur: Currency) {
   if (typeof w.gtag === "function") w.gtag("event", "generate_lead", { form: "quote", project_type: a.projectType, currency: cur.toUpperCase(), budget: a.notSure ? "not_sure" : "given", timeline: a.timeline });
 }
 
-type Status = { s: "idle" } | { s: "sending" } | { s: "sent" } | { s: "error"; message: string } | { s: "unreachable" };
+/** How long a send waits for the human check before asking the visitor to look at it. */
+const TOKEN_WAIT_MS = 15000;
+
+type Status = { s: "idle" } | { s: "checking" } | { s: "sending" } | { s: "sent" } | { s: "error"; message: string } | { s: "unreachable" };
 
 export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
   const id = useId();
@@ -49,6 +53,31 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
   const tracked = useRef(false);
   const doneHeading = useRef<HTMLHeadingElement>(null);
   const form = useRef<HTMLFormElement>(null);
+  const widget = useRef<TurnstileHandle>(null);
+  const token = useRef("");
+  const waiter = useRef<((t: string) => void) | null>(null);
+  const widgetDown = useRef(false);
+
+  const onToken = (t: string) => {
+    token.current = t;
+    if (t) widgetDown.current = false;
+    if (t && waiter.current) waiter.current(t);
+  };
+  /** The current token, or the next one to arrive (up to `ms`); "" when none came. */
+  const waitForToken = (ms: number) =>
+    token.current
+      ? Promise.resolve(token.current)
+      : new Promise<string>((resolve) => {
+          const timer = setTimeout(() => {
+            waiter.current = null;
+            resolve("");
+          }, ms);
+          waiter.current = (t) => {
+            clearTimeout(timer);
+            waiter.current = null;
+            resolve(t);
+          };
+        });
 
   useEffect(() => {
     openedAt.current = performance.now();
@@ -68,7 +97,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
 
   const submit = async (ev: React.FormEvent) => {
     ev.preventDefault();
-    if (status.s === "sending") return;
+    if (status.s === "sending" || status.s === "checking") return;
     const local = validate(a);
     setTouched(Object.fromEntries(ORDER.map((f) => [f, true])));
     const first = ORDER.find((f) => local[f]);
@@ -76,8 +105,22 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
       form.current?.querySelector<HTMLElement>(`[data-field="${first}"]`)?.focus();
       return;
     }
+    // Cloudflare's check normally finished while the form was filled in; if not, wait a moment.
+    setStatus({ s: token.current ? "sending" : "checking" });
+    const t = await waitForToken(widgetDown.current ? 0 : TOKEN_WAIT_MS);
+    if (!t) {
+      setStatus({
+        s: "error",
+        message: widgetDown.current
+          ? "We couldn't run the human check (is a blocker stopping it?)."
+          : "The human check is still waiting. Please complete it above, then send again.",
+      });
+      return;
+    }
     setStatus({ s: "sending" });
-    const result = await submitEnquiry(toEnquiryPayload(a, Math.round(performance.now() - openedAt.current), window.location.pathname, cur));
+    const result = await submitEnquiry(toEnquiryPayload(a, Math.round(performance.now() - openedAt.current), window.location.pathname, cur, t));
+    // A token works once: whatever happened, the next send needs a fresh one.
+    if (!result.ok) widget.current?.reset();
     if (result.ok) {
       if (!tracked.current) {
         tracked.current = true;
@@ -117,7 +160,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
   }
 
   const err = (f: QuoteField) => `${id}-${f}-err`;
-  const sending = status.s === "sending";
+  const sending = status.s === "sending" || status.s === "checking";
 
   return (
     <form ref={form} onSubmit={submit} noValidate className="relative rounded-3xl border border-rule bg-sheet p-5 md:p-9" aria-describedby={`${id}-intro`}>
@@ -265,7 +308,16 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
         <input id={`${id}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" value={a.website} onChange={(e) => set("website", e.target.value)} />
       </div>
 
+      <TurnstileWidget
+        ref={widget}
+        onToken={onToken}
+        onUnavailable={() => {
+          widgetDown.current = true;
+        }}
+      />
+
       <div aria-live="polite" className="mt-8 empty:hidden">
+        {status.s === "checking" && <p className="text-sm text-ink-2">Checking you&apos;re human…</p>}
         {status.s === "error" && (
           <p className="rounded-2xl border border-rule bg-paper/60 p-4 text-sm text-ink">
             {status.message} Try again, or email{" "}
@@ -292,7 +344,7 @@ export function QuoteForm({ prefill = {} }: { prefill?: QuotePrefill }) {
           disabled={sending}
           className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper transition-colors hover:bg-accent-strong hover:text-accent-ink disabled:opacity-60"
         >
-          {sending ? "Sending…" : "Send the brief"} <span aria-hidden>→</span>
+          {status.s === "checking" ? "Checking…" : sending ? "Sending…" : "Send the brief"} <span aria-hidden>→</span>
         </button>
         <a href={SITE.calendly} target="_blank" rel="noopener" className="text-sm text-ink-2 underline underline-offset-4 hover:text-ink">
           Prefer a call? Book {SITE.callMinutes} minutes
