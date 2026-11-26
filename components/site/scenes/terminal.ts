@@ -13,8 +13,10 @@ const CMD = "$ git commit -m first";
 export const terminal: Scene = {
   fig: "Fig. 011",
   caption: "First production code",
-  draw(k, _t, ms) {
-    const sec = ms / 1000;
+  draw(k, t, ms) {
+    // The typing and reply run on the scene's progress (3.4s of script spread over its build time); only the cursor blinks on the clock.
+    const sec = t * 3.4;
+    const blink = Math.floor(ms / 450) % 2 === 0;
     const o = { gap: 3, size: 0.9, a: 0.7 };
     line(k, X, Y, X + TW, Y, o);
     line(k, X + TW, Y, X + TW, Y + TH, o);
@@ -46,7 +48,7 @@ export const terminal: Scene = {
     const typing = n < CMD.length;
     const waiting = sec > 3.2;
     if (typing || waiting || sec < 0.6) {
-      if (Math.floor(sec * 2.2) % 2 === 0 || typing) line(k, cursor[0] + 1, cursor[1] - 6, cursor[0] + 1, cursor[1] + 6, { gap: 1, size: 1.6, a: 0.85 });
+      if (blink || typing) line(k, cursor[0] + 1, cursor[1] - 6, cursor[0] + 1, cursor[1] + 6, { gap: 1, size: 1.6, a: 0.85 });
     }
   },
 };

@@ -19,6 +19,7 @@ export type Kit = {
 export type Scene = {
   fig: string;
   caption: string;
+  build?: number; // ms to draw in fully (default: the player's); the finished frame then holds until `hold`
   hold?: number; // ms on screen before the next scene starts (default: the cycler's)
   draw: (k: Kit, t: number, ms: number) => void;
 };

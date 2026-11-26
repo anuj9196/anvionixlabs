@@ -35,18 +35,20 @@ export function Journey({ steps }: { steps: Step[] }) {
   }, []);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-      <div className="sticky top-16 z-10 self-start lg:top-24">
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
+      <div className="sticky top-16 z-10 self-start lg:top-24 lg:h-[calc(100svh-7.5rem)]">
         {/* Phones: a compact bar that stays in view. Desktop: the full specimen card. */}
-        <div className="flex items-center gap-4 rounded-2xl border border-rule bg-sheet p-3 lg:block lg:rounded-3xl lg:p-5">
+        <div className="flex items-center gap-4 rounded-2xl border border-rule bg-sheet p-3 lg:flex lg:h-full lg:flex-col lg:items-stretch lg:rounded-3xl lg:p-5">
           <div className="hidden items-center justify-between label lg:flex">
             <span>Log · {String(active + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span>
             <span className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" aria-hidden /> {steps[active].when}
             </span>
           </div>
-          <div className="w-20 shrink-0 lg:mx-auto lg:mt-4 lg:w-auto lg:max-w-[360px]">
-            <SceneCanvas scenes={steps.map((s) => s.scene)} active={active} />
+          <div className="w-20 shrink-0 lg:relative lg:mt-4 lg:min-h-0 lg:w-full lg:flex-1">
+            <div className="lg:absolute lg:inset-0">
+              <SceneCanvas scenes={steps.map((s) => s.scene)} active={active} className="lg:h-full lg:object-contain" />
+            </div>
           </div>
           <div className="min-w-0 lg:mt-4 lg:text-center">
             <p className="label lg:hidden">
