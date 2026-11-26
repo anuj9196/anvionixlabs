@@ -12,13 +12,16 @@ const TOP_Y = 0.07 * H;
 const PERIOD = 9000; // ms for one token to rise and fade
 const SIZE = 11;
 
-// A rotating pool of keywords: industries, cloud, technology and a few originals, interleaved so
+// A rotating pool of keywords: industries, cloud, technology, a few originals, code symbols and
+// engineering terms, interleaved so
 // the rising tokens always mix groups.
 const GROUPS = [
   ["ecommerce", "healthcare", "fintech", "edtech", "logistics", "retail", "saas", "media"],
   ["aws", "gcp", "azure", "cloudflare", "vercel"],
   ["ai", "agentic", "llm", "rag", "react", "next.js", "python", "postgres", "kubernetes"],
   ["git", "api", "ship", "v1"],
+  ["{ }", "</>", "//", "=>", "λ", "&&", "[ ]", "::", "$_", "#!", "( )", "!="],
+  ["commit", "merge", "deploy", "cache", "async", "schema", "query", "webhook", "ci/cd", "refactor", "json", "sql"],
 ];
 // A fresh shuffle (Fisher-Yates) each time the scene starts, dealt without repeats until the deck
 // is used up. Neighbours in the deck never share a group, so the mix stays even.
