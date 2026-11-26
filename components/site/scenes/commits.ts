@@ -1,6 +1,6 @@
 import { type Scene, clamp, lerp, smooth, line, px, fill, text } from "./kit";
 
-// Scene 2: branch lines grow upward, split and merge, and end at an orange "v1.0 · shipped" tag.
+// Scene 3: branch lines grow upward, split and merge, and end at an orange "v1.0 · shipped" tag.
 
 type Seg = { a: [number, number]; b: [number, number]; t0: number; t1: number };
 const M = 180;
@@ -35,7 +35,7 @@ const NODES: [number, number, number][] = [
 ];
 
 export const commits: Scene = {
-  fig: "Fig. 002",
+  fig: "Fig. 003",
   caption: "Branches, merged and shipped",
   draw(k, t) {
     for (const s of SEGS) {

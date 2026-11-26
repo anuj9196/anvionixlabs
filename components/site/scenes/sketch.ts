@@ -2,13 +2,13 @@ import { type Kit, type Scene, clamp, lerp, smooth, rn, line, fill, text } from 
 
 // Scene 1: a rough, jittery dotted wireframe that sharpens into a crisp UI card with one orange button.
 
-type Stroke = [number, number, number, number];
+export type Stroke = [number, number, number, number];
 const CX = 80;
 const CY = 18;
 const CW = 200;
 const CH = 208;
 
-const box = (x: number, y: number, w: number, h: number): Stroke[] => [
+export const box = (x: number, y: number, w: number, h: number): Stroke[] => [
   [x, y, x + w, y],
   [x + w, y, x + w, y + h],
   [x + w, y + h, x, y + h],
@@ -43,7 +43,7 @@ const STROKES: Stroke[] = [
 const BTN = { x: 92, y: 194, w: 92, h: 22 };
 const BTN_STROKES = box(BTN.x, BTN.y, BTN.w, BTN.h);
 
-function stroke(k: Kit, s: Stroke, i: number, p: number, q: number, f: number, color?: string) {
+export function stroke(k: Kit, s: Stroke, i: number, p: number, q: number, f: number, color?: string) {
   const [x1, y1, x2, y2] = s;
   if (p >= 1) return line(k, x1, y1, x2, y2, { gap: 0.7, size: 0.7, color, q });
   const len = Math.hypot(x2 - x1, y2 - y1) || 1;

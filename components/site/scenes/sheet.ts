@@ -1,6 +1,6 @@
 import { type Scene, W, H } from "./kit";
 
-// Scene 5: the original hero figure, a thin dotted sheet in perspective with tokens rising out of it.
+// Scene 7: the original hero figure, a thin dotted sheet in perspective with tokens rising out of it.
 
 const FAR_Y = 0.68 * H; // the sheet's back edge: tokens are revealed above it, never over dots
 const NEAR_Y = 0.94 * H;
@@ -27,7 +27,7 @@ const laneX = (i: number) => W / 2 + ((i / (LANES.length - 1)) * 2 - 1) * LANE_S
 const progress = (i: number, ms: number) => (((ms / PERIOD + (i * 5) / LANES.length) % 1) + 1) % 1;
 
 export const sheet: Scene = {
-  fig: "Fig. 005",
+  fig: "Fig. 007",
   caption: "Ideas, lifting off the page",
   draw(k, _t, ms) {
     const { g, s } = k;

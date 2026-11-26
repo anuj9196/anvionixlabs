@@ -1,6 +1,6 @@
 import { type Kit, type Scene, clamp, smooth, line, text } from "./kit";
 
-// Scene 3: dotted isometric blocks (db, api, web, app) drop in and lock together; the app block is orange.
+// Scene 4: dotted isometric blocks (db, api, web, app) drop in and lock together; the app block is orange.
 
 const U = 46;
 const C = 0.866;
@@ -64,13 +64,13 @@ function drawBlock(k: Kit, b: Block, off: number, a: number, showTop: boolean, s
     }
   }
   if (showTop) edge(T);
-  // The label sits flat on the left face.
+  // The label sits flat on the left face, nudged below the centre so no edge runs through it.
   const mid = P((b.x0 + b.x1) / 2, b.y1, (b.z0 + b.z1) / 2, off);
-  text(k, b.label, mid[0], mid[1], { size: 11, color: b.accent ? k.accentInk : k.ink, a, align: "center", bold: true, skew: [C, S] });
+  text(k, b.label, mid[0], mid[1] + 1.5, { size: 10, color: b.accent ? k.accentInk : k.ink, a, align: "center", bold: true, skew: [C, S] });
 }
 
 export const blocks: Scene = {
-  fig: "Fig. 003",
+  fig: "Fig. 004",
   caption: "Pieces that fit",
   draw(k, t) {
     BLOCKS.forEach((b, i) => {
