@@ -5,8 +5,9 @@ import { commits } from "./commits";
 import { blocks } from "./blocks";
 import { deploy } from "./deploy";
 import { devices } from "./devices";
+import { consult } from "./consult";
 import { sheet } from "./sheet";
 
 export { W, H } from "./kit";
 /** In play order; the first is also the still frame. */
-export const SCENES: Scene[] = [sketch, mobile, commits, blocks, deploy, devices, sheet];
+export const SCENES: Scene[] = [sketch, mobile, commits, blocks, deploy, devices, consult, sheet];
