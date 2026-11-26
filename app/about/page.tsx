@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 };
 
 const THINKING = [
-  { text: "Reading the CV, from the first commit in 2016", shape: "terminal" },
-  { text: "Counting the team: 15+ engineers", shape: "book" },
-  { text: "Checking what is live: five products", shape: "servers" },
-  { text: "Noting the Engineering Excellence Award", shape: "trophy" },
+  { text: "Reading the CV, from the first commit in 2016", scene: "terminal" },
+  { text: "Counting the team: 15+ engineers", scene: "book" },
+  { text: "Checking what is live: five products", scene: "servers" },
+  { text: "Noting the Engineering Excellence Award", scene: "trophy" },
 ] as const;
 
 export default function AboutPage() {

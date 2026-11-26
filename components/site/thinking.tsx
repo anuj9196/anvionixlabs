@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { JourneyShape } from "@/data/site";
-import { DitherObject } from "./dither";
+import { SceneCanvas } from "./scene-canvas";
+import type { SceneId } from "./scenes";
 
-type Step = { text: string; shape: JourneyShape };
+type Step = { text: string; scene: SceneId };
 
 /**
- * After Nightjar: a question, the visible thinking steps (the object morphs at each one), then the
+ * After Nightjar: a question, the visible thinking steps (the scene changes at each one), then the
  * answer streaming in word by word, sharpening out of a blur. Everything is in the HTML from the
  * start; the sequence only decides what is shown when.
  */
@@ -19,7 +19,7 @@ export function Thinking({
 }: {
   question: string;
   steps: Step[];
-  final: JourneyShape;
+  final: SceneId;
   children: React.ReactNode;
 }) {
   // -1: question only; 0..n-1: thinking; n: answered.
@@ -48,13 +48,13 @@ export function Thinking({
     };
   }, [n]);
 
-  const shape = done ? final : phase >= 0 ? steps[phase].shape : steps[0].shape;
+  const shown = done ? n : Math.max(phase, 0);
 
   return (
     <div className="grid lg:min-h-[calc(100dvh-120px)] overflow-hidden rounded-[28px] border border-rule bg-sheet shadow-[0_30px_80px_-50px_rgba(0,0,0,.35)] lg:grid-cols-[1fr_1.05fr]">
       <div className="relative flex items-center justify-center p-6 lg:p-14">
         <div className="w-full max-w-[200px] lg:max-w-[460px]">
-          <DitherObject shape={shape} res={200} shapes={[...steps.map((s) => s.shape), final]} />
+          <SceneCanvas scenes={[...steps.map((s) => s.scene), final]} active={shown} />
         </div>
         <p aria-hidden className="absolute bottom-5 left-6 font-mono text-[11px] text-ink-3">
           {done ? "Answered" : "Thinking"} · {String(Math.min(phase + 2, steps.length + 1)).padStart(2, "0")} / {String(steps.length + 1).padStart(2, "0")}

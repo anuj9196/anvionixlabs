@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { JourneyShape } from "@/data/site";
-import { DitherObject } from "./dither";
+import { SceneCanvas } from "./scene-canvas";
+import type { SceneId } from "./scenes";
 
-type Step = { when: string; title: string; shape: JourneyShape; text: string };
+type Step = { when: string; title: string; scene: SceneId; text: string };
 
 /**
- * Career journey as a lab log: the object morphs as each step reaches the middle of the
+ * Career journey as a lab log: the scene changes as each step reaches the middle of the
  * screen, and that step's text streams in word by word. All text is in the page from the
  * start, for search engines and visitors without JavaScript.
  */
@@ -46,7 +46,7 @@ export function Journey({ steps }: { steps: Step[] }) {
             </span>
           </div>
           <div className="w-20 shrink-0 lg:mx-auto lg:mt-4 lg:w-auto lg:max-w-[360px]">
-            <DitherObject shape={steps[active].shape} shapes={steps.map((s) => s.shape)} />
+            <SceneCanvas scenes={steps.map((s) => s.scene)} active={active} />
           </div>
           <div className="min-w-0 lg:mt-4 lg:text-center">
             <p className="label lg:hidden">
