@@ -28,7 +28,7 @@ export type QuoteField = Exclude<keyof QuoteAnswers, "website" | "notSure">;
  */
 const PROJECT_TYPE: Record<ProjectType, string> = { mvp: "new_product", existing: "existing_product", audit: "audit", team: "team" };
 
-export function toEnquiryPayload(a: QuoteAnswers, elapsedMs: number, page: string, currency: Currency) {
+export function toEnquiryPayload(a: QuoteAnswers, elapsedMs: number, page: string, currency: Currency, turnstileToken = "") {
   return {
     kind: "quote",
     name: a.name.trim(),
@@ -45,6 +45,8 @@ export function toEnquiryPayload(a: QuoteAnswers, elapsedMs: number, page: strin
     website: a.website,
     elapsed_ms: elapsedMs,
     page,
+    // Cloudflare Turnstile's one-use token; the API checks it with Cloudflare.
+    turnstile_token: turnstileToken,
   };
 }
 
@@ -104,7 +106,9 @@ export async function submitEnquiry(body: ReturnType<typeof toEnquiryPayload>): 
   const message =
     data.error === "rate_limited"
       ? "That's a few sends in a short time. Please wait a few minutes and try again."
-      : "Something went wrong on our side.";
+      : data.error === "captcha_failed"
+        ? "We couldn't confirm you're human. Please try again."
+        : "Something went wrong on our side.";
   return { ok: false, kind: "general", message };
 }
 

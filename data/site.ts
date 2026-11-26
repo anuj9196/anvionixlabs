@@ -27,6 +27,12 @@ export const SITE = {
   callMinutes: 20,
   /** Where the "Get a quote" form posts (Satyakod's API answers CORS for this site). */
   enquiryEndpoint: "https://api.satyakod.com/v1/public/enquiries",
+  /**
+   * Cloudflare Turnstile site key ("Anvionix Labs website forms", public). Local development uses
+   * Cloudflare's always-pass test key so localhost works; NEXT_PUBLIC_TURNSTILE_SITE_KEY overrides.
+   */
+  turnstileSiteKey:
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || (process.env.NODE_ENV === "production" ? "0x4AAAAAAGT2ccLkNY24Kago" : "1x00000000000000000000AA"),
   email: "hello@anvionixlabs.com",
   phone: "+91 88029 24304",
   phoneHref: "tel:+918802924304",
