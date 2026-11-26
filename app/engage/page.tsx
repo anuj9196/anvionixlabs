@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ENGAGEMENT_GROUPS, PROMISES, SITE, START_PATH, START_STEPS, engagementById } from "@/data/site";
 import { StepRail } from "@/components/site/rail";
-import { DitherObject } from "@/components/site/dither";
+import { SceneCanvas } from "@/components/site/scene-canvas";
 import { ReceiptPricing } from "@/components/site/receipt";
 import { CallBand } from "@/components/site/footer";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
@@ -39,10 +39,7 @@ export default function EngagePage() {
             </a>
           </div>
           <figure aria-hidden className="relative mx-auto w-full max-w-[460px]">
-            <div className="float">
-              <DitherObject shape="form" res={200} clear />
-            </div>
-            <div className="float-shadow mx-auto -mt-4 h-6 w-2/3 rounded-[50%] bg-ink/25 blur-xl" />
+            <SceneCanvas scenes={["slip"]} />
           </figure>
         </div>
         <nav aria-labelledby="start-path" className="mt-12 md:mt-16">
