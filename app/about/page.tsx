@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { EXPERIMENTS, FOUNDER, SITE } from "@/data/site";
+import { CONSULTANCY, EXPERIMENTS, FOUNDER, SITE } from "@/data/site";
 import { DepthPortrait } from "@/components/site/depth-portrait";
 import { Journey } from "@/components/site/journey";
 import { Stream, Thinking } from "@/components/site/thinking";
@@ -121,8 +121,17 @@ export default function AboutPage() {
                   <Link href={`/work/${e.slug}`} className="group flex items-baseline gap-4 border-t border-rule py-3">
                     <span className="font-mono text-xs text-ink-3">{e.no}</span>
                     <span className="font-medium group-hover:text-accent-strong">{e.name}</span>
-                    <span className="ml-auto text-sm text-ink-3">{e.client ? `for ${e.client}` : "own product"}</span>
+                    <span className="ml-auto text-sm text-ink-3">{e.engagement ?? (e.client ? `for ${e.client}` : "own product")}</span>
                   </Link>
+                </li>
+              ))}
+              {CONSULTANCY.map((c, i) => (
+                <li key={c.name}>
+                  <a href={c.url} target="_blank" rel="noopener noreferrer" className="group flex items-baseline gap-4 border-t border-rule py-3">
+                    <span className="font-mono text-xs text-ink-3">{String(EXPERIMENTS.length + i + 1).padStart(3, "0")}</span>
+                    <span className="font-medium group-hover:text-accent-strong">{c.name}</span>
+                    <span className="ml-auto text-sm text-ink-3">consultancy</span>
+                  </a>
                 </li>
               ))}
             </ul>

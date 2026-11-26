@@ -40,7 +40,7 @@ ${SITE.brands.map((b) => `- [${b.name}](${b.url}): ${b.about}`).join("\n")}
 
 ## Work (live products)
 
-${EXPERIMENTS.map((e) => `- [${e.name}](${u(`/work/${e.slug}`)}): ${e.kind}${e.client ? `, built for ${e.client}` : ""}. ${e.summary}`).join("\n")}
+${EXPERIMENTS.map((e) => `- [${e.name}](${u(`/work/${e.slug}`)}): ${e.kind}${e.engagement ? ", consultancy" : e.client ? `, built for ${e.client}` : ""}. ${e.summary}`).join("\n")}
 
 ## About
 
