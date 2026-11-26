@@ -18,6 +18,7 @@ export type Kit = {
 export type Scene = {
   fig: string;
   caption: string;
+  hold?: number; // ms on screen before the next scene starts (default: the cycler's)
   draw: (k: Kit, t: number, ms: number) => void;
 };
 

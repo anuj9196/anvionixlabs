@@ -10,14 +10,16 @@ import { type Kit, clamp, smooth } from "./scenes/kit";
 
 const HOLD = 4600; // ms from one scene's start to the next
 const FADE = 800; // ms crossfade
-const LEN = HOLD + FADE;
-const CYCLE = HOLD * SCENES.length;
+// A scene may set its own hold; each starts when the one before it has held.
+const holds = SCENES.map((s) => s.hold ?? HOLD);
+const starts = holds.map((_, i) => holds.slice(0, i).reduce((a, b) => a + b, 0));
+const CYCLE = holds.reduce((a, b) => a + b, 0);
 
 /** A scene's visibility at its local time u: fades in over the first FADE, out over the last FADE. */
-function visibility(u: number) {
-  if (u < 0 || u >= LEN) return 0;
+function visibility(u: number, hold: number) {
+  if (u < 0 || u >= hold + FADE) return 0;
   const k_in = clamp(u / FADE);
-  const k_out = clamp((u - HOLD) / FADE);
+  const k_out = clamp((u - hold) / FADE);
   // The incoming scene waits a beat so the two never sit at half strength on top of each other.
   return smooth((k_in - 0.3) / 0.7) * (1 - smooth(k_out / 0.7));
 }
@@ -80,12 +82,12 @@ export function HeroScenes({ className = "" }: { className?: string }) {
           return;
         }
         const alphas = SCENES.map((scene, i) => {
-          const raw = clock - i * HOLD;
+          const raw = clock - starts[i];
           const u = raw < 0 ? -1 : raw % CYCLE;
-          const a = visibility(u);
+          const a = visibility(u, holds[i]);
           if (a > 0.003) {
             kit.alpha = a;
-            scene.draw(kit, clamp(u / LEN), u);
+            scene.draw(kit, clamp(u / (holds[i] + FADE)), u);
           }
           return a;
         });
