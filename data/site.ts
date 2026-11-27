@@ -174,7 +174,7 @@ export const EXPERIMENTS: Experiment[] = [
     ],
     stack: ["Flutter", "Dart", "Bluetooth LE", "PDF", "Android", "iOS"],
     results: [
-      { label: "Google Play rating", value: "5.0 ★" },
+      { label: "Google Play rating", value: "5.0 / 5" },
       { label: "Verified reviews", value: "22" },
       { label: "From test to report", value: "On site" },
       { label: "Client", value: "Elektron India" },

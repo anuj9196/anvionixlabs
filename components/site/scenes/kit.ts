@@ -68,6 +68,14 @@ export function line(k: Kit, x1: number, y1: number, x2: number, y2: number, o: 
   for (let i = 0; i <= n; i++) px(k, lerp(x1, ex, i / n), lerp(y1, ey, i / n), size, color, a);
 }
 
+/** A check mark drawn as two solid strokes, centred on (x, y), size units wide. Stands in for a text glyph. */
+export function check(k: Kit, x: number, y: number, size: number, o: Opts = {}) {
+  const { color = k.ink, a = 1 } = o;
+  const w = size * 0.2;
+  line(k, x - size / 2, y + size * 0.02, x - size * 0.12, y + size * 0.4, { gap: 0.9, size: w, color, a });
+  line(k, x - size * 0.12, y + size * 0.4, x + size / 2, y - size * 0.4, { gap: 0.9, size: w, color, a });
+}
+
 export function rect(k: Kit, x: number, y: number, w: number, h: number, o: Opts = {}) {
   line(k, x, y, x + w, y, o);
   line(k, x + w, y, x + w, y + h, o);

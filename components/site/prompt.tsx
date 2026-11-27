@@ -177,7 +177,7 @@ export function BuildPrompt({ rays = false, heading = "h2" }: { rays?: boolean; 
             className="w-full resize-none bg-transparent px-3 py-2 text-lg outline-none placeholder:text-ink-3"
           />
           <div className="flex flex-col gap-3 px-2 pb-1 text-left sm:flex-row sm:items-center sm:justify-between">
-            <span className="font-mono text-[11px] leading-snug text-ink-3 sm:whitespace-nowrap">↵ to continue · reply within one business day</span>
+            <span className="font-mono text-[11px] leading-snug text-ink-3 sm:whitespace-nowrap">Enter to continue · reply within one business day</span>
             <button
               type="submit"
               className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-ink px-5 py-2 text-sm text-paper transition-colors hover:bg-accent-strong hover:text-accent-ink max-sm:w-full"

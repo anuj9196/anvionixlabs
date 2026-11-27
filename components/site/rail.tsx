@@ -1,3 +1,8 @@
+import { createElement } from "react";
+import { ArrowUpRight, Pencil, Phone, Settings } from "lucide-react";
+
+const ICONS = [Phone, Pencil, Settings, ArrowUpRight];
+
 /** After Zephyr: the steps as a row of small tiles along the floor of the hero, numbered underneath. */
 export function StepRail({ steps }: { steps: { title: string; text: string }[] }) {
   return (
@@ -6,7 +11,7 @@ export function StepRail({ steps }: { steps: { title: string; text: string }[] }
         <li key={s.title} className="flex flex-col">
           <div className="flex h-full flex-col rounded-2xl border border-ink/15 bg-sheet/45 p-4 backdrop-blur-sm">
             <span aria-hidden className="flex h-8 w-8 items-center justify-center rounded-full border border-ink/25 text-ink-2">
-              {["☏", "✎", "⚙", "↗"][i]}
+              {createElement(ICONS[i], { className: "h-4 w-4", strokeWidth: 1.75 })}
             </span>
             <h3 className="mt-4 text-sm font-medium">{s.title}</h3>
             <p className="mt-1 text-[13px] leading-snug text-ink-2">{s.text}</p>

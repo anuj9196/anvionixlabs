@@ -1,4 +1,4 @@
-import { type Scene, clamp, lerp, smooth, line, fill, text, fs, px } from "./kit";
+import { type Scene, check, clamp, lerp, smooth, line, fill, text, fs, px } from "./kit";
 
 // A receipt slip prints out of a slot at the top: dotted paper with a zigzag tear, lines typed in mono,
 // then an orange stamp. Wording is only what the pricing page already says: a free scoping call, quoted in writing.
@@ -9,10 +9,10 @@ const TOP = 28;
 const END = 312;
 /** The slip is drawn for a taller design space than the other scenes. */
 export const SLIP_DESIGN = [360, 340] as const;
-const ROWS: { name: string; result: string; free?: boolean }[] = [
-  { name: "audit", result: "✓" },
-  { name: "mvp", result: "✓" },
-  { name: "retainer", result: "✓" },
+const ROWS: { name: string; result?: string; free?: boolean }[] = [
+  { name: "audit" },
+  { name: "mvp" },
+  { name: "retainer" },
   { name: "scoping call", result: "free", free: true },
 ];
 const ROW_Y = (i: number) => 118 + i * 32;
@@ -61,10 +61,13 @@ export const slip: Scene = {
       if (p > 0.5) {
         const w = fs(k, 12.5) * 0.6;
         const x0 = L + 16 + r.name.length * w + 5;
-        const rw = r.result.length * w;
+        const rw = (r.result?.length ?? 1) * w;
         const x1 = R - 16 - rw - 5;
         line(k, x0, y + 3, x1, y + 3, { gap: 3, size: 0.9, a: 0.6, q: clamp((p - 0.5) / 0.3) });
-        if (p > 0.85) text(k, r.result, R - 16, y, { size: 12.5, bold: true, align: "right", color: r.free ? k.accent : k.ink });
+        if (p > 0.85) {
+          if (r.result) text(k, r.result, R - 16, y, { size: 12.5, bold: true, align: "right", color: r.free ? k.accent : k.ink });
+          else check(k, R - 16 - w / 2, y, 8);
+        }
       }
     });
 
