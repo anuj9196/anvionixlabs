@@ -70,7 +70,7 @@ export default async function WorkPage({ params }: Props) {
 
         {gauge && (
           <div className="wrap mt-16">
-            <Gauge value={gauge.value} max={5} unit="★" label="Google Play rating" rows={e.results} />
+            <Gauge value={gauge.value} max={5} unit="/ 5" label="Google Play rating" rows={e.results} />
           </div>
         )}
 
