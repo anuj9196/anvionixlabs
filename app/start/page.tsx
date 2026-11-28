@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { QUOTE, SITE } from "@/data/site";
+import { OG_IMAGE, QUOTE, SITE } from "@/data/site";
 import { QuotePageForm } from "@/components/site/quote-page-form";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 
 export const metadata: Metadata = {
   title: "Get a quote: tell us what you are building",
   description:
-    "Send Anvionix Labs a short brief: what you are building, where it is today, budget and timing. We reply within one business day with next steps and a free 20-minute scoping call.",
+    "Send a short brief: what you are building, where it is today, budget and timing. We reply within one business day with a free 20-minute scoping call.",
   alternates: { canonical: "/start" },
+  openGraph: { type: "website", title: "Get a quote: tell us what you are building", description: "Send a short brief: what you are building, where it is today, budget and timing. We reply within one business day with a free 20-minute scoping call.", url: `${SITE.url}/start`, images: [OG_IMAGE] },
 };
 
 const NEXT = [

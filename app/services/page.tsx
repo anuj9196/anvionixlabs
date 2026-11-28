@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SERVICES } from "@/data/site";
+import { OG_IMAGE, SERVICES, SITE } from "@/data/site";
 import { ServiceList } from "@/components/site/services";
 import { ServiceDeck } from "@/components/site/synapse";
 import { ProcessPath } from "@/components/site/process";
@@ -7,10 +7,11 @@ import { CallBand } from "@/components/site/footer";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 
 export const metadata: Metadata = {
-  title: "Services: web, mobile, backend development and consulting",
+  title: "Web, mobile and backend development services",
   description:
-    "Web app development in Next.js and React, Django backends and APIs, iOS and Android apps, and technical audits and fractional CTO services, from a founder-led studio in Delhi NCR.",
+    "Next.js web apps, Django backends and APIs, iOS and Android apps, code audits and fractional CTO services from a founder-led studio in Delhi NCR.",
   alternates: { canonical: "/services" },
+  openGraph: { type: "website", title: "Web, mobile and backend development services", description: "Next.js web apps, Django backends and APIs, iOS and Android apps, code audits and fractional CTO services from a founder-led studio in Delhi NCR.", url: `${SITE.url}/services`, images: [OG_IMAGE] },
 };
 
 export default function ServicesPage() {

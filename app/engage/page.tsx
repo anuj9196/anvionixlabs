@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ENGAGEMENT_GROUPS, PROMISES, SITE, START_PATH, START_STEPS, engagementById } from "@/data/site";
+import { ENGAGEMENT_GROUPS, OG_IMAGE, PROMISES, SITE, START_PATH, START_STEPS, engagementById } from "@/data/site";
 import { StepRail } from "@/components/site/rail";
 import { SceneCanvas } from "@/components/site/scene-canvas";
 import { SLIP_DESIGN } from "@/components/site/scenes";
@@ -9,10 +9,11 @@ import { CallBand } from "@/components/site/footer";
 import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 
 export const metadata: Metadata = {
-  title: "Pricing: consultation, development and product teams as a service",
+  title: "Pricing: audits, MVP builds and retainers",
   description:
     "How to work with Anvionix Labs: technical audits and fractional CTO, fixed-scope MVP builds, and monthly product retainers, each quoted to your requirements.",
   alternates: { canonical: "/engage" },
+  openGraph: { type: "website", title: "Pricing: audits, MVP builds and retainers", description: "How to work with Anvionix Labs: technical audits and fractional CTO, fixed-scope MVP builds, and monthly product retainers, each quoted to your requirements.", url: `${SITE.url}/engage`, images: [OG_IMAGE] },
 };
 
 export default function EngagePage() {
