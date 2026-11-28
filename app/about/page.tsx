@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CONSULTANCY, EXPERIMENTS, FOUNDER, SITE } from "@/data/site";
+import { CONSULTANCY, EXPERIMENTS, FOUNDER, OG_IMAGE, SITE } from "@/data/site";
 import { DepthPortrait } from "@/components/site/depth-portrait";
 import { Journey } from "@/components/site/journey";
 import { Stream, Thinking } from "@/components/site/thinking";
@@ -10,8 +10,9 @@ import { JsonLd, breadcrumbLd } from "@/components/site/json-ld";
 export const metadata: Metadata = {
   title: "About the lab and its founder, Anuj Sharma",
   description:
-    "Anvionix Labs is a founder-led software studio in Ghaziabad, Delhi NCR. Founder Anuj Sharma has built production software since 2016 across Django, Next.js, Flutter and AWS.",
+    "Anvionix Labs is a founder-led software studio in Delhi NCR. Anuj Sharma has built production software since 2016 across Django, Next.js, Flutter and AWS.",
   alternates: { canonical: "/about" },
+  openGraph: { type: "website", title: "About the lab and its founder, Anuj Sharma", description: "Anvionix Labs is a founder-led software studio in Delhi NCR. Anuj Sharma has built production software since 2016 across Django, Next.js, Flutter and AWS.", url: `${SITE.url}/about`, images: [OG_IMAGE] },
 };
 
 const THINKING = [

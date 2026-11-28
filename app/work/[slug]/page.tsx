@@ -17,7 +17,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const e = experimentBySlug((await params).slug);
   if (!e) return {};
-  const title = `${e.name}: ${e.kind.toLowerCase()} case study`;
+  const long = `${e.name}: ${e.kind.toLowerCase()} case study`;
+  // keep the search title within 60 characters once " · Anvionix Labs" is added
+  const title = long.length <= 44 ? long : `${e.name} case study`;
   return {
     title,
     description: e.summary,
@@ -144,7 +146,7 @@ export default async function WorkPage({ params }: Props) {
             "@context": "https://schema.org",
             "@type": "CreativeWork",
             name: `${e.name} case study`,
-            about: { "@type": "SoftwareApplication", name: e.name, url: e.url, applicationCategory: e.kind },
+            about: { "@type": "Brand", name: e.name, url: e.url, description: e.kind },
             creator: { "@id": `${SITE.url}/#organization` },
             url: `${SITE.url}/work/${e.slug}`,
             image: `${SITE.url}${e.image}`,

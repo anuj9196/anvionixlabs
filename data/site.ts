@@ -21,7 +21,7 @@ export const SITE = {
   url: "https://anvionixlabs.com",
   tagline: "Software, built like an experiment and shipped like a product.",
   description:
-    "Anvionix Labs designs and builds web apps, mobile apps and backends for startups and brands, and helps teams fix the systems they already have. Founder-led, from Delhi NCR, working worldwide.",
+    "Anvionix Labs builds web apps, mobile apps and backends for startups and brands, and fixes the systems they already have. Founder-led, Delhi NCR, worldwide.",
   calendly: "https://calendly.com/anvionixlabs/intro",
   /** Length of the Calendly intro call; keep in step with the event on Calendly. */
   callMinutes: 20,
@@ -328,6 +328,8 @@ export type Service = {
   no: string;
   name: string;
   title: string;
+  /** Search title when `title` (the H1) is too long for results (60 characters with the brand). */
+  seoTitle?: string;
   short: string;
   intro: string;
   includes: string[];
@@ -341,6 +343,7 @@ export const SERVICES: Service[] = [
     no: "01",
     name: "Web apps",
     title: "Web app development: SaaS, dashboards and portals",
+    seoTitle: "Web app development: SaaS and dashboards",
     short: "SaaS products, dashboards and customer portals in Next.js and React, fast on any device and easy to change.",
     intro:
       "We build web products that people use every day: SaaS platforms, internal dashboards, customer portals and the marketing sites around them. Next.js and React on the front, a real backend behind, and the same team from the first sketch to the release.",
@@ -373,6 +376,7 @@ export const SERVICES: Service[] = [
     no: "02",
     name: "Backend & APIs",
     title: "Backend and API development: Django, Python and cloud",
+    seoTitle: "Django backend and API development",
     short: "Django and Python backends, APIs, integrations and payments, built to stay up and easy to extend.",
     intro:
       "The part of the product nobody sees and everybody relies on. We design and build backends and APIs in Django and Python: data models that hold up, integrations with the services you use, background jobs, and deployment that does not need a person awake at 3 a.m.",
@@ -429,6 +433,7 @@ export const SERVICES: Service[] = [
     no: "04",
     name: "Consulting & audits",
     title: "Technical consulting, code audits and fractional CTO",
+    seoTitle: "Code audits and fractional CTO services",
     short: "Architecture and code audits, security reviews and a fractional CTO for teams that need senior judgement.",
     intro:
       "Sometimes what a team needs is not more code but a clear view: what is risky, what to fix first, what to build next and who to hire. We audit systems, review architecture and security, and act as a fractional CTO for startups that are not ready for a full-time one.",

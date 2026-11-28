@@ -16,7 +16,7 @@ const address = {
 export function organizationLd() {
   return {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": ["Organization", "ProfessionalService"],
     "@id": `${SITE.url}/#organization`,
     name: SITE.name,
     legalName: SITE.legalName,
@@ -37,7 +37,7 @@ export function organizationLd() {
       name: "Services",
       itemListElement: SERVICES.map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s.name, url: `${SITE.url}/services/${s.slug}` } })),
     },
-    owns: EXPERIMENTS.filter((e) => !e.client && !e.engagement).map((e) => ({ "@type": "SoftwareApplication", name: e.name, url: e.url, applicationCategory: e.kind })),
+    owns: EXPERIMENTS.filter((e) => !e.client && !e.engagement).map((e) => ({ "@type": "Brand", name: e.name, url: e.url, description: e.kind })),
   };
 }
 
