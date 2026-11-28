@@ -211,7 +211,7 @@ export const EXPERIMENTS: Experiment[] = [
     urlLabel: "feedal.io",
     image: "/work/feedal.jpg",
     imageAlt: "The Feedal website: build forms and analyse responses with AI",
-    summary: "Forms for feedback, surveys and contact, with AI that reads the responses so a team does not have to.",
+    summary: "Forms for feedback, surveys and contact, with AI that reads every response and sums up what people said, so a team does not have to.",
     problem:
       "Collecting responses is easy. Reading hundreds of them and deciding what to do is where feedback dies: the spreadsheet grows and nobody opens it.",
     hypothesis:
@@ -344,7 +344,7 @@ export const SERVICES: Service[] = [
     name: "Web apps",
     title: "Web app development: SaaS, dashboards and portals",
     seoTitle: "Web app development: SaaS and dashboards",
-    short: "SaaS products, dashboards and customer portals in Next.js and React, fast on any device and easy to change.",
+    short: "SaaS products, dashboards and customer portals in Next.js and React, fast on any device, easy to change and built by one team end to end.",
     intro:
       "We build web products that people use every day: SaaS platforms, internal dashboards, customer portals and the marketing sites around them. Next.js and React on the front, a real backend behind, and the same team from the first sketch to the release.",
     includes: [
@@ -377,7 +377,7 @@ export const SERVICES: Service[] = [
     name: "Backend & APIs",
     title: "Backend and API development: Django, Python and cloud",
     seoTitle: "Django backend and API development",
-    short: "Django and Python backends, APIs, integrations and payments, built to stay up and easy to extend.",
+    short: "Django and Python backends, REST APIs, third-party integrations and payments, built to stay up under load and easy to extend later.",
     intro:
       "The part of the product nobody sees and everybody relies on. We design and build backends and APIs in Django and Python: data models that hold up, integrations with the services you use, background jobs, and deployment that does not need a person awake at 3 a.m.",
     includes: [
@@ -405,7 +405,7 @@ export const SERVICES: Service[] = [
     no: "03",
     name: "Mobile apps",
     title: "Mobile app development: iOS and Android",
-    short: "iOS and Android apps in React Native or Flutter, including apps that talk to hardware over Bluetooth.",
+    short: "iOS and Android apps in React Native or Flutter, from first prototype to store release, including apps that talk to hardware over Bluetooth.",
     intro:
       "One codebase, both stores. We build mobile apps in React Native (Expo) or Flutter, from consumer apps to field tools that connect to hardware, and take care of the store listings, releases and updates.",
     includes: [
@@ -434,7 +434,7 @@ export const SERVICES: Service[] = [
     name: "Consulting & audits",
     title: "Technical consulting, code audits and fractional CTO",
     seoTitle: "Code audits and fractional CTO services",
-    short: "Architecture and code audits, security reviews and a fractional CTO for teams that need senior judgement.",
+    short: "Architecture and code audits, security reviews and a fractional CTO for teams that need senior technical judgement without a full-time hire.",
     intro:
       "Sometimes what a team needs is not more code but a clear view: what is risky, what to fix first, what to build next and who to hire. We audit systems, review architecture and security, and act as a fractional CTO for startups that are not ready for a full-time one.",
     includes: [
